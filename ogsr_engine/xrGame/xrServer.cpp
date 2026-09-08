@@ -89,7 +89,7 @@ IClient* xrServer::client_Find_Get(ClientID ID)
     net_Players.back()->server = this;
     csPlayers.Leave();
 
-    Log("# Player not found. New player created.");
+    XR_LOG_NOTICE("Player not found. New player created");
 
     return newCL;
 }
@@ -131,7 +131,7 @@ void xrServer::client_Destroy(IClient* C)
                     if (it != m_aDelayedPackets.end())
                     {
                         m_aDelayedPackets.erase(it);
-                        Log("removing packet from delayed event storage");
+                        XR_LOG_NOTICE("Removing packet from delayed event storage");
                     }
                     else
                     {
@@ -312,7 +312,7 @@ void xrServer::SendUpdatesToAll()
         }
 
         if (g_Dump_Update_Write)
-            Log("----------------------- ");
+            XR_LOG_TRACE_L1("-----------------------");
 
         for (u32 p = 0; p <= m_iCurUpdatePacket; p++)
         {

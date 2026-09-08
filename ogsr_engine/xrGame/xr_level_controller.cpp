@@ -387,7 +387,7 @@ _keyboard* dik_to_ptr(xr::key_id _dik, bool bSafe)
         return std::to_address(it);
 
     if (!bSafe)
-        Log("! Can't find corresponding [_keyboard] for dik");
+        XR_LOG_ERROR("Can't find corresponding [_keyboard] for dik");
 
     return nullptr;
 }
@@ -614,12 +614,12 @@ public:
 
     void Execute(std::string_view) override
     {
-        Log("- --- Action list start ---");
+        XR_LOG_INFO("--- Action list start ---");
 
         for (const auto& pbinding : g_key_bindings)
             Msg("- {}", pbinding.m_action->action_name);
 
-        Log("- --- Action list end   ---");
+        XR_LOG_INFO("--- Action list end   ---");
     }
 };
 
@@ -661,7 +661,7 @@ public:
 
     void Execute(std::string_view) override
     {
-        Log("- --- Bind list start ---");
+        XR_LOG_INFO("--- Bind list start ---");
 
         for (const auto& pbinding : g_key_bindings)
         {
@@ -670,7 +670,7 @@ public:
                 pbinding.m_keyboard[1] != nullptr ? std::string_view{pbinding.m_keyboard[1]->key_local_name} : std::string_view{"None"});
         }
 
-        Log("- --- Bind list end   ---");
+        XR_LOG_INFO("--- Bind list end   ---");
     }
 };
 

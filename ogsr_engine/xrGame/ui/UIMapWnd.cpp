@@ -510,7 +510,7 @@ u16 CUIMapWnd::GetIdxByName(const shared_str& map_name)
     GameMapsPairIt it = m_GameMaps.find(map_name);
     if (it == m_GameMaps.end())
     {
-        MsgDbg("~ Level Map '{}' not registered", map_name);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "Level Map '{}' not registered", map_name);
         return u16(-1);
     }
 

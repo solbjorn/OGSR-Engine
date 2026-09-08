@@ -1,7 +1,6 @@
 #ifndef __XRCORE_LOG_H
 #define __XRCORE_LOG_H
 
-void Log(std::string_view msg);
 void Log(xr::detail::string_view fmt, xr::detail::format_args args);
 
 template <typename... Args>
@@ -9,11 +8,6 @@ constexpr void Msg(xr::detail::format_string<Args...> fmt, Args&&... args)
 {
     Log(fmt.get(), xr::detail::make_format_args(args...));
 }
-
-#define VPUSH(a) a.x, a.y, a.z
-
-void Log(gsl::czstring msg, const Fvector& dop);
-void Log(gsl::czstring msg, const Fmatrix& dop);
 
 void CreateLog(BOOL no_log = FALSE);
 
@@ -54,28 +48,34 @@ void log_flush();
             XR_LOG__DYNAMIC(logger, lvl, fmt, ##__VA_ARGS__); \
     } while (0)
 
+#ifdef _DEBUG
+#define XR_LOG__DYNAMIC_DEBUG(logger, lvl, fmt, ...) XR_LOG__DYNAMIC(logger, lvl, fmt, ##__VA_ARGS__)
+#else
+#define XR_LOG__DYNAMIC_DEBUG(logger, lvl, fmt, ...) XR_LOG__NOOP(logger, lvl, fmt, ##__VA_ARGS__)
+#endif
+
 #if QUILL_COMPILE_ACTIVE_LOG_LEVEL < QUILL_COMPILE_ACTIVE_LOG_LEVEL_INFO
 
-#define XR_LOG__TRACE_L3(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::TraceL3, fmt, ##__VA_ARGS__)
-#define XR_LOG__TRACE_L2(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::TraceL2, fmt, ##__VA_ARGS__)
-#define XR_LOG__TRACE_L1(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::TraceL1, fmt, ##__VA_ARGS__)
-#define XR_LOG__DEBUG(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Debug, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L3(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::TraceL3, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L2(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::TraceL2, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L1(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::TraceL1, fmt, ##__VA_ARGS__)
+#define XR_LOG__DEBUG(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Debug, fmt, ##__VA_ARGS__)
 
 #else
 
-#define XR_LOG__TRACE_L3(logger, fmt, ...) XR_LOG__NOOP(logger, quill::LogLevel::TraceL3, fmt, ##__VA_ARGS__)
-#define XR_LOG__TRACE_L2(logger, fmt, ...) XR_LOG__NOOP(logger, quill::LogLevel::TraceL2, fmt, ##__VA_ARGS__)
-#define XR_LOG__TRACE_L1(logger, fmt, ...) XR_LOG__NOOP(logger, quill::LogLevel::TraceL1, fmt, ##__VA_ARGS__)
-#define XR_LOG__DEBUG(logger, fmt, ...) XR_LOG__NOOP(logger, quill::LogLevel::Debug, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L3(logger, fmt, ...) XR_LOG__NOOP(logger, xr::level::TraceL3, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L2(logger, fmt, ...) XR_LOG__NOOP(logger, xr::level::TraceL2, fmt, ##__VA_ARGS__)
+#define XR_LOG__TRACE_L1(logger, fmt, ...) XR_LOG__NOOP(logger, xr::level::TraceL1, fmt, ##__VA_ARGS__)
+#define XR_LOG__DEBUG(logger, fmt, ...) XR_LOG__NOOP(logger, xr::level::Debug, fmt, ##__VA_ARGS__)
 
 #endif
 
-#define XR_LOG__INFO(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Info, fmt, ##__VA_ARGS__)
-#define XR_LOG__NOTICE(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Notice, fmt, ##__VA_ARGS__)
-#define XR_LOG__WARNING(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Warning, fmt, ##__VA_ARGS__)
-#define XR_LOG__ERROR(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Error, fmt, ##__VA_ARGS__)
-#define XR_LOG__CRITICAL(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Critical, fmt, ##__VA_ARGS__)
-#define XR_LOG__BACKTRACE(logger, fmt, ...) XR_LOG__DYNAMIC(logger, quill::LogLevel::Backtrace, fmt, ##__VA_ARGS__)
+#define XR_LOG__INFO(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Info, fmt, ##__VA_ARGS__)
+#define XR_LOG__NOTICE(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Notice, fmt, ##__VA_ARGS__)
+#define XR_LOG__WARNING(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Warning, fmt, ##__VA_ARGS__)
+#define XR_LOG__ERROR(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Error, fmt, ##__VA_ARGS__)
+#define XR_LOG__CRITICAL(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Critical, fmt, ##__VA_ARGS__)
+#define XR_LOG__BACKTRACE(logger, fmt, ...) XR_LOG__DYNAMIC(logger, xr::level::Backtrace, fmt, ##__VA_ARGS__)
 
 #define XR_LOG_TRACE_L3(fmt, ...) XR_LOG__TRACE_L3(XR_LOGGER_SUBSYSTEM, fmt, ##__VA_ARGS__)
 #define XR_LOG_TRACE_L2(fmt, ...) XR_LOG__TRACE_L2(XR_LOGGER_SUBSYSTEM, fmt, ##__VA_ARGS__)
@@ -89,10 +89,16 @@ void log_flush();
 #define XR_LOG_BACKTRACE(fmt, ...) XR_LOG__BACKTRACE(XR_LOGGER_SUBSYSTEM, fmt, ##__VA_ARGS__)
 #define XR_LOG_DYNAMIC(lvl, fmt, ...) XR_LOG__DYNAMIC(XR_LOGGER_SUBSYSTEM, lvl, fmt, ##__VA_ARGS__)
 
+#define XR_LOG_DYNAMIC_DEBUG(lvl, fmt, ...) XR_LOG__DYNAMIC_DEBUG(XR_LOGGER_SUBSYSTEM, lvl, fmt, ##__VA_ARGS__)
+
 namespace xr
 {
+using level = quill::LogLevel;
+
 namespace detail
 {
+constexpr inline auto log_width{100uz};
+
 inline quill::Logger* XR__LOGGER_SUBSYSTEM;
 
 // Some Beyond Berklee. Quill expects a valid '\0'-terminated string for runtime tags.
@@ -162,16 +168,44 @@ void log_create();
 inline void logger_init_subsystem() { XR_LOGGER_SUBSYSTEM = xr::logger_init(XR_LOGGER_SUBSYSTEM_NAME); }
 } // namespace xr
 
-// Custom formatters and codecs
+// Custom formatters
 
 template <enchantum::Enum E>
-struct fmtquill::formatter<E> : fmtquill::formatter<enchantum::string_view>
+struct fmtquill::formatter<E> final : fmtquill::formatter<enchantum::string_view>
 {
     template <typename FormatContext>
     constexpr auto format(const E e, FormatContext& ctx) const
     {
         return fmtquill::formatter<enchantum::string_view>::format(enchantum::details::format(e), ctx);
     }
+};
+
+// Custom codecs
+
+template <>
+struct quill::Codec<shared_str> final : quill::Codec<std::string_view>
+{};
+
+template <>
+struct quill::Codec<xr::last_error> final
+{
+private:
+    using base = quill::Codec<decltype(std::declval<xr::last_error>().code())>;
+
+public:
+    [[nodiscard]] static constexpr auto compute_encoded_size(quill::detail::SizeCacheVector& conditional_arg_size_cache, const xr::last_error& err) noexcept
+    {
+        return base::compute_encoded_size(conditional_arg_size_cache, err.code());
+    }
+
+    static constexpr void encode(std::byte*& buffer, const quill::detail::SizeCacheVector& conditional_arg_size_cache, u32& conditional_arg_size_cache_index,
+                                 const xr::last_error& err) noexcept
+    {
+        base::encode(buffer, conditional_arg_size_cache, conditional_arg_size_cache_index, err.code());
+    }
+
+    [[nodiscard]] static constexpr auto decode_arg(std::byte*& buffer) { return xr::last_error{base::decode_arg(buffer)}; }
+    static constexpr void decode_and_store_arg(std::byte*& buffer, quill::DynamicFormatArgStore* args_store) { args_store->push_back(decode_arg(buffer)); }
 };
 
 #endif // !__XRCORE_LOG_H

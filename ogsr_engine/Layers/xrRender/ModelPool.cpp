@@ -518,7 +518,7 @@ dxRender_Visual* CModelPool::CreatePG(PS::CPGDef* source)
 
 void CModelPool::dump()
 {
-    Log("--- model pool --- begin:");
+    XR_LOG_TRACE_L1("--- model pool --- begin:");
 
     gsl::index sz{};
     u32 k = 0;
@@ -554,7 +554,7 @@ void CModelPool::dump()
     }
 
     Msg("--- instances: {}, free {}, mem usage: {} Kb ", k, free_cnt, sz / 1024);
-    Log("--- model pool --- end.");
+    XR_LOG_TRACE_L1("--- model pool --- end");
 }
 
 void CModelPool::memory_stats(u32& vb_mem_video, u32& vb_mem_system, u32& ib_mem_video, u32& ib_mem_system)

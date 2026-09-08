@@ -157,7 +157,7 @@ public:
         else
             std::memset(&usage, 0, sizeof(usage));
 
-        Log("--------------------------------------------------------------------------------");
+        XR_LOG_INFO("--------------------------------------------------------------------------------");
 
         SProcessMemInfo memCounters;
         GetProcessMemInfo(memCounters);
@@ -189,7 +189,7 @@ public:
         Msg("Engine memory usage (Commit Charge): [{} Mb], peak: [{} Mb]", memCounters.PagefileUsage / (1024 * 1024),
             memCounters.PeakPagefileUsage / (1024 * 1024));
 
-        Log("--------------------------------------------------------------------------------");
+        XR_LOG_INFO("--------------------------------------------------------------------------------");
 
         const auto _process_heap = mem_usage_impl(nullptr, nullptr);
         const auto _eco_strings = str_container::stat_economy();
@@ -1155,7 +1155,7 @@ public:
     {
         if (!ai().get_alife())
         {
-            Log("! ALife simulator is needed to perform specified command!");
+            XR_LOG_ERROR("ALife simulator is needed to perform specified command!");
             return;
         }
 
@@ -1195,7 +1195,7 @@ public:
     {
         if (!ai().get_alife())
         {
-            Log("! ALife simulator is needed to perform specified command!");
+            XR_LOG_ERROR("ALife simulator is needed to perform specified command!");
             return;
         }
 
@@ -1262,7 +1262,7 @@ public:
     {
         if (!ai().get_alife())
         {
-            Log("! ALife simulator is needed to perform specified command!");
+            XR_LOG_ERROR("ALife simulator is needed to perform specified command!");
             return;
         }
 
@@ -1644,7 +1644,7 @@ public:
     {
         if (args.empty())
         {
-            Log("! no arguments passed");
+            XR_LOG_ERROR("No arguments passed");
             return;
         }
 
@@ -1674,7 +1674,7 @@ public:
         Msg("bones for model \"{}\"", args);
 
         for (u16 i = 0, n = kinematics->LL_BoneCount(); i < n; ++i)
-            Log(kinematics->LL_GetData(i).name);
+            Msg("{}", kinematics->LL_GetData(i).name);
 
         Render->model_Delete(visual);
     }

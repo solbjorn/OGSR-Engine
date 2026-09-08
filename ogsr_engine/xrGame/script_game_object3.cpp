@@ -1035,7 +1035,7 @@ float CScriptGameObject::GetMaxWeight() const
     auto e = smart_cast<CInventoryOwner*>(&object());
     if (!e)
     {
-        Log("!!CInventoryOwner : cannot access class member GetMaxWalkWeight!");
+        XR_LOG_ERROR("Not an inventory owner object");
         return 0;
     }
 
@@ -1047,7 +1047,7 @@ float CScriptGameObject::GetMaxWalkWeight() const
     auto e = smart_cast<CActor*>(&object());
     if (!e)
     {
-        Log("!!CActor : cannot access class member GetMaxWalkWeight!");
+        XR_LOG_ERROR("Not an actor object");
         return 0;
     }
 
@@ -1064,7 +1064,7 @@ float CScriptGameObject::GetInventoryWeight() const
     auto e = smart_cast<CInventoryOwner*>(&object());
     if (!e)
     {
-        Log("!!CInventoryOwner : cannot access class member GetMaxWalkWeight!");
+        XR_LOG_ERROR("Not an inventory owner object");
         return 0;
     }
 
@@ -1076,7 +1076,7 @@ u32 CScriptGameObject::CalcItemPrice(CScriptGameObject* item, bool b_buying) con
     auto inventory_owner = smart_cast<CInventoryOwner*>(&object());
     if (!inventory_owner)
     {
-        Log("!!CInventoryOwner : cannot access class member CalcItemPrice!");
+        XR_LOG_ERROR("Not an inventory owner object");
         return 0;
     }
 
@@ -1105,14 +1105,14 @@ float CScriptGameObject::GetShapeRadius() const
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::GetShapeRadius : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return 0.0;
     }
 
     auto obj = smart_cast<CSpaceRestrictor*>(&object());
     if (!obj)
     {
-        Log("Error! CScriptGameObject::GetShapeRadius : incorrect object type.");
+        XR_LOG_ERROR("Not a space restrictor object");
         return 0.0;
     }
 
@@ -1123,14 +1123,14 @@ u16 CScriptGameObject::GetAmmoBoxCurr() const
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::GetAmmoBoxCurr : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return 0;
     }
 
     auto obj = smart_cast<CWeaponAmmo*>(&object());
     if (!obj)
     {
-        Log("Error! CScriptGameObject::GetAmmoBoxCurr : incorrect object type.");
+        XR_LOG_ERROR("Not a weapon ammo object");
         return 0;
     }
 
@@ -1141,14 +1141,14 @@ u16 CScriptGameObject::GetAmmoBoxSize() const
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::GetAmmoBoxSize : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return 0;
     }
 
     auto obj = smart_cast<CWeaponAmmo*>(&object());
     if (!obj)
     {
-        Log("Error! CScriptGameObject::GetAmmoBoxSize : incorrect object type.");
+        XR_LOG_ERROR("Not a weapon ammo object");
         return 0;
     }
 
@@ -1159,14 +1159,14 @@ void CScriptGameObject::SetAmmoBoxSize(u16 size)
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::SetAmmoBoxSize : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return;
     }
 
     auto obj = smart_cast<CWeaponAmmo*>(&object());
     if (!obj)
     {
-        Log("Error! CScriptGameObject::SetAmmoBoxSize : incorrect object type.");
+        XR_LOG_ERROR("Not a weapon ammo object");
         return;
     }
 
@@ -1177,14 +1177,14 @@ void CScriptGameObject::SetAmmoBoxCurr(u16 curr)
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::SetAmmoBoxCurr : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return;
     }
 
     auto obj = smart_cast<CWeaponAmmo*>(&object());
     if (!obj)
     {
-        Log("Error! CScriptGameObject::SetAmmoBoxCurr : incorrect object type.");
+        XR_LOG_ERROR("Not a weapon ammo object");
         return;
     }
 
@@ -1195,7 +1195,7 @@ const char* CScriptGameObject::GetVisualName() const
 {
     if (!g_pGameLevel)
     {
-        Log("Error! CScriptGameObject::GetVisualName : game level doesn't exist.");
+        XR_LOG_ERROR("Game level doesn't exist");
         return "";
     }
 

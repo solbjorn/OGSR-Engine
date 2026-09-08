@@ -101,9 +101,9 @@ CLevel::CLevel() : IPureClient{Device.GetTimerGlobal()}
 
 CLevel::~CLevel()
 {
-    xr_delete(g_player_hud);
+    XR_LOG_NOTICE("Destroying level");
 
-    Log("- Destroying level");
+    xr_delete(g_player_hud);
 
     Engine.Event.handler_detach_locked(eEntitySpawn, this);
     Engine.Event.handler_detach_locked(eEnvironment, this);

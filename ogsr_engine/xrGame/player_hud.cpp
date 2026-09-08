@@ -155,7 +155,8 @@ void player_hud_motion_container::load(bool has_separated_hands, IKinematicsAnim
 
                 if (pm.m_additional_animations.empty())
                 {
-                    MsgDbg("additional motion [{}]({}) not found in section [{}], will use main!", pm.m_additional_name, name, sect);
+                    XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "additional motion [{}]({}) not found in section [{}], will use main!", pm.m_additional_name, name,
+                                         sect);
                     pm.m_additional_name = pm.m_base_name;
                 }
             }

@@ -28,7 +28,7 @@ CALifeSpawnRegistry::~CALifeSpawnRegistry()
 
 void CALifeSpawnRegistry::save(IWriter& memory_stream)
 {
-    Log("* Saving spawns...");
+    XR_LOG_NOTICE("Saving spawns...");
     memory_stream.open_chunk(SPAWN_CHUNK_DATA);
 
     memory_stream.open_chunk(0);
@@ -45,10 +45,10 @@ void CALifeSpawnRegistry::save(IWriter& memory_stream)
 
 void CALifeSpawnRegistry::load(IReader& file_stream, LPCSTR game_name)
 {
-    R_ASSERT(FS.exist(game_name));
+    XR_LOG_NOTICE("Loading spawn registry...");
+    XR_ASSERT(FS.exist(game_name) != nullptr, "", game_name);
 
     IReader *chunk, *chunk0;
-    Log("* Loading spawn registry...");
     R_ASSERT2(file_stream.find_chunk(SPAWN_CHUNK_DATA), "Cannot find chunk SPAWN_CHUNK_DATA!");
     chunk0 = file_stream.open_chunk(SPAWN_CHUNK_DATA);
 
@@ -72,7 +72,7 @@ void CALifeSpawnRegistry::load(IReader& file_stream, LPCSTR game_name)
 
 void CALifeSpawnRegistry::load(LPCSTR spawn_name)
 {
-    Log("* Loading spawn registry...");
+    XR_LOG_NOTICE("Loading spawn registry...");
 
     m_spawn_name._set(spawn_name);
     string_path file_name;
@@ -143,18 +143,17 @@ void CALifeSpawnRegistry::load(IReader& file_stream, xrGUID* save_guid)
 
         if (FS.exist(fname))
         {
-            Log("Start load of custom waypoints...");
+            XR_LOG_NOTICE("Start load of custom waypoints...");
 
             CInifile way_inifile = CInifile(fname);
             ai().patrol_path_storage_ini(way_inifile);
 
-            Log("End load of custom waypoints...");
+            XR_LOG_NOTICE("End load of custom waypoints...");
         }
     }
 
-    R_ASSERT(header().graph_guid() == ai().game_graph().header().guid(), "Spawn doesn't correspond to the graph : REBUILD SPAWN!");
-
-    Log("build_story_spawns start...");
+    XR_LOG_NOTICE("build_story_spawns start...");
+    XR_ASSERT(header().graph_guid() == ai().game_graph().header().guid(), "spawn doesn't correspond to the graph");
 
     build_story_spawns();
     build_root_spawns();

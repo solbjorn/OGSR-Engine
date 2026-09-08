@@ -83,12 +83,11 @@ bool SetupGameIcon(CUIMainIngameWnd::EWarningIcons icon, u32 cl, float width, fl
     auto window = GetMainIngameWindow();
     if (!window)
     {
-        Log("!![SetupGameIcon] failed due GetMainIngameWindow() returned NULL");
+        XR_LOG_ERROR("Main ingame window doesn't exist");
         return false;
     }
 
     R_ASSERT(icon > CUIMainIngameWnd::EWarningIcons::ewiAll && icon < CUIMainIngameWnd::EWarningIcons::ewiCount, "!!Invalid first arg for setup_game_icon!");
-
     CUIStatic* sIcon = warn_icon_list[icon];
 
     if (width > 0 && height > 0)

@@ -152,11 +152,13 @@ void attachable_hud_item::tune(const Ivector& values)
 
         if ((values.x) || (values.y) || (values.z))
         {
-            Log("####################################");
+            XR_LOG_NOTICE("####################################");
+
             Msg("[{}]", m_sect_name);
             Msg("item_position = {},{},{}", m_measures.m_item_attach[0].x, m_measures.m_item_attach[0].y, m_measures.m_item_attach[0].z);
             Msg("item_orientation = {},{},{}", m_measures.m_item_attach[1].x, m_measures.m_item_attach[1].y, m_measures.m_item_attach[1].z);
-            Log("####################################");
+
+            XR_LOG_NOTICE("####################################");
         }
     }
 
@@ -189,7 +191,8 @@ void attachable_hud_item::tune(const Ivector& values)
 
         if ((values.x) || (values.y) || (values.z))
         {
-            Log("####################################");
+            XR_LOG_NOTICE("####################################");
+
             Msg("[{}]", m_sect_name);
             Msg("fire_point = {},{},{}", m_measures.m_fire_point_offset.x, m_measures.m_fire_point_offset.y, m_measures.m_fire_point_offset.z);
             Msg("fire_point2 = {},{},{}", m_measures.m_fire_point2_offset.x, m_measures.m_fire_point2_offset.y, m_measures.m_fire_point2_offset.z);
@@ -201,7 +204,7 @@ void attachable_hud_item::tune(const Ivector& values)
                 Msg("torch_attach_offset = {},{},{}", Wpn->flashlight_attach_offset.x, Wpn->flashlight_attach_offset.y, Wpn->flashlight_attach_offset.z);
             }
 
-            Log("####################################");
+            XR_LOG_NOTICE("####################################");
         }
     }
 }
@@ -294,63 +297,77 @@ void player_hud::tune(const Ivector& _values)
         {
             if (idx == hud_item_measures::m_hands_offset_type_normal)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("hands_position{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("hands_orientation{} = {},{},{}", is_16x9 ? "_16x9" : "", rot_.x, rot_.y, rot_.z);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_aim)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("aim_hud_offset_pos{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("aim_hud_offset_rot{} = {},{},{}", is_16x9 ? "_16x9" : "", rot_.x, rot_.y, rot_.z);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_gl)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("gl_hud_offset_pos{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("gl_hud_offset_rot{} = {},{},{}", is_16x9 ? "_16x9" : "", rot_.x, rot_.y, rot_.z);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_aim_scope)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("scope_zoom_offset{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("scope_zoom_rotate_x{} = {}", is_16x9 ? "_16x9" : "", rot_.x);
                 Msg("scope_zoom_rotate_y{} = {}", is_16x9 ? "_16x9" : "", rot_.y);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_gl_scope)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("scope_grenade_zoom_offset{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("scope_grenade_zoom_rotate_x{} = {}", is_16x9 ? "_16x9" : "", rot_.x);
                 Msg("scope_grenade_zoom_rotate_y{} = {}", is_16x9 ? "_16x9" : "", rot_.y);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_aim_gl_normal)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("grenade_normal_zoom_offset{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("grenade_normal_zoom_rotate_x{} = {}", is_16x9 ? "_16x9" : "", rot_.x);
                 Msg("grenade_normal_zoom_rotate_y{} = {}", is_16x9 ? "_16x9" : "", rot_.y);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
             else if (idx == hud_item_measures::m_hands_offset_type_gl_normal_scope)
             {
-                Log("####################################");
+                XR_LOG_NOTICE("####################################");
+
                 Msg("[{}]", m_attached_items[g_bHudAdjustItemIdx]->m_sect_name);
                 Msg("scope_grenade_normal_zoom_offset{} = {},{},{}", is_16x9 ? "_16x9" : "", pos_.x, pos_.y, pos_.z);
                 Msg("scope_grenade_normal_zoom_rotate_x{} = {}", is_16x9 ? "_16x9" : "", rot_.x);
                 Msg("scope_grenade_normal_zoom_rotate_y{} = {}", is_16x9 ? "_16x9" : "", rot_.y);
-                Log("####################################");
+
+                XR_LOG_NOTICE("####################################");
             }
         }
     }
@@ -363,7 +380,9 @@ void player_hud::tune(const Ivector& _values)
             g_bHudAdjustDeltaRot += (values.z > 0) ? 0.1f : -0.1f;
     }
     else if (auto hi = m_attached_items[g_bHudAdjustItemIdx])
+    {
         hi->tune(values);
+    }
 }
 
 void hud_draw_adjust_mode()

@@ -55,7 +55,7 @@ void start_tutorial(gsl::czstring name)
 
 namespace
 {
-tmc::task<void> stop_tutorial_async(std::array<std::byte, 16>& arg) { co_await g_tutorial->Stop(); }
+tmc::task<void> stop_tutorial_async(std::array<std::byte, 16>&) { co_await g_tutorial->Stop(); }
 
 void stop_tutorial()
 {

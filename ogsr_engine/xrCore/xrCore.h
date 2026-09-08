@@ -95,30 +95,9 @@ DEFINE_VECTOR(shared_str, RStringVec, RStringVecIt);
 #include "xr_trims.h"
 #include "xr_ini.h"
 
-#if defined(_DEBUG) || defined(OGSR_TOTAL_DBG)
-
-#define LogDbg Log
-#define MsgDbg Msg
-
+#ifdef _DEBUG
 #define LOG_SECOND_THREAD_STATS
-
-#else // !_DEBUG && !OGSR_TOTAL_DBG
-
-#define LogDbg(...) \
-    do \
-    { \
-        if constexpr (false) \
-            Log(__VA_ARGS__); \
-    } while (0)
-
-#define MsgDbg(...) \
-    do \
-    { \
-        if constexpr (false) \
-            Msg(__VA_ARGS__); \
-    } while (0)
-
-#endif // !_DEBUG && !OGSR_TOTAL_DBG
+#endif
 
 #include "LocatorAPI.h"
 #include "FTimer.h"

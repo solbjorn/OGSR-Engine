@@ -207,7 +207,7 @@ void CAI_Trader::DropItemSendMessage(CObject* O)
     if (!O || !O->H_Parent() || (this != O->H_Parent()))
         return;
 
-    Log("Dropping item!");
+    XR_LOG_TRACE_L1("Dropping item!");
 
     // We doesn't have similar weapon - pick up it
     NET_Packet P;

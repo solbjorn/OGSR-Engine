@@ -28,9 +28,11 @@ XR_DIAG_POP();
 XR_DIAG_PUSH();
 XR_DIAG_IGNORE("-Wnan-infinity-disabled");
 
-#include <quill/bundled/fmt/format.h>
+#include <quill/std/FilesystemPath.h>
 
 XR_DIAG_POP();
+
+#include <quill/std/SystemError.h>
 
 QUILL_BEGIN_NAMESPACE
 QUILL_BEGIN_EXPORT

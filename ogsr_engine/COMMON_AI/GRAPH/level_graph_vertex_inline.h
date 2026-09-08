@@ -37,7 +37,10 @@ IC float CLevelGraph::distance(const CLevelGraph::CVertex* _node, u32 vertex_id1
 
 IC float CLevelGraph::distance(u32 vertex_id0, const CLevelGraph::CVertex* _node) const { return (distance(vertex(vertex_id0), _node)); }
 
-IC float CLevelGraph::distance(const CLevelGraph::CVertex* node0, const CLevelGraph::CVertex* node1) const { return (vertex_position(node0).distance_to(vertex_position(node1))); }
+IC float CLevelGraph::distance(const CLevelGraph::CVertex* node0, const CLevelGraph::CVertex* node1) const
+{
+    return (vertex_position(node0).distance_to(vertex_position(node1)));
+}
 
 IC float CLevelGraph::distance(const Fvector& position, const u32 vertex_id) const { return (distance(position, vertex(vertex_id))); }
 
@@ -187,11 +190,15 @@ IC CLevelGraph::ELineIntersections CLevelGraph::intersect_no_check(float x1, flo
     return (eLineIntersectionIntersect);
 } /* lines_intersect */
 
-IC bool CLevelGraph::similar(const Fvector& tPoint0, const Fvector& tPoint1) const { return ((_abs(tPoint0.x - tPoint1.x) < EPS_L) && (_abs(tPoint0.z - tPoint1.z) < EPS_L)); }
+IC bool CLevelGraph::similar(const Fvector& tPoint0, const Fvector& tPoint1) const
+{
+    return ((_abs(tPoint0.x - tPoint1.x) < EPS_L) && (_abs(tPoint0.z - tPoint1.z) < EPS_L));
+}
 
 IC bool CLevelGraph::inside(const Fvector& tPoint, const CLevelGraph::SContour& tContour) const
 {
-    return ((tContour.v1.x - EPS_L <= tPoint.x) && (tContour.v1.z - EPS_L <= tPoint.z) && (tContour.v3.x + EPS_L >= tPoint.x) && (tContour.v3.z + EPS_L >= tPoint.z));
+    return ((tContour.v1.x - EPS_L <= tPoint.x) && (tContour.v1.z - EPS_L <= tPoint.z) && (tContour.v3.x + EPS_L >= tPoint.x) &&
+            (tContour.v3.z + EPS_L >= tPoint.z));
 }
 
 IC void CLevelGraph::intersect(SSegment& tSegment, const SContour& tContour0, const SContour& tContour1) const
@@ -317,10 +324,12 @@ IC void CLevelGraph::intersect(SSegment& tSegment, const SContour& tContour0, co
     if (bFound)
     {
         tSegment.v2 = tSegment.v1;
-        Log("! AI_PathNodes: segment has null length");
+        XR_LOG_ERROR("AI_PathNodes: segment has null length");
     }
     else
-        Log("! AI_PathNodes: Can't find intersection segment");
+    {
+        XR_LOG_ERROR("AI_PathNodes: can't find intersection segment");
+    }
 }
 
 IC float CLevelGraph::nearest(Fvector& Dest, const Fvector& P, const Fvector& A, const Fvector& B) const
@@ -475,8 +484,8 @@ IC float CLevelGraph::compute_square(float fAngle, float fAngleOfView, float b1,
 
 IC float CLevelGraph::compute_square(float fAngle, float fAngleOfView, const CLevelGraph::CVertex* vertex) const
 {
-    return (
-        compute_square(fAngle, fAngleOfView, NORMALIZE_NODE_COVER(vertex, 0), NORMALIZE_NODE_COVER(vertex, 1), NORMALIZE_NODE_COVER(vertex, 2), NORMALIZE_NODE_COVER(vertex, 3)));
+    return (compute_square(fAngle, fAngleOfView, NORMALIZE_NODE_COVER(vertex, 0), NORMALIZE_NODE_COVER(vertex, 1), NORMALIZE_NODE_COVER(vertex, 2),
+                           NORMALIZE_NODE_COVER(vertex, 3)));
 }
 
 IC float CLevelGraph::compute_square(float fAngle, float fAngleOfView, u32 dwNodeID) const { return (compute_square(fAngle, fAngleOfView, vertex(dwNodeID))); }
@@ -495,7 +504,8 @@ IC float CLevelGraph::vertex_cover(const u32 vertex_id) const { return (vertex_c
 
 IC float CLevelGraph::cover_in_direction(float angle, const CLevelGraph::CVertex* vertex) const
 {
-    return (cover_in_direction(angle, NORMALIZE_NODE_COVER(vertex, 0), NORMALIZE_NODE_COVER(vertex, 1), NORMALIZE_NODE_COVER(vertex, 2), NORMALIZE_NODE_COVER(vertex, 3)));
+    return (cover_in_direction(angle, NORMALIZE_NODE_COVER(vertex, 0), NORMALIZE_NODE_COVER(vertex, 1), NORMALIZE_NODE_COVER(vertex, 2),
+                               NORMALIZE_NODE_COVER(vertex, 3)));
 }
 
 #undef NORMALIZE_NODE_COVER
@@ -518,7 +528,8 @@ IC bool CLevelGraph::check_vertex_in_direction(u32 start_vertex_id, const Fvecto
 
 IC u32 CLevelGraph::check_position_in_direction(u32 start_vertex_id, const Fvector& start_position, const Fvector& finish_position) const
 {
-    return (check_position_in_direction(start_vertex_id, Fvector2().set(start_position.x, start_position.z), Fvector2().set(finish_position.x, finish_position.z)));
+    return (
+        check_position_in_direction(start_vertex_id, Fvector2().set(start_position.x, start_position.z), Fvector2().set(finish_position.x, finish_position.z)));
 }
 
 IC bool CLevelGraph::check_vertex_in_direction(u32 start_vertex_id, const Fvector& start_position, u32 finish_vertex_id) const

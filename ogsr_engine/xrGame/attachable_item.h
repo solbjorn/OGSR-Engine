@@ -63,7 +63,7 @@ public:
     virtual void set_angle_offset(Fvector val)
     {
         Fvector c = get_pos_offset();
-        m_dbgItem->m_offset.setHPB(VPUSH(val));
+        m_dbgItem->m_offset.setHPB(val);
         m_dbgItem->m_offset.c = c;
     }
 

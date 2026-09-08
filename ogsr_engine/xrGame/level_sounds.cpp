@@ -255,8 +255,9 @@ tmc::task<void> CLevelSoundManager::Update()
                 m_CurrentTrack = indices[idx];
                 SMusicTrack& T = m_MusicTracks[m_CurrentTrack];
                 T.Play();
+
 #ifdef DEBUG
-                Log("- Play music track:", T.m_DbgName.c_str());
+                XR_LOG_DEBUG("Play music track: {}", T.m_DbgName);
 #endif
             }
             else

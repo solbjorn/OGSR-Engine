@@ -16,13 +16,13 @@ bool xrServer::Process_event_reject(NET_Packet& P, const u16 id_parent, const u1
 
     if (!e_parent)
     {
-        MsgDbg("~ xrServer::Process_event_reject: no parent object! ID {}", id_parent);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "No parent object! ID {}", id_parent);
         return false;
     }
 
     if (!e_entity)
     {
-        MsgDbg("~ xrServer::Process_event_reject: no entity object! ID {}", id_entity);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "No entity object! ID {}", id_entity);
         return false;
     }
 
@@ -30,24 +30,22 @@ bool xrServer::Process_event_reject(NET_Packet& P, const u16 id_parent, const u1
 
     if (0xffff == e_entity->ID_Parent)
     {
-        MsgDbg("! ERROR: can't detach independent object. entity[{}][{}], parent[{}][{}], section[{}]", e_entity->name_replace(), id_entity,
-               e_parent->name_replace(), id_parent, e_entity->s_name);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "Can't detach independent object. entity[{}][{}], parent[{}][{}], section[{}]", e_entity->name_replace(),
+                             id_entity, e_parent->name_replace(), id_parent, e_entity->s_name);
         return false;
     }
 
     // Rebuild parentness
     if (e_entity->ID_Parent != id_parent)
-    {
         // it can't be !!!
-        Msg("! ERROR: e_entity->ID_Parent = [{}]  parent = [{}][{}]  entity_id = [{}]  frame = [{}]", e_entity->ID_Parent, id_parent, e_parent->name_replace(),
-            id_entity, Device.dwFrame);
-    }
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "e_entity->ID_Parent = [{}]  parent = [{}][{}]  entity_id = [{}]  frame = [{}]", e_entity->ID_Parent, id_parent,
+                             e_parent->name_replace(), id_entity, Device.dwFrame);
 
     auto& children = e_parent->children;
     const auto child = std::find(children.begin(), children.end(), id_entity);
     if (child == children.end())
     {
-        MsgDbg("! ERROR: SV: can't find children [{}] of parent [{}]", id_entity, id_parent);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "SV: can't find children [{}] of parent [{}]", id_entity, id_parent);
         return false;
     }
 

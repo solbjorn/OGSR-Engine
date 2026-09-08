@@ -185,14 +185,8 @@ void CSpaceRestriction::initialize()
         m_out_space_restriction->initialize();
 
 #ifdef DEBUG
-    if (m_out_space_restriction)
-    {
-        if (!m_out_space_restriction->object().correct())
-        {
-            Log("~ BAD out restrictions combination :");
-            Msg("~ {}", m_out_space_restriction->name());
-        }
-    }
+    if (m_out_space_restriction != nullptr && !m_out_space_restriction->object().correct())
+        XR_LOG_ERROR("{}: invalid out restrictions combination", m_out_space_restriction->name());
 #endif
 
     if (m_in_space_restriction && !m_in_space_restriction->initialized())

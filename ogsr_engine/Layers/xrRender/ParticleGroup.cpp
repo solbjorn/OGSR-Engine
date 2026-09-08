@@ -34,7 +34,7 @@ BOOL CPGDef::Load(IReader& F)
     XR_ASSERT(F.find_chunk(PGD_CHUNK_VERSION) > 0);
     if (F.r_u16() != PGD_VERSION)
     {
-        Log("!Unsupported PG version. Load failed.");
+        XR_LOG_ERROR("Unsupported PG version. Load failed");
         return FALSE;
     }
 

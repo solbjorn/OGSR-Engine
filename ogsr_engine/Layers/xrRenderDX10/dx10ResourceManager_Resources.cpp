@@ -51,7 +51,7 @@ void CResourceManager::_DeleteState(const SState* state)
     if (reclaim(v_states, state))
         return;
 
-    Log("! ERROR: Failed to find compiled stateblock");
+    XR_LOG_ERROR("Failed to find compiled stateblock");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ void CResourceManager::_DeletePass(const SPass* P)
     if (reclaim(v_passes, P))
         return;
 
-    Log("! ERROR: Failed to find compiled pass");
+    XR_LOG_ERROR("Failed to find compiled pass");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -353,7 +353,7 @@ void CResourceManager::_DeleteDecl(const SDeclaration* dcl)
     if (reclaim(v_declarations, dcl))
         return;
 
-    Log("! ERROR: Failed to find compiled vertex-declarator");
+    XR_LOG_ERROR("Failed to find compiled vertex-declarator");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -381,7 +381,7 @@ void CResourceManager::_DeleteConstantTable(const R_constant_table* C)
     if (reclaim(v_constant_tables, C))
         return;
 
-    Log("! ERROR: Failed to find compiled constant-table");
+    XR_LOG_ERROR("Failed to find compiled constant-table");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -460,7 +460,7 @@ void CResourceManager::DeleteGeom(const SGeometry* Geom)
     if (reclaim(v_geoms, Geom))
         return;
 
-    Log("! ERROR: Failed to find compiled geometry-declaration");
+    XR_LOG_ERROR("Failed to find compiled geometry-declaration");
 }
 
 CTexture* CResourceManager::_CreateTexture(LPCSTR _Name)
@@ -537,7 +537,7 @@ void CResourceManager::_DeleteTextureList(const STextureList* L)
     if (reclaim(lst_textures, L))
         return;
 
-    Log("! ERROR: Failed to find compiled list of textures");
+    XR_LOG_ERROR("Failed to find compiled list of textures");
 }
 
 dx10ConstantBuffer* CResourceManager::_CreateConstantBuffer(ctx_id_t context_id, ID3DShaderReflectionConstantBuffer* pTable)
@@ -570,7 +570,7 @@ void CResourceManager::_DeleteConstantBuffer(const dx10ConstantBuffer* pBuffer)
             return;
     }
 
-    Log("! ERROR: Failed to find compiled constant buffer");
+    XR_LOG_ERROR("Failed to find compiled constant buffer");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -602,5 +602,5 @@ void CResourceManager::_DeleteInputSignature(const SInputSignature* pSignature)
     if (reclaim(v_input_signature, pSignature))
         return;
 
-    Log("! ERROR: Failed to find input signature");
+    XR_LOG_ERROR("Failed to find input signature");
 }

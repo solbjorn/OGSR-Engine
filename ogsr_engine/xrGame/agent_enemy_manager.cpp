@@ -498,9 +498,8 @@ void CAgentEnemyManager::assign_wounded()
 #ifdef DEBUG
         if (!enemy)
         {
-            Log(" ");
-            Log(" ");
-            Log("error will occur now, dumping valuable info");
+            XR_LOG_ERROR("error will occur now, dumping valuable info");
+
             Msg("wounded enemies({}):", m_enemies.size());
 
             {
@@ -522,9 +521,6 @@ void CAgentEnemyManager::assign_wounded()
             }
         }
 #endif
-
-        //		VERIFY						(enemy);
-        //		VERIFY						(processor);
 
         // this situation is possible
         // for example

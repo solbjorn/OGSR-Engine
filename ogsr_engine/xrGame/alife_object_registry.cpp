@@ -68,13 +68,13 @@ void CALifeObjectRegistry::save(IWriter& memory_stream, CSE_ALifeDynamicObject* 
 
 void CALifeObjectRegistry::save(IWriter& memory_stream)
 {
+    XR_LOG_NOTICE("Saving objects...");
+
     // alpet: колбек перед сохранением всех объектов 18.10.2014 :)
     if (g_actor)
         g_actor->callback(GameObject::eBeforeSave)();
 
-    Log("* Saving objects...");
     memory_stream.open_chunk(OBJECT_CHUNK_DATA);
-
     u32 position = memory_stream.tell();
     memory_stream.w_u32(u32(-1));
 
@@ -145,8 +145,8 @@ CSE_ALifeDynamicObject* CALifeObjectRegistry::get_object(IReader& file_stream)
 
 void CALifeObjectRegistry::load(IReader& file_stream)
 {
-    Log("* Loading objects...");
-    R_ASSERT2(file_stream.find_chunk(OBJECT_CHUNK_DATA), "Can't find chunk OBJECT_CHUNK_DATA!");
+    XR_LOG_NOTICE("Loading objects...");
+    XR_ASSERT(file_stream.find_chunk(OBJECT_CHUNK_DATA), "can't find chunk", OBJECT_CHUNK_DATA);
 
     m_objects.clear();
     m_object_ids.clear();

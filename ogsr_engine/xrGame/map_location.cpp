@@ -423,15 +423,15 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
 
             if (!bDone)
             {
-                Log("Error. Path from actor to selected map spot does not contain level changer :(");
-                Log("Path:");
+                XR_LOG_ERROR("Path from actor to selected map spot does not contain level changer :(");
+                XR_LOG_ERROR("Path:");
 
                 xr_vector<u32>::iterator it = map_point_path.begin();
                 xr_vector<u32>::iterator it_e = map_point_path.end();
                 for (; it != it_e; ++it)
                     Msg("[{}] level[{}]", (*it), ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name());
 
-                Log("Available LevelChangers:");
+                XR_LOG_ERROR("Available LevelChangers:");
 
                 xr_vector<CLevelChanger*>::iterator lit, lit_e;
                 lit_e = g_lchangers.end();

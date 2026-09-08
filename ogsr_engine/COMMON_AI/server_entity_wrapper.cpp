@@ -64,9 +64,7 @@ void CServerEntityWrapper::load(IReader& stream)
     m_object = XR_ASSERT_VAL(F_entity_Create(s_name) != nullptr, "failed to create entity", s_name);
     std::ignore = m_object->Spawn_Read(net_packet);
 
-#ifdef DEBUG
-    Msg("[SPAWN] {}, ({})", m_object->name_replace(), m_object->ID);
-#endif
+    XR_LOG_TRACE_L1("[SPAWN] {}, ({})", m_object->name_replace(), m_object->ID);
 
     chunk = stream.open_chunk(1);
 

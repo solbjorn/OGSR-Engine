@@ -95,7 +95,7 @@ gsl::czstring CInifile::Sect::r_string(gsl::czstring L) const
 {
     //--#SM+#-- [fix for one of "xrDebug - Invalid handler" error log]
     if (L == nullptr || L[0] == '\0')
-        Msg("!![ERROR] CInifile::Sect::r_string: S = [{}], L = [{}]", Name, L);
+        XR_LOG_ERROR("Empty line passed: S = [{}], L = [{}]", Name, L);
 
     return XR_ASSERT_VAL(Data.find(L) != Data.end(), "can't find variable", Name, L)->second.c_str();
 }
@@ -170,7 +170,7 @@ CInifile::~CInifile()
     if (!bReadOnly && bSaveAtEnd)
     {
         if (!save_as())
-            Msg("!Can't save inifile: [{}]", fName);
+            XR_LOG_ERROR("Can't save inifile: [{}]", fName);
     }
 
     xr_free(fName);
@@ -232,7 +232,7 @@ void CInifile::Load(IReader* F, gsl::czstring path, bool allow_dup_sections, con
                 auto O = override->DATA.find(Current->Name);
                 if (O != override->DATA.end())
                 {
-                    Msg("~ Override section [{}]", Current->Name);
+                    XR_LOG_NOTICE("Override section [{}]", Current->Name);
 
                     Sect* override = (O->second);
                     for (auto& it : override->Ordered_Data)
@@ -531,7 +531,7 @@ gsl::czstring CInifile::r_string(gsl::czstring S, gsl::czstring L) const
 {
     //--#SM+#-- [fix for one of "xrDebug - Invalid handler" error log]
     if (S == nullptr || L == nullptr || S[0] == '\0' || L[0] == '\0')
-        Msg("!![ERROR] CInifile::r_string: S = [{}], L = [{}]", S, L);
+        XR_LOG_ERROR("Empty section or line passed: S = [{}], L = [{}]", S, L);
 
     auto& I = r_section(S);
 

@@ -158,7 +158,7 @@ void CAI_Stalker::DropItemSendMessage(CObject* O)
         return;
 
 #ifndef SILENCE
-    Log("Dropping item!");
+    XR_LOG_TRACE_L1("Dropping item!");
 #endif
 
     // We doesn't have similar weapon - pick up it

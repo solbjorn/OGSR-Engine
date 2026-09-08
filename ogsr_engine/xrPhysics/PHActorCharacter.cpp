@@ -288,7 +288,7 @@ void CPHActorCharacter::ChooseRestrictionType(CPHCharacter::ERestrictionType my_
 
 #ifdef DEBUG
             if (ph_dbg_draw_mask1.test(ph_m1_DbgActorRestriction))
-                Log("restriction ready to change small -> large");
+                XR_LOG_TRACE_L1("restriction ready to change small -> large");
 #endif
         }
         break;
@@ -297,7 +297,7 @@ void CPHActorCharacter::ChooseRestrictionType(CPHCharacter::ERestrictionType my_
         {
 #ifdef DEBUG
             if (ph_dbg_draw_mask1.test(ph_m1_DbgActorRestriction))
-                Log("restriction  change large ->  small");
+                XR_LOG_TRACE_L1("restriction  change large ->  small");
 #endif
 
             ch->SetRestrictionType(rtStalkerSmall);

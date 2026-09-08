@@ -147,6 +147,7 @@
       <BuildDependency Project="3rd_party/Src/OpenImageIO/Imath/Imath.vcxproj" />
       <BuildDependency Project="3rd_party/Src/OpenImageIO/OpenJPH/OpenJPH.vcxproj" />
       <BuildDependency Project="3rd_party/Src/compression/deflate/deflate.vcxproj" />
+      <BuildDependency Project="3rd_party/Src/compression/zstd/zstd.vcxproj" />
       <BuildDependency Project="3rd_party/Src/system/llvm/llvm.vcxproj" />
     </Project>
     <Project Path="3rd_party/Src/OpenImageIO/png/png.vcxproj" Id="b9d1539c-b53d-4380-ad75-0044d1c8d47a">

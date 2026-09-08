@@ -115,13 +115,11 @@ void CKinematics::CalculateBones(BOOL bForceExact)
         {
             for (u16 ii = 0; ii < LL_BoneCount(); ++ii)
             {
-                Fmatrix tr;
-                tr = LL_GetTransform(ii);
-                Log("bone ", LL_BoneName_dbg(ii));
-                Log("bone_matrix", tr);
+                Msg("bone: {}", LL_BoneName_dbg(ii));
+                Msg("bone_matrix: {}", LL_GetTransform(ii));
             }
 
-            Log("end-------");
+            XR_LOG_ERROR("end-------");
         }
 #endif
 
@@ -143,14 +141,11 @@ void check_kinematics(CKinematics* _k, LPCSTR s)
 
         for (u16 ii = 0; ii < K->LL_BoneCount(); ++ii)
         {
-            Fmatrix tr;
-
-            tr = K->LL_GetTransform(ii);
-            Log("bone ", K->LL_BoneName_dbg(ii));
-            Log("bone_matrix", tr);
+            Msg("bone: {}", K->LL_BoneName_dbg(ii));
+            Msg("bone_matrix: {}", K->LL_GetTransform(ii));
         }
-        Log("end-------");
 
+        XR_LOG_ERROR("end-------");
         XR_PANIC("check_kinematics failed for ", s);
     }
 }

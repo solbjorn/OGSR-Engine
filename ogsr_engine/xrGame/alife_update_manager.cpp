@@ -203,13 +203,14 @@ bool CALifeUpdateManager::change_level(NET_Packet& net_packet)
 
 tmc::task<void> CALifeUpdateManager::new_game(gsl::czstring save_name)
 {
+    XR_LOG_NOTICE("Creating new game...");
+
     co_await g_pGamePersistent->LoadTitle("st_creating_new_game");
-    Log("* Creating new game...");
 
     unload();
     reload(m_section);
-    spawns().load(save_name);
 
+    spawns().load(save_name);
     graph().on_load();
 
     server().PerformIDgen(0x0000);
@@ -234,7 +235,8 @@ tmc::task<void> CALifeUpdateManager::new_game(gsl::czstring save_name)
         I.second->on_register();
 
     save(save_name);
-    Log("* New game is successfully created!");
+
+    XR_LOG_NOTICE("New game is successfully created!");
 }
 
 tmc::task<void> CALifeUpdateManager::load(gsl::czstring game_name, bool no_assert, bool new_only)
@@ -395,11 +397,11 @@ void CALifeUpdateManager::teleport_object(ALife::_OBJECT_ID id, GameGraph::_GRAP
 #ifdef DEBUG
     if (psAI_Flags.test(aiALife))
     {
-        Msg("[LSS] teleporting object [{}][{}][{}] from level [{}], position [{}][{}][{}] to level [{}], position [{}][{}][{}]", object->name_replace(),
-            object->s_name, object->ID, ai().game_graph().header().level(ai().game_graph().vertex(object->m_tGraphID)->level_id()).name(),
-            VPUSH(ai().game_graph().vertex(object->m_tGraphID)->level_point()),
+        Msg("[LSS] teleporting object [{}][{}][{}] from level [{}], position {} to level [{}], position {}", object->name_replace(), object->s_name, object->ID,
+            ai().game_graph().header().level(ai().game_graph().vertex(object->m_tGraphID)->level_id()).name(),
+            ai().game_graph().vertex(object->m_tGraphID)->level_point(),
             ai().game_graph().header().level(ai().game_graph().vertex(game_vertex_id)->level_id()).name(),
-            VPUSH(ai().game_graph().vertex(game_vertex_id)->level_point()));
+            ai().game_graph().vertex(game_vertex_id)->level_point());
     }
 #endif
 
@@ -474,13 +476,9 @@ void CALifeUpdateManager::add_restriction(ALife::_OBJECT_ID id, ALife::_OBJECT_I
 #endif
 
         creature->m_dynamic_in_restrictions.push_back(restriction_id);
-
         break;
     }
-    default: {
-        Log("! Invalid restriction type!");
-        return;
-    }
+    default: XR_LOG_ERROR("Invalid restriction type {}", restriction_type); return;
     }
 }
 
@@ -544,13 +542,9 @@ void CALifeUpdateManager::remove_restriction(ALife::_OBJECT_ID id, ALife::_OBJEC
         }
 
         creature->m_dynamic_in_restrictions.erase(I);
-
         break;
     }
-    default: {
-        Log("! Invalid restriction type!");
-        return;
-    }
+    default: XR_LOG_ERROR("Invalid restriction type {}", restriction_type); return;
     }
 }
 

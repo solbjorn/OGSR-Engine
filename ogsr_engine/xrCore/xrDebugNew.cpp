@@ -21,8 +21,6 @@ namespace xr
 {
 namespace
 {
-constexpr auto assert_len{180uz - xr::detail::log_pfx_len};
-
 #ifdef XR_SENTRY
 #if __has_feature(address_sanitizer) || defined(__SANITIZE_ADDRESS__)
 #define XR_SENTRY_ASAN
@@ -51,15 +49,15 @@ quill::Logger* cpptrace_logger{nullptr};
 
 void log_callback(cpptrace::log_level lvl, gsl::czstring msg)
 {
-    quill::LogLevel qlvl;
+    xr::level qlvl;
 
     switch (lvl)
     {
-    case cpptrace::log_level::debug: qlvl = quill::LogLevel::Debug; break;
-    case cpptrace::log_level::info: qlvl = quill::LogLevel::Info; break;
-    case cpptrace::log_level::warning: qlvl = quill::LogLevel::Warning; break;
-    case cpptrace::log_level::error: qlvl = quill::LogLevel::Error; break;
-    default: qlvl = quill::LogLevel::Notice; break;
+    case cpptrace::log_level::debug: qlvl = xr::level::Debug; break;
+    case cpptrace::log_level::info: qlvl = xr::level::Info; break;
+    case cpptrace::log_level::warning: qlvl = xr::level::Warning; break;
+    case cpptrace::log_level::error: qlvl = xr::level::Error; break;
+    default: qlvl = xr::level::Notice; break;
     }
 
     XR_LOG__DYNAMIC(xr::cpptrace_logger, qlvl, "{}", msg);
@@ -73,7 +71,7 @@ void show(std::string_view msg)
         return;
 
     if (Debug.to_log() != nullptr)
-        Log(msg);
+        XR_LOG_CRITICAL("{}", msg);
 
     xr::log_flush();
     const auto back = xr::detail::log_flush();
@@ -101,8 +99,8 @@ void show(std::string_view msg)
 
 [[noreturn]] void failure_handler(const libassert::assertion_info& info)
 {
-    auto msg =
-        xr::format("\n{}\nStack trace:\n{}", info.header(xr::assert_len), xr::maybe_trace.empty() ? info.print_stacktrace(xr::assert_len) : xr::maybe_trace);
+    auto msg = xr::format("\n{}\nStack trace:\n{}", info.header(xr::detail::log_width),
+                          xr::maybe_trace.empty() ? info.print_stacktrace(xr::detail::log_width) : xr::maybe_trace);
 
     if (auto trace = Debug.get_lua_trace(); trace != nullptr)
         msg += trace();
@@ -292,7 +290,7 @@ out:
 
     if (const auto& trace = cpptrace::from_current_exception(); !trace.empty())
     {
-        xr::maybe_trace = libassert::print_stacktrace(trace, xr::assert_len);
+        xr::maybe_trace = libassert::print_stacktrace(trace, xr::detail::log_width);
 #ifdef XR_SENTRY
         xr::sentry().event_trace(trace);
     }
@@ -456,10 +454,10 @@ void LogStackTrace(const char* header)
 {
     __try
     {
-        Log("********************************************************************************");
-        Msg("!![{}]", std::source_location::current().function_name());
-        Log(header);
-        Log("********************************************************************************");
+        XR_LOG_CRITICAL("********************************************************************************");
+        XR_LOG_CRITICAL("[{}]", std::source_location::current().function_name());
+        XR_LOG_CRITICAL("{}", header);
+        XR_LOG_CRITICAL("********************************************************************************");
     }
     __finally
     {}
@@ -549,7 +547,7 @@ void gather_info(const char* expression, const char* description, const char* ar
 
         if (!i)
         {
-            Log(assertion_info);
+            XR_LOG_CRITICAL("{}", assertion_info);
             buffer = assertion_info;
             endline = "\r\n";
             prefix = "";

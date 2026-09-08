@@ -101,22 +101,23 @@ void xrCore::_initialize(gsl::czstring _ApplicationName, bool init_fs, gsl::czst
 
         FS._initialize(flags, nullptr, fs_fname);
 
-        Msg("[ReapeR Engine ({})] build date: [" __DATE__ " " __TIME__ "]", GetBuildConfiguration());
+        XR_LOG_INFO("[ReapeR Engine ({})] build date: [" __DATE__ " " __TIME__ "]", GetBuildConfiguration());
+
         if (xr_strlen(APPVEYOR_BUILD_VERSION) > 0)
-            Log("[AppVeyor] build version: [" APPVEYOR_BUILD_VERSION "], repo: [" APPVEYOR_REPO_NAME "]");
+            XR_LOG_INFO("[AppVeyor] build version: [" APPVEYOR_BUILD_VERSION "], repo: [" APPVEYOR_REPO_NAME "]");
 
 #ifdef __clang__
-        Log("Clang/LLVM version: [" __clang_version__ "], C++ standard version: [" _CRT_STRINGIZE(__cplusplus) "]");
+        XR_LOG_INFO("Clang/LLVM version: [" __clang_version__ "], C++ standard version: [" _CRT_STRINGIZE(__cplusplus) "]");
 #else
-        Log("MSVC version: [" _CRT_STRINGIZE(_MSC_FULL_VER) "], MSVC++ standard version: [" _CRT_STRINGIZE(_MSVC_LANG) "]");
+        XR_LOG_INFO("MSVC version: [" _CRT_STRINGIZE(_MSC_FULL_VER) "], MSVC++ standard version: [" _CRT_STRINGIZE(_MSVC_LANG) "]");
 #endif
 
-        Msg("Working Directory: [{}]", WorkingPath);
-        Msg("CommandLine: [{}]", Core.Params);
+        XR_LOG_NOTICE("Working Directory: [{}]", WorkingPath);
+        XR_LOG_INFO("Command Line: [{}]", Core.Params);
 
 #ifdef DEBUG
-        Msg("CRT heap {:#010x}", _get_heap_handle());
-        Msg("Process heap {:#010x}", GetProcessHeap());
+        XR_LOG_NOTICE("CRT heap {:#010x}", _get_heap_handle());
+        XR_LOG_NOTICE("Process heap {:#010x}", GetProcessHeap());
 #endif // DEBUG
     }
 

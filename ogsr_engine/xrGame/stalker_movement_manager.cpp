@@ -279,7 +279,7 @@ void CStalkerMovementManager::setup_movement_params()
                 u32 vertex_id = level_path().dest_vertex_id();
                 Fvector vertex_position = ai().level_graph().vertex_position(vertex_id);
                 VERIFY2(restrictions().accessible(vertex_position) || show_restrictions(&restrictions()),
-                        xr::format("vertex_id[{}],position[{}][{}][{}],object[{}]", vertex_id, VPUSH(vertex_position), object().cName()));
+                        xr::format("vertex_id[{}],position{},object[{}]", vertex_id, vertex_position, object().cName()));
                 detail().set_dest_position(vertex_position);
             }
         }
@@ -743,9 +743,7 @@ void CStalkerMovementManager::check_for_bad_path()
         float angle = acosf(cos_angle);
         if (angle > BAD_PATH_ANGLE)
         {
-#ifdef DEBUG
-            Log("bad path check changed movement type from RUN to WALK");
-#endif // DEBUG
+            XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "Bad path check changed movement type from RUN to WALK");
 
             m_current.m_movement_type = MonsterSpace::eMovementTypeWalk;
             return;

@@ -90,14 +90,14 @@ void CInventoryOwner::DumpInfo() const
 {
     KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
 
-    Log("------------------------------------------");
+    XR_LOG_TRACE_L1("------------------------------------------");
     Msg("Start KnownInfo dump for [{}]", Name());
 
     KNOWN_INFO_VECTOR_IT it = known_info.begin();
     for (int i = 0; it != known_info.end(); ++it, ++i)
         Msg("known info[{}]:{}", i, (*it).info_id);
 
-    Log("------------------------------------------");
+    XR_LOG_TRACE_L1("------------------------------------------");
 }
 #endif
 

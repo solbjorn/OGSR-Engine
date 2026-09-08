@@ -482,7 +482,7 @@ void dbg_draw_piramid(Fvector pos, Fvector dir, float size, float xdir, u32 colo
 void CActor::net_Save(NET_Packet& P)
 {
 #ifdef DEBUG
-    Log("Actor net_Save");
+    XR_LOG_DEBUG("Actor net_Save");
 
     u32 pos = P.w_tell();
     inherited::net_Save(P);

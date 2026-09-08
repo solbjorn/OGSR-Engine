@@ -118,7 +118,7 @@ void CInventory::Take(CGameObject* pObj, bool bNotActivate, bool strict_placemen
 
     if (pIItem->m_pCurrentInventory)
     {
-        Log("! ERROR CInventory::Take but object has m_pCurrentInventory");
+        XR_LOG_ERROR("Object has m_pCurrentInventory");
         Msg("! Inventory Owner is [{}]", GetOwner()->object_id());
         Msg("! Object Inventory Owner is [{}]", pIItem->m_pCurrentInventory->GetOwner()->object_id());
 
@@ -301,7 +301,7 @@ bool CInventory::DropItem(CGameObject* pObj)
     }
 
     if (!removed)
-        Log("! CInventory::Drop item not found in inventory!!!");
+        XR_LOG_ERROR("Item not found in inventory");
 
     pIItem->m_pCurrentInventory = nullptr;
 

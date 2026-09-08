@@ -476,7 +476,7 @@ public:
 
     void Execute(std::string_view) override
     {
-        Log("memory usage  mb \t \t video    \t managed      \t system");
+        XR_LOG_INFO("memory usage  mb \t \t video    \t managed      \t system");
 
         float vb_video = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_DEFAULT] / 1024 / 1024;
         float vb_managed = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_MANAGED] / 1024 / 1024;
@@ -556,12 +556,12 @@ public:
             return;
         }
 
-        Log("Exporting particles...");
+        XR_LOG_NOTICE("Exporting particles...");
 
         RImplementation.PSLibrary.Reload();
         RImplementation.PSLibrary.Save2(args == "1");
 
-        Log("Exporting particles Done!");
+        XR_LOG_NOTICE("Exporting particles Done!");
     }
 };
 
@@ -581,14 +581,14 @@ public:
             return;
         }
 
-        Log("Importing particles...");
+        XR_LOG_NOTICE("Importing particles...");
 
         RImplementation.PSLibrary.OnDestroy();
         RImplementation.PSLibrary.Load2();
         RImplementation.PSLibrary.ExportAllAsNew();
         RImplementation.PSLibrary.OnCreate();
 
-        Log("Importing particles Done!");
+        XR_LOG_NOTICE("Importing particles Done!");
     }
 };
 } // namespace

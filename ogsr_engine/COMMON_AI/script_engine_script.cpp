@@ -101,12 +101,11 @@ void CScriptEngine::script_register(sol::state_view& lua)
 {
     xr::lua_logger = xr::logger_init("Lua");
 
-    lua.new_enum("log_level", "trace_l3", quill::LogLevel::TraceL3, "trace_l2", quill::LogLevel::TraceL2, "trace_l1", quill::LogLevel::TraceL1, "debug",
-                 quill::LogLevel::Debug, "info", quill::LogLevel::Info, "notice", quill::LogLevel::Notice, "warning", quill::LogLevel::Warning, "error",
-                 quill::LogLevel::Error, "critical", quill::LogLevel::Critical);
+    lua.new_enum("log_level", "trace_l3", xr::level::TraceL3, "trace_l2", xr::level::TraceL2, "trace_l1", xr::level::TraceL1, "debug", xr::level::Debug, "info",
+                 xr::level::Info, "notice", xr::level::Notice, "warning", xr::level::Warning, "error", xr::level::Error, "critical", xr::level::Critical);
 
     lua.set("log1",
-            sol::overload([](quill::LogLevel lvl, std::string_view msg) { XR_LOG__DYNAMIC(xr::lua_logger, lvl, "{}", msg); },
+            sol::overload([](xr::level lvl, std::string_view msg) { XR_LOG__DYNAMIC(xr::lua_logger, lvl, "{}", msg); },
                           [](std::string_view msg) { XR_LOG__NOTICE(xr::lua_logger, "{}", msg); }),
             "screenshot", &take_screenshot);
 

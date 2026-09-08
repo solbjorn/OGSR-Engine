@@ -537,10 +537,10 @@ bool CUILevelMap::OnMouse(f32 x, f32 y, EUIMessages mouse_action)
 
         Fvector pos;
         pos.set(p.x, 0.0f, p.y);
-
         Fvector real_position{};
+
         if (!MapWnd()->ConvertCursorPosToMap(&real_position, this))
-            Log("! Cannot get real location from map point");
+            XR_LOG_ERROR("Cannot get real location from map point");
 
         g_actor->callback(GameObject::eUIMapClick)(pos, MapName().c_str(), real_position);
     }

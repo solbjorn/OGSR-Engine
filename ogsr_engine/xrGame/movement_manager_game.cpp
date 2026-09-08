@@ -55,13 +55,13 @@ void CMovementManager::process_game_path()
             Msg("! CURRENT LEVEL : {}", Level().name());
 
             Fvector temp = ai().game_graph().vertex(object().ai_location().game_vertex_id())->level_point();
-            Msg("! CURRENT game point position : [{}][{}][{}]", VPUSH(temp));
+            Msg("! CURRENT game point position : {}", temp);
 
             const GameGraph::CVertex* vertex = ai().game_graph().vertex(game_dest_vertex_id());
             Msg("! TARGET LEVEL : {}", ai().game_graph().header().level(vertex->level_id()).name());
             temp = vertex->level_point();
 
-            Msg("! TARGET  game point position : [{}][{}][{}]", VPUSH(temp));
+            Msg("! TARGET  game point position : {}", temp);
             const u8* target_vertex_type = ai().game_graph().vertex(game_dest_vertex_id())->vertex_type();
             Msg("! Target point mask [{}][{}][{}][{}]", target_vertex_type[0], target_vertex_type[1], target_vertex_type[2], target_vertex_type[3]);
 

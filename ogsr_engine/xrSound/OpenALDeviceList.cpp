@@ -84,7 +84,7 @@ void ALDeviceList::IterateDevicesList(const char* devices, bool enumerateAllPres
 
 void ALDeviceList::Enumerate()
 {
-    Log("SOUND: OpenAL: enumerate devices...");
+    XR_LOG_INFO("OpenAL: enumerate devices...");
 
     // have a set of vectors storing the device list, selection status, spec version #, and XRAM support status
     m_devices.clear();
@@ -111,7 +111,7 @@ void ALDeviceList::Enumerate()
     }
     else
     {
-        Log("!!SOUND: OpenAL: EnumerationExtension NOT Present");
+        XR_LOG_ERROR("OpenAL: EnumerationExtension NOT Present");
     }
 
     u32 _cnt = GetNumDevices();
@@ -150,22 +150,22 @@ void ALDeviceList::Enumerate()
     if (need_to_trim_prefix && strstr(m_defaultDeviceName, prefix))
         xr_strcpy(m_defaultDeviceName, m_defaultDeviceName + xr_strlen(prefix));
 
-    Msg("~~SOUND: OpenAL: Default sound device name is [{}], device name size: [{}]", m_defaultDeviceName, xr_strlen(m_defaultDeviceName));
+    XR_LOG_INFO("OpenAL: Default sound device name is [{}], device name size: [{}]", m_defaultDeviceName, xr_strlen(m_defaultDeviceName));
 
     if (0 != GetNumDevices())
     {
-        Log("SOUND: OpenAL: All available devices:");
+        XR_LOG_INFO("OpenAL: All available devices:");
 
         for (u32 j = 0; j < GetNumDevices(); j++)
         {
             ALDeviceDesc al_device_desc = GetDeviceDesc(j);
 
-            Msg("{}. {} (full name [{}]). al_soft [{}]", j + 1, snd_devices_token[j].name, al_device_desc.name, al_device_desc.is_al_soft);
+            XR_LOG_INFO(" {}. {} (full name [{}]). al_soft [{}]", j + 1, snd_devices_token[j].name, al_device_desc.name, al_device_desc.is_al_soft);
         }
     }
     else
     {
-        Log("!!SOUND: OpenAL: No devices available.");
+        XR_LOG_ERROR("OpenAL: No devices available");
     }
 
     // CoInitializeEx(NULL, COINIT_MULTITHREADED); // ???
@@ -175,40 +175,40 @@ void ALDeviceList::SelectBestDeviceId(const char* system_default_device) const
 {
     if (GetNumDevices() == 0)
     {
-        Log("!!SOUND: Can't select device. List empty");
+        XR_LOG_ERROR("Can't select device. List empty");
+
         snd_device_id = u32(-1);
+        return;
     }
-    else
+
+    if (snd_device_id == u32(-1) || snd_device_id >= GetNumDevices())
     {
-        if (snd_device_id == u32(-1) || snd_device_id >= GetNumDevices())
+        XR_ASSERT(GetNumDevices() != 0);
+
+        // select best
+        u32 new_device_id = 0; // first
+
+        for (int i = 0; snd_devices_token[i].name; i++)
         {
-            XR_ASSERT(GetNumDevices() != 0);
-
-            // select best
-            u32 new_device_id = 0; // first
-
-            for (int i = 0; snd_devices_token[i].name; i++)
+            // check openAL default device first
+            if (m_defaultDeviceName[0] != '\0' && std::is_eq(xr::strcasecmp(m_defaultDeviceName, snd_devices_token[i].name)))
             {
-                // check openAL default device first
-                if (m_defaultDeviceName[0] != '\0' && std::is_eq(xr::strcasecmp(m_defaultDeviceName, snd_devices_token[i].name)))
-                {
-                    new_device_id = i;
-                    break;
-                }
-
-                // check OS system default device too
-                if (system_default_device != nullptr && std::is_eq(xr::strcasecmp(system_default_device, snd_devices_token[i].name)))
-                {
-                    new_device_id = i;
-                    break;
-                }
+                new_device_id = i;
+                break;
             }
 
-            snd_device_id = new_device_id;
+            // check OS system default device too
+            if (system_default_device != nullptr && std::is_eq(xr::strcasecmp(system_default_device, snd_devices_token[i].name)))
+            {
+                new_device_id = i;
+                break;
+            }
         }
 
-        Msg("--SOUND: Selected device is [{}]", snd_devices_token[snd_device_id].name);
+        snd_device_id = new_device_id;
     }
+
+    XR_LOG_NOTICE("Selected device is [{}]", snd_devices_token[snd_device_id].name);
 }
 
 /*

@@ -33,7 +33,7 @@ constexpr float erp{1.f};
     if (!valid_pos(pos, phBoundaries)) \
     { \
         Msg("pos: {}", pos); \
-        Log(msg); \
+        Msg("{}", msg); \
         XR_ASSERT(!br); \
     } \
     XR_MACRO_END()

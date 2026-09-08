@@ -33,7 +33,7 @@ bool CSoundRender_TargetA::_initialize()
         return TRUE;
     }
 
-    Msg("! sound: OpenAL: Can't create source. Error: {}.", alGetString(error));
+    XR_LOG_ERROR("OpenAL: Can't create source. Error: {}", alGetString(error));
 
     return FALSE;
 }
@@ -110,10 +110,11 @@ tmc::task<void> CSoundRender_TargetA::update()
         /* Get relevant source info */
         alGetSourcei(pSource, AL_SOURCE_STATE, &state);
         alGetSourcei(pSource, AL_BUFFERS_PROCESSED, &processed);
+
         ALenum error = alGetError();
         if (error != AL_NO_ERROR)
         {
-            Msg("!![{}]Error checking source state! OpenAL Error: [{}]", std::source_location::current().function_name(), alGetString(error));
+            XR_LOG_ERROR("Error checking source state! OpenAL Error: [{}]", alGetString(error));
             co_return;
         }
 
@@ -126,10 +127,11 @@ tmc::task<void> CSoundRender_TargetA::update()
 
             A_CHK(alSourceQueueBuffers(pSource, 1, &BufferID));
             processed--;
+
             ALenum error = alGetError();
             if (error != AL_NO_ERROR)
             {
-                Msg("!![{}]Error buffering data! OpenAL Error: [{}]", std::source_location::current().function_name(), alGetString(error));
+                XR_LOG_ERROR("Error buffering data! OpenAL Error: [{}]", alGetString(error));
                 co_return;
             }
         }
@@ -148,7 +150,7 @@ tmc::task<void> CSoundRender_TargetA::update()
             ALenum error = alGetError();
             if (error != AL_NO_ERROR)
             {
-                Msg("!![{}]Error restarting playback! OpenAL Error: [{}]", std::source_location::current().function_name(), alGetString(error));
+                XR_LOG_ERROR("Error restarting playback! OpenAL Error: [{}]", alGetString(error));
                 co_return;
             }
         }

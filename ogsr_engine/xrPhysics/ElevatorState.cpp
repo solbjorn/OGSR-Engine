@@ -280,8 +280,9 @@ bool CElevatorState::GetControlDir(Fvector& dir)
         {
 #ifdef DEBUG
             if (ph_dbg_draw_mask.test(phDbgLadder))
-                Log("no c dir");
+                XR_LOG_ERROR("no c dir");
 #endif
+
             ret = false;
         }
         break;

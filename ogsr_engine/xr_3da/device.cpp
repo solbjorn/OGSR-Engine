@@ -432,7 +432,7 @@ tmc::task<void> CRenderDevice::Run()
     co_await process_frame_async();
 
     LogOsVersion();
-    Log("Starting engine...");
+    XR_LOG_NOTICE("Starting engine...");
 
     // Startup timers and calculate timer delta
     dwTimeGlobal = 0;
@@ -540,15 +540,9 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, [[maybe_unused]] L
         if (bSound)
         {
             if (snd_emitters_ > 0) // avoid crash
-            {
                 snd_emitters_ = ::Sound->pause_emitters(false);
-            }
             else
-            {
-#ifdef DEBUG
-                Log("Sound->pause_emitters underflow");
-#endif // DEBUG
-            }
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "Sound->pause_emitters underflow");
         }
     }
 }

@@ -34,7 +34,7 @@ public:
 #endif
         {
 #ifdef DEBUG
-            Msg("Exporting [{}]", name);
+            XR_LOG_TRACE_L1("Exporting [{}]", name);
 #endif
             handler(lua);
         }

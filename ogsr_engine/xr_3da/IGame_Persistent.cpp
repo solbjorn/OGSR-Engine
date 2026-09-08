@@ -150,9 +150,10 @@ tmc::task<void> IGame_Persistent::OnGameStart()
     float p_time = 1000.f * Device.GetTimerGlobal()->GetElapsed_sec();
     u32 mem_0 = Memory.mem_usage();
 
-    Log("Loading objects...");
+    XR_LOG_NOTICE("Loading objects...");
     ObjectPool.prefetch();
-    Log("Loading models...");
+
+    XR_LOG_NOTICE("Loading models...");
     Render->models_Prefetch();
 
     p_time = 1000.f * Device.GetTimerGlobal()->GetElapsed_sec() - p_time;

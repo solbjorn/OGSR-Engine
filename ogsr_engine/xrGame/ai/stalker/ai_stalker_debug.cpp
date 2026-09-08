@@ -480,7 +480,7 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
         if (g_Alive())
         {
             if (agent_manager().member().member(this).cover())
-                HUD().Font().pFontStat->OutNext("{}cover         : [{}][{}][{}]", indent, VPUSH(agent_manager().member().member(this).cover()->position()));
+                HUD().Font().pFontStat->OutNext("{}cover         : {}", indent, agent_manager().member().member(this).cover()->position());
 
             if (agent_manager().member().member(this).member_death_reaction().m_processing)
                 HUD().Font().pFontStat->OutNext("{}react on death : {}", indent,
@@ -641,7 +641,7 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
     }
 
     HUD().Font().pFontStat->OutNext("{}{}path type       : {}", indent, indent, path_type);
-    HUD().Font().pFontStat->OutNext("{}{}position        : [{}][{}][{}]", indent, indent, VPUSH(Position()));
+    HUD().Font().pFontStat->OutNext("{}{}position        : {}", indent, indent, Position());
     HUD().Font().pFontStat->OutNext("{}{}level vertex id : {}", indent, indent, ai_location().level_vertex_id());
     HUD().Font().pFontStat->OutNext("{}{}game vertex id  : {}", indent, indent, ai_location().game_vertex_id());
     HUD().Font().pFontStat->OutNext("{}{}head current    : [{}][{}]", indent, indent, movement().head_orientation().current.yaw,
@@ -688,12 +688,12 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
 
     if (!movement().detail().path().empty())
     {
-        HUD().Font().pFontStat->OutNext("{}{}{}start point   : [{}][{}][{}]", indent, indent, indent, VPUSH(movement().detail().path().front().position));
-        HUD().Font().pFontStat->OutNext("{}{}{}dest point    : [{}][{}][{}]", indent, indent, indent, VPUSH(movement().detail().path().back().position));
+        HUD().Font().pFontStat->OutNext("{}{}{}start point   : {}", indent, indent, indent, movement().detail().path().front().position);
+        HUD().Font().pFontStat->OutNext("{}{}{}dest point    : {}", indent, indent, indent, movement().detail().path().back().position);
         HUD().Font().pFontStat->OutNext("{}{}{}current point", indent, indent, indent);
         HUD().Font().pFontStat->OutNext("{}{}{}{}index     : {}", indent, indent, indent, indent, movement().detail().curr_travel_point_index());
-        HUD().Font().pFontStat->OutNext("{}{}{}{}position  : [{}][{}][{}]", indent, indent, indent, indent,
-                                        VPUSH(movement().detail().path()[movement().detail().curr_travel_point_index()].position));
+        HUD().Font().pFontStat->OutNext("{}{}{}{}position  : {}", indent, indent, indent, indent,
+                                        movement().detail().path()[movement().detail().curr_travel_point_index()].position);
 
         CDetailPathManager::STravelParams current_velocity =
             movement().detail().velocity(movement().detail().path()[movement().detail().curr_travel_point_index()].velocity);
@@ -705,7 +705,7 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
     }
 
     if (movement().detail().use_dest_orientation())
-        HUD().Font().pFontStat->OutNext("{}{}{}orientation   : + [{}][{}][{}]", indent, indent, indent, VPUSH(movement().detail().dest_direction()));
+        HUD().Font().pFontStat->OutNext("{}{}{}orientation   : + {}", indent, indent, indent, movement().detail().dest_direction());
     else
         HUD().Font().pFontStat->OutNext("{}{}{}orientation   : -", indent, indent, indent);
 
@@ -807,16 +807,16 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
         break;
     }
     case SightManager::eSightTypeDirection: {
-        HUD().Font().pFontStat->OutNext("{}{}direction       : [{}][{}][{}]", indent, indent, VPUSH(sight().current_action().vector3d()));
+        HUD().Font().pFontStat->OutNext("{}{}direction       : {}", indent, indent, sight().current_action().vector3d());
         break;
     }
     case SightManager::eSightTypePosition: {
-        HUD().Font().pFontStat->OutNext("{}{}position        : [{}][{}][{}]", indent, indent, VPUSH(sight().current_action().vector3d()));
+        HUD().Font().pFontStat->OutNext("{}{}position        : {}", indent, indent, sight().current_action().vector3d());
         break;
     }
     case SightManager::eSightTypeObject: {
         HUD().Font().pFontStat->OutNext("{}{}object          : {}", indent, indent, sight().current_action().object().cName());
-        HUD().Font().pFontStat->OutNext("{}{}position        : [{}][{}][{}]", indent, indent, VPUSH(sight().current_action().object().Position()));
+        HUD().Font().pFontStat->OutNext("{}{}position        : {}", indent, indent, sight().current_action().object().Position());
         break;
     }
     case SightManager::eSightTypeCover: {
@@ -837,7 +837,7 @@ void CAI_Stalker::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* r
     }
     case SightManager::eSightTypeFireObject: {
         HUD().Font().pFontStat->OutNext("{}{}object          : {}", indent, indent, sight().current_action().object().cName());
-        HUD().Font().pFontStat->OutNext("{}{}position        : [{}][{}][{}]", indent, indent, VPUSH(sight().current_action().object().Position()));
+        HUD().Font().pFontStat->OutNext("{}{}position        : {}", indent, indent, sight().current_action().object().Position());
         HUD().Font().pFontStat->OutNext("{}{}visible point   : {}", indent, indent, false ? "-" : "+");
         break;
     }

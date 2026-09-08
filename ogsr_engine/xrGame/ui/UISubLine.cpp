@@ -93,7 +93,7 @@ CUISubLine::~CUISubLine()
     }
 
     if (!bOK)
-        Log("CUISubLine::~CUISubLine()!!!!!!!!!!!!!!!!!!!!!!! cannot find window in list");
+        XR_LOG_ERROR("Cannot find window in list");
 #endif
 }
 

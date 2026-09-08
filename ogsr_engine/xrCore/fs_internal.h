@@ -31,7 +31,7 @@ public:
         {
             hf = fopen(fName.c_str(), "wb");
             if (hf == nullptr)
-                Msg("!Can't write file: '{}'. Error: '{}'.", fName, _sys_errlist[errno]);
+                XR_LOG_ERROR("Can't write file: '{}'. Error: '{}'", fName, std::error_code{errno, std::generic_category()});
         }
     }
 

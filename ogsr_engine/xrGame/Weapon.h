@@ -675,7 +675,7 @@ public:
     {
         Fvector c = get_pos_offset();
         Fmatrix& mat = m_strapped_mode ? m_StrapOffset : m_Offset;
-        mat.setHPB(VPUSH(val));
+        mat.setHPB(val);
         mat.c = c;
     }
 

@@ -148,15 +148,15 @@ void CAI_Space::unload(bool reload)
 void CAI_Space::validate(const u32 level_id) const
 {
     VERIFY(level_graph().header().vertex_count() == cross_table().header().level_vertex_count());
-    for (GameGraph::_GRAPH_ID i = 0, n = game_graph().header().vertex_count(); i < n; ++i)
+
+    for (auto i : std::views::indices(game_graph().header().vertex_count()))
+    {
         if ((level_id == game_graph().vertex(i)->level_id()) &&
             (!level_graph().valid_vertex_id(game_graph().vertex(i)->level_vertex_id()) ||
              (cross_table().vertex(game_graph().vertex(i)->level_vertex_id()).game_vertex_id() != i) ||
              !level_graph().inside(game_graph().vertex(i)->level_vertex_id(), game_graph().vertex(i)->level_point())))
-        {
-            Log("! Graph doesn't correspond to the cross table");
-            R_ASSERT2(false, "Graph doesn't correspond to the cross table");
-        }
+            XR_PANIC("Graph doesn't correspond to the cross table");
+    }
 
     for (u32 i = 0, n = game_graph().header().vertex_count(); i < n; ++i)
     {
@@ -175,8 +175,8 @@ void CAI_Space::validate(const u32 level_id) const
 void CAI_Space::patrol_path_storage(IReader& stream)
 {
     xr_delete(m_patrol_path_storage);
-    m_patrol_path_storage = xr_new<CPatrolPathStorage>();
 
+    m_patrol_path_storage = xr_new<CPatrolPathStorage>();
     m_patrol_path_storage->load(stream);
 }
 

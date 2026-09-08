@@ -86,7 +86,7 @@ void CResourceManager::_DeleteElement(const ShaderElement* S)
     if (reclaim(v_elements, S))
         return;
 
-    Log("! ERROR: Failed to find compiled 'shader-element'");
+    XR_LOG_ERROR("Failed to find compiled 'shader-element'");
 }
 
 Shader* CResourceManager::Create(IBlender* B, const char* s_shader, const char* s_textures) { return _cpp_Create(B, s_shader, s_textures); }
@@ -208,7 +208,7 @@ void CResourceManager::Delete(const Shader* S)
     if (reclaim(v_shaders, S))
         return;
 
-    Log("! ERROR: Failed to find complete shader");
+    XR_LOG_ERROR("Failed to find complete shader");
 }
 
 tmc::task<void> CResourceManager::DeferredUpload()
@@ -217,13 +217,12 @@ tmc::task<void> CResourceManager::DeferredUpload()
         co_return;
 
     Msg("CResourceManager::DeferredUpload [MT] -> START, size = [{}]", m_textures.size());
-    Log("CResourceManager::DeferredUpload VRAM usage before:");
+    XR_LOG_INFO("VRAM usage before:");
 
     xr::render_memory_usage usage;
-
     _GetMemoryUsage(usage);
-    Msg("textures loaded size: {} Mb ({} bytes)", gsl::narrow_cast<f32>(usage.m_base + usage.m_lmaps) / 1024.0f / 1024.0f, usage.m_base + usage.m_lmaps);
 
+    Msg("textures loaded size: {} Mb ({} bytes)", gsl::narrow_cast<f32>(usage.m_base + usage.m_lmaps) / 1024.0f / 1024.0f, usage.m_base + usage.m_lmaps);
     HW.DumpVideoMemoryUsage();
 
     // Теперь многопоточная загрузка текстур даёт очень существенный прирост скорости, проверено.
@@ -233,14 +232,13 @@ tmc::task<void> CResourceManager::DeferredUpload()
                              }))
         .with_priority(xr::tmc_priority_any);
 
-    Log("CResourceManager::DeferredUpload VRAM usage after:");
-
+    XR_LOG_INFO("VRAM usage after:");
     _GetMemoryUsage(usage);
-    Msg("textures loaded size: {} Mb ({} bytes)", gsl::narrow_cast<f32>(usage.m_base + usage.m_lmaps) / 1024.0f / 1024.0f, usage.m_base + usage.m_lmaps);
 
+    Msg("textures loaded size: {} Mb ({} bytes)", gsl::narrow_cast<f32>(usage.m_base + usage.m_lmaps) / 1024.0f / 1024.0f, usage.m_base + usage.m_lmaps);
     HW.DumpVideoMemoryUsage();
 
-    Log("CResourceManager::DeferredUpload -> END");
+    XR_LOG_NOTICE("END");
 }
 
 void CResourceManager::_GetMemoryUsage(xr::render_memory_usage& usage) const

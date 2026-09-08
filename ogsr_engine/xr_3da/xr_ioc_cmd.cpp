@@ -122,7 +122,7 @@ public:
         if (Memory.debug_mode)
             Memory.dbg_check();
         else
-            Log("~ Run with -mem_debug options.");
+            XR_LOG_WARNING("Run with -mem_debug options");
     }
 };
 #endif // DEBUG_MEMORY_MANAGER
@@ -246,7 +246,7 @@ public:
 
     void Execute(std::string_view) override
     {
-        Log("- --- Command listing: start ---");
+        XR_LOG_INFO("--- Command listing: start ---");
 
         for (auto it = Console->Commands.begin(); it != Console->Commands.end(); it++)
         {
@@ -254,25 +254,25 @@ public:
             Msg("{:20} ({:10}) --- {}", C.Name(), C.Status(), C.Info());
         }
 
-        Log("Key: Ctrl + A         === Select all ");
-        Log("Key: Ctrl + C         === Copy to clipboard ");
-        Log("Key: Ctrl + V         === Paste from clipboard ");
-        Log("Key: Ctrl + X         === Cut to clipboard ");
-        Log("Key: Ctrl + Z         === Undo ");
-        Log("Key: Ctrl + Insert    === Copy to clipboard ");
-        Log("Key: Shift + Insert   === Paste from clipboard ");
-        Log("Key: Shift + Delete   === Cut to clipboard ");
-        Log("Key: Insert           === Toggle mode <Insert> ");
-        Log("Key: Back / Delete          === Delete symbol left / right ");
+        XR_LOG_INFO("Key: Ctrl + A         === Select all ");
+        XR_LOG_INFO("Key: Ctrl + C         === Copy to clipboard ");
+        XR_LOG_INFO("Key: Ctrl + V         === Paste from clipboard ");
+        XR_LOG_INFO("Key: Ctrl + X         === Cut to clipboard ");
+        XR_LOG_INFO("Key: Ctrl + Z         === Undo ");
+        XR_LOG_INFO("Key: Ctrl + Insert    === Copy to clipboard ");
+        XR_LOG_INFO("Key: Shift + Insert   === Paste from clipboard ");
+        XR_LOG_INFO("Key: Shift + Delete   === Cut to clipboard ");
+        XR_LOG_INFO("Key: Insert           === Toggle mode <Insert> ");
+        XR_LOG_INFO("Key: Back / Delete          === Delete symbol left / right ");
 
-        Log("Key: Up   / Down            === Prev / Next command in tips list ");
-        Log("Key: Ctrl + Up / Ctrl + Down === Prev / Next executing command ");
-        Log("Key: Left, Right, Home, End {+Shift/+Ctrl}       === Navigation in text ");
-        Log("Key: PageUp / PageDown      === Scrolling history ");
-        Log("Key: Tab  / Shift + Tab     === Next / Prev possible command from list");
-        Log("Key: Enter  / NumEnter      === Execute current command ");
+        XR_LOG_INFO("Key: Up   / Down            === Prev / Next command in tips list ");
+        XR_LOG_INFO("Key: Ctrl + Up / Ctrl + Down === Prev / Next executing command ");
+        XR_LOG_INFO("Key: Left, Right, Home, End {+Shift/+Ctrl}       === Navigation in text ");
+        XR_LOG_INFO("Key: PageUp / PageDown      === Scrolling history ");
+        XR_LOG_INFO("Key: Tab  / Shift + Tab     === Next / Prev possible command from list");
+        XR_LOG_INFO("Key: Enter  / NumEnter      === Execute current command ");
 
-        Log("- --- Command listing: end ----");
+        XR_LOG_INFO("--- Command listing: end ----");
     }
 };
 

@@ -72,16 +72,14 @@ void CHW::CreateD3D()
     if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(&pFactory6))))
     {
         pFactory6->EnumAdapterByGpuPreference(0, ::DXGI_GPU_PREFERENCE::DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(adapter.ReleaseAndGetAddressOf()));
-
-        Log(" !CHW::CreateD3D() use DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE");
-
         _RELEASE(pFactory6);
+
+        XR_LOG_NOTICE("Using DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE");
     }
     else
     {
-        Log(" !CHW::CreateD3D() use EnumAdapters1(0)");
-
         m_pFactory->EnumAdapters1(0, adapter.ReleaseAndGetAddressOf());
+        XR_LOG_NOTICE("Using EnumAdapters1(0)");
     }
 
     XR_ASSERT(xr::hr(adapter.As(&m_pAdapter)));

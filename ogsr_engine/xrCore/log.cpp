@@ -134,8 +134,6 @@ void add_one(xr::log_pool::msg_vec& vec, xr_string&& split)
 
     vec.emplace_back(std::move(split));
 }
-} // namespace
-} // namespace xr
 
 void Log(std::string_view str)
 {
@@ -174,16 +172,10 @@ void Log(std::string_view str)
         not_first_line = true;
     }
 }
+} // namespace
+} // namespace xr
 
-void Log(xr::detail::string_view fmt, xr::detail::format_args args) { Log(xr::detail::vformat(fmt, args)); }
-
-void Log(const char* msg, const Fvector& dop) { Msg("{} ({},{},{})", msg, dop.x, dop.y, dop.z); }
-
-void Log(const char* msg, const Fmatrix& dop)
-{
-    Msg("{}:\n{},{},{},{}\n{},{},{},{}\n{},{},{},{}\n{},{},{},{}", msg, dop.vm[0].x, dop.vm[0].y, dop.vm[0].z, dop.vm[0].w, dop.vm[1].x, dop.vm[1].y,
-        dop.vm[1].z, dop.vm[1].w, dop.vm[2].x, dop.vm[2].y, dop.vm[2].z, dop.vm[2].w, dop.vm[3].x, dop.vm[3].y, dop.vm[3].z, dop.vm[3].w);
-}
+void Log(xr::detail::string_view fmt, xr::detail::format_args args) { xr::Log(xr::detail::vformat(fmt, args)); }
 
 void CreateLog(BOOL nl)
 {
@@ -248,7 +240,7 @@ private:
         xr_string buf;
 
         quill::Logger* logger{nullptr};
-        quill::LogLevel lvl;
+        xr::level lvl;
 
         s32 orig_fd{-1};
         ::HANDLE orig_write{INVALID_HANDLE_VALUE};
@@ -332,7 +324,7 @@ redirect::std_redir::std_redir(s32 fd)
     const auto name = std::array<std::string_view, 2>{"stdout", "stderr"}[err];
 
     logger = xr::logger_init(name);
-    lvl = err ? quill::LogLevel::Error : quill::LogLevel::Info;
+    lvl = err ? xr::level::Error : xr::level::Info;
 
     const auto path = std::filesystem::path{"\\\\.\\pipe"} / xr::format("redir_{}_{}", std::this_thread::get_id(), name);
 
@@ -340,7 +332,7 @@ redirect::std_redir::std_redir(s32 fd)
         ::CreateNamedPipeW(path.c_str(), PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED, PIPE_TYPE_BYTE | PIPE_READMODE_BYTE, 1, 64 * 1024, 64 * 1024, 0, nullptr);
     if (rh == INVALID_HANDLE_VALUE)
     {
-        Msg("! Failed to create read pipe for {}: {}", name, xr::GetLastError());
+        XR_LOG_ERROR("Failed to create read pipe for {}: {}", name, xr::GetLastError());
         return;
     }
 
@@ -351,7 +343,7 @@ redirect::std_redir::std_redir(s32 fd)
     const auto write = ::CreateFileW(path.c_str(), GENERIC_WRITE, 0, &attr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (write == INVALID_HANDLE_VALUE)
     {
-        Msg("! Failed to create write pipe for {}: {}", name, xr::GetLastError());
+        XR_LOG_ERROR("Failed to create write pipe for {}: {}", name, xr::GetLastError());
 
         ::CloseHandle(rh);
         return;
@@ -368,7 +360,7 @@ redirect::std_redir::std_redir(s32 fd)
     const auto pfd = ::_open_osfhandle(std::bit_cast<std::intptr_t>(write), _O_WRONLY);
     if (pfd == -1)
     {
-        Msg("! Failed to replace write pipe for {}: {}", name, std::error_code{errno, std::generic_category()});
+        XR_LOG_ERROR("Failed to replace write pipe for {}: {}", name, std::error_code{errno, std::generic_category()});
 
         ::CloseHandle(rh);
         return;
@@ -382,7 +374,7 @@ redirect::std_redir::std_redir(s32 fd)
 
 redirect::std_redir::~std_redir()
 {
-    const bool err = lvl == quill::LogLevel::Error;
+    const bool err = lvl == xr::level::Error;
 
     (err ? std::cerr : std::cout) << std::flush;
     ::fflush(err ? stderr : stdout);
@@ -534,15 +526,15 @@ s32 redirect::sbuf_redir::sync()
 
 void redirect::absl_redir::Send(const absl::LogEntry& entry)
 {
-    quill::LogLevel lvl;
+    xr::level lvl;
 
     switch (const auto sev = entry.log_severity(); sev)
     {
-    case absl::LogSeverity::kInfo: lvl = quill::LogLevel::Info; break;
-    case absl::LogSeverity::kWarning: lvl = quill::LogLevel::Warning; break;
-    case absl::LogSeverity::kError: lvl = quill::LogLevel::Error; break;
-    case absl::LogSeverity::kFatal: lvl = quill::LogLevel::Critical; break;
-    default: lvl = quill::LogLevel::Notice; break;
+    case absl::LogSeverity::kInfo: lvl = xr::level::Info; break;
+    case absl::LogSeverity::kWarning: lvl = xr::level::Warning; break;
+    case absl::LogSeverity::kError: lvl = xr::level::Error; break;
+    case absl::LogSeverity::kFatal: lvl = xr::level::Critical; break;
+    default: lvl = xr::level::Notice; break;
     }
 
     XR_LOG__DYNAMIC(logger, lvl, "{}", !entry.stacktrace().empty() ? entry.stacktrace() : entry.text_message());
@@ -633,7 +625,7 @@ quill::Logger* logger_init(std::string_view name)
     const auto ret = quill::Frontend::create_or_get_logger(xr_string{name}, xr::sinks, xr::pattern);
 
 #if QUILL_COMPILE_ACTIVE_LOG_LEVEL < QUILL_COMPILE_ACTIVE_LOG_LEVEL_INFO
-    ret->set_log_level(quill::LogLevel::TraceL3);
+    ret->set_log_level(xr::level::TraceL3);
 #endif
 
     return ret;

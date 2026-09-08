@@ -44,7 +44,7 @@ CInifile* reload_system_ini()
         tmp = std::make_unique<CInifile>(fname, true, false);
         tmp->load_file(true);
 
-        Log("~ Apply system_mods.ltx...");
+        XR_LOG_NOTICE("Applying system_mods.ltx...");
     }
 
     std::ignore = FS.update_path(fname, "$game_config$", "system.ltx");
@@ -81,7 +81,7 @@ CInifile* reload_system_ini()
         // Не понятно почему так происходит, поэтому сделал тут обработку такой ситуации.
         if (F->elapsed() >= gsl::index{sizeof(u8)} && F->r_u8() == 0)
         {
-            Msg("!![{}] file [{}] is broken!", std::source_location::current().function_name(), szFileName);
+            XR_LOG_ERROR("File [{}] is broken!", szFileName);
 
             F.reset();
             FS.file_delete(szFileName);

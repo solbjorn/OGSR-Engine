@@ -55,28 +55,6 @@ struct unformattable final
     static_assert(!fmt::is_formattable<x>::value)
 } // namespace xr
 
-[[nodiscard]] constexpr auto format_as(const Fvector2& vec) { return *reinterpret_cast<const std::array<f32, 2>*>(&vec); }
-[[nodiscard]] constexpr auto format_as(const Fvector3& vec) { return *reinterpret_cast<const std::array<f32, 3>*>(&vec); }
-[[nodiscard]] constexpr auto format_as(const Fvector4& vec) { return *reinterpret_cast<const std::array<f32, 4>*>(&vec); }
-
-[[nodiscard]] constexpr auto format_as(const shared_str& str) { return std::string_view{str}; }
-
-namespace sf
-{
-[[nodiscard]] constexpr auto format_as(const sf::String& str)
-{
-    auto utf = str.toUtf8();
-    return *reinterpret_cast<xr_string*>(&utf);
-}
-} // namespace sf
-
-namespace xr
-{
-[[nodiscard]] constexpr auto format_as(const xr::hresult& hr) { return xr::format("{:#x} \"{}\"", hr.code(), hr.what()); }
-[[nodiscard]] constexpr auto format_as(const xr::last_error& le) { return xr::format("{:2} \"{}\"", le.code(), le.what()); }
-[[nodiscard]] constexpr auto format_as(const xr::ntstatus& nt) { return xr::format("{:#x} \"{}\"", nt.code(), nt.what()); }
-} // namespace xr
-
 #else // !XR_USE_FMT
 
 XR_DIAG_PUSH();
@@ -193,6 +171,30 @@ struct std::formatter<xr::ntstatus> final : std::formatter<xr_string>
 };
 
 #endif // !XR_USE_FMT
+
+// Define format_as() regardless of XR_USE_FMT: used by both {fmt} and Quill, which is {fmt}-exclusive
+
+[[nodiscard]] constexpr auto format_as(const Fvector2& vec) { return *reinterpret_cast<const std::array<f32, 2>*>(&vec); }
+[[nodiscard]] constexpr auto format_as(const Fvector3& vec) { return *reinterpret_cast<const std::array<f32, 3>*>(&vec); }
+[[nodiscard]] constexpr auto format_as(const Fvector4& vec) { return *reinterpret_cast<const std::array<f32, 4>*>(&vec); }
+
+[[nodiscard]] constexpr auto format_as(const shared_str& str) { return std::string_view{str}; }
+
+namespace sf
+{
+[[nodiscard]] constexpr auto format_as(const sf::String& str)
+{
+    auto utf = str.toUtf8();
+    return *reinterpret_cast<xr_string*>(&utf);
+}
+} // namespace sf
+
+namespace xr
+{
+[[nodiscard]] constexpr auto format_as(const xr::hresult& hr) { return xr::format("{:#x} \"{}\"", hr.code(), hr.what()); }
+[[nodiscard]] constexpr auto format_as(const xr::last_error& le) { return xr::format("{:2} \"{}\"", le.code(), le.what()); }
+[[nodiscard]] constexpr auto format_as(const xr::ntstatus& nt) { return xr::format("{:#x} \"{}\"", nt.code(), nt.what()); }
+} // namespace xr
 
 XR_DIAG_PUSH();
 XR_DIAG_IGNORE("-Wsign-conversion");

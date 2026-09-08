@@ -50,7 +50,7 @@ void R_occlusion::cleanup_lost()
     }
 
     if (cnt > 0)
-        MsgDbg("! [{}]: cleanup {} lost queries", std::source_location::current().function_name(), cnt);
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "Cleanup {} lost queries", cnt);
 }
 
 u32 R_occlusion::occq_begin(u32& ID, ctx_id_t context_id)

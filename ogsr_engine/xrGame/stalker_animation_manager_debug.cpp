@@ -90,7 +90,7 @@ void show_animations()
     const ANIMATION_STATS_PAIR** const e = animations + animation_count;
     std::sort(animations, e, &predicate::frame_count);
 
-    Log("frames starts animation                        animation_set");
+    XR_LOG_TRACE_L1("frames starts animation                        animation_set");
 
     for (i = animations; i != e; ++i)
         Msg("{:6} {:6} {:32} {}", (*i)->second.m_frame_count, (*i)->second.m_start_count, (*i)->first.first, (*i)->first.second);
@@ -114,7 +114,8 @@ void show_blends()
     const BLEND_STATS_PAIR** const e = blends + blend_count;
     std::sort(blends, e, &predicate::blend_count);
 
-    Log("       animation_set1                                  animation1    count     animation2                                  animation_set2");
+    XR_LOG_TRACE_L1(
+        "       animation_set1                                  animation1    count     animation2                                  animation_set2");
 
     for (i = blends; i != e; ++i)
         Msg("{:32} {:32} ->[{:6}]-> {:32} {:32}", (*i)->first.second.second, (*i)->first.second.first, (*i)->second, (*i)->first.first.first,
@@ -128,7 +129,7 @@ void show_animation_stats()
         return;
 
     show_animations();
-    Log("--------------------------------------------------");
+    XR_LOG_TRACE_L1("--------------------------------------------------");
     show_blends();
 #endif
 }

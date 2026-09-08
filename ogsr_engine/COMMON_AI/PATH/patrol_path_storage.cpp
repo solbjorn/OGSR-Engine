@@ -67,7 +67,7 @@ void CPatrolPathStorage::append_from_ini(CInifile& way_inifile)
         i++;
     }
 
-    Msg("Loaded {} items from custom_waypoints, {} from all.spawn was replaced!", i, r);
+    XR_LOG_NOTICE("Loaded {} items from custom_waypoints, {} from all.spawn was replaced!", i, r);
 }
 
 void CPatrolPathStorage::load(IReader& stream)
@@ -160,8 +160,7 @@ const CPatrolPath* CPatrolPathStorage::safe_path(shared_str patrol_name, bool no
                 u32 prev_vertex_id = pp.m_level_vertex_id;
                 pp.m_level_vertex_id = ai().level_graph().nearest_vertex_id(pp.m_position);
 
-                Msg("* [{}]: path[{}] pp[{}] level_vertex_id[{}] -> {}", std::source_location::current().function_name(), patrol_name, pp.m_name,
-                    prev_vertex_id, pp.m_level_vertex_id);
+                XR_LOG_INFO("path[{}] pp[{}] level_vertex_id[{}] -> {}", patrol_name, pp.m_name, prev_vertex_id, pp.m_level_vertex_id);
             }
         }
         else

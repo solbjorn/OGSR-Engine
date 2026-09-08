@@ -5,8 +5,11 @@
 //	---------------------------------------------------------------------------
 //  Multiplayer game log window
 //=============================================================================
+
 #include "stdafx.h"
+
 #include "UIGameLog.h"
+
 #include "UIXmlInit.h"
 #include "UIColorAnimatorWrapper.h"
 #include "UIPdaMsgListItem.h"
@@ -21,7 +24,7 @@ CUIGameLog::CUIGameLog()
     txt_color = 0xff000000;
 }
 
-CUIGameLog::~CUIGameLog() {}
+CUIGameLog::~CUIGameLog() = default;
 
 // warning: initialization of item is incomplete!
 // initialization of item's height, text static and icon still necessary

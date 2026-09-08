@@ -54,7 +54,7 @@ void CLevelGraph::draw_nodes()
 
     CGameFont* F = HUD().Font().pFontDI;
     F->SetHeightI(.02f);
-    F->OutI(0.f, 0.5f, "{},{},{}", VPUSH(P));
+    F->OutI(0.f, 0.5f, "{}", P);
 
     std::inplace_vector<u32, 128> linked;
     {

@@ -229,7 +229,7 @@ bool CScriptGameObject::CheckObjectVisibility(const CScriptGameObject* tpLuaGame
 {
     if (!tpLuaGameObject)
     {
-        Log("!!CScriptGameObject : cannot check visibility null object!");
+        XR_LOG_ERROR("Can't check visibility for null object!");
         return false;
     }
 
@@ -259,7 +259,7 @@ bool CScriptGameObject::CheckObjectVisibilityNow(const CScriptGameObject* tpLuaG
 {
     if (!tpLuaGameObject)
     {
-        Log("!!CScriptGameObject : cannot check visibility null object!");
+        XR_LOG_ERROR("Can't check visibility for null object!");
         return false;
     }
 
@@ -590,7 +590,7 @@ bool CScriptGameObject::IsActorOutdoors() const
     // Check to make sure all the params are available (we're in game and such).
     if (!g_pGameLevel)
     {
-        Log("CScriptGameObject::IsActorOutdoors : Game Level Doesn't Exist.");
+        XR_LOG_ERROR("Game Level Doesn't Exist");
         return FALSE;
     }
 

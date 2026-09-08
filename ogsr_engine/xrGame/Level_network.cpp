@@ -34,7 +34,7 @@ tmc::task<void> CLevel::remove_objects()
     xr::render_memory_usage usage;
     Device.m_pRender->ResourcesGetMemoryUsage(usage);
 
-    Log("~ ObjectResources unload...");
+    XR_LOG_NOTICE("ObjectResources unload...");
     Msg("~ ObjectResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ ObjectResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ ObjectResources - Lua: {} Kb", usage.lua / 1024);
@@ -101,7 +101,7 @@ tmc::task<void> CLevel::remove_objects()
 
     Device.m_pRender->ResourcesGetMemoryUsage(usage);
 
-    Log("~ ObjectResources unload completed!");
+    XR_LOG_NOTICE("ObjectResources unload completed!");
     Msg("~ ObjectResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ ObjectResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ ObjectResources - Lua: {} Kb", usage.lua / 1024);
@@ -121,7 +121,7 @@ tmc::task<void> CLevel::remove_objects()
 
 tmc::task<void> CLevel::net_Stop()
 {
-    Log("- Disconnect");
+    XR_LOG_NOTICE("Disconnect");
     bReady = false;
 
     m_bGameConfigStarted = FALSE;

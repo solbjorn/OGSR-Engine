@@ -332,7 +332,8 @@ IC bool aabb_tri_aabb(Point center, Point extents, const Point* mLeafVerts)
 #ifdef DEBUG
     if (r0 != planeBoxOverlap_slow(normal, d, extents))
     {
-        Log("planeBoxOverlap != planeBoxOverlap_slow");
+        XR_LOG_WARNING("planeBoxOverlap != planeBoxOverlap_slow");
+
         Msg("normal {},{},{}", normal.x, normal.y, normal.z);
         Msg("dist {}", d);
         Msg("extents {},{},{}", extents.x, extents.y, extents.z);
@@ -391,7 +392,8 @@ IC bool __aabb_tri(Point center, Point extents, const Point* mLeafVerts)
 #ifdef DEBUG
     if (r0 != planeBoxOverlap_slow(normal, d, extents))
     {
-        Log("planeBoxOverlap != planeBoxOverlap_slow");
+        XR_LOG_WARNING("planeBoxOverlap != planeBoxOverlap_slow");
+
         Msg("normal {},{},{}", normal.x, normal.y, normal.z);
         Msg("dist {}", d);
         Msg("extents {},{},{}", extents.x, extents.y, extents.z);

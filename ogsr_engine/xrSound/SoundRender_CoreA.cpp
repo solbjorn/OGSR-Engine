@@ -73,7 +73,7 @@ bool CSoundRender_CoreA::reopen_device(const char* deviceName) const
 {
     if (alcIsExtensionPresent(pDevice, "ALC_SOFT_reopen_device"))
     {
-        Log("- snd has ALC_SOFT_reopen_device");
+        XR_LOG_NOTICE("snd has ALC_SOFT_reopen_device");
 
         typedef ALCboolean(ALC_APIENTRY * alcReopenDeviceSOFT_t)(ALCdevice*, const ALCchar*, const ALCint*);
 
@@ -93,7 +93,7 @@ void CSoundRender_CoreA::_restart()
     if (!(bPresent && bReady))
         return;
 
-    Log("SOUND: restarting...");
+    XR_LOG_NOTICE("Restarting...");
 
     inherited::_restart();
 
@@ -133,8 +133,8 @@ void CSoundRender_CoreA::_restart()
         }
         else
         {
-            Log("! snd cannot reset device. Restart game to apply changes!");
-            Msg("! snd last error {}", alcGetString(pDevice, alcGetError(pDevice)));
+            XR_LOG_ERROR("Cannot reset device. Restart game to apply changes!");
+            XR_LOG_ERROR("Last error: {}", alcGetString(pDevice, alcGetError(pDevice)));
         }
     }
 }
@@ -145,9 +145,9 @@ bool CSoundRender_CoreA::init_context(const ALDeviceDesc& deviceDesc)
     pDevice = alcOpenDevice(deviceDesc.name);
     if (!pDevice)
     {
-        Log("SOUND: OpenAL: Failed to create device.");
-        bPresent = FALSE;
+        XR_LOG_ERROR("OpenAL: Failed to create device");
 
+        bPresent = FALSE;
         return false;
     }
 
@@ -161,9 +161,9 @@ bool CSoundRender_CoreA::init_context(const ALDeviceDesc& deviceDesc)
         alcCloseDevice(pDevice);
         pDevice = nullptr;
 
-        Log("SOUND: OpenAL: Failed to create context.");
-        bPresent = FALSE;
+        XR_LOG_ERROR("OpenAL: Failed to create context");
 
+        bPresent = FALSE;
         return false;
     }
 
@@ -176,7 +176,7 @@ bool CSoundRender_CoreA::init_context(const ALDeviceDesc& deviceDesc)
     // clear errors
     alGetError();
 
-    Msg("~[{}] OpenAL version: {}", std::source_location::current().function_name(), alGetString(AL_VERSION));
+    XR_LOG_INFO("OpenAL version: {}", alGetString(AL_VERSION));
 
     return true;
 }
@@ -190,9 +190,9 @@ bool CSoundRender_CoreA::init_device_list()
     {
         xr_delete(pDeviceList);
 
-        Log("SOUND: OpenAL: Can't create sound device.");
-        bPresent = FALSE;
+        XR_LOG_ERROR("OpenAL: Can't create sound device");
 
+        bPresent = FALSE;
         return false;
     }
 
@@ -210,7 +210,7 @@ void CSoundRender_CoreA::init_device_properties(const bool& is_al_soft)
             InitAlEFXAPI();
             bEFX = EFXTestSupport();
 
-            Msg("[OpenAL] EFX: {}", bEFX ? "present" : "absent");
+            XR_LOG_INFO("[OpenAL] EFX: {}", bEFX ? "present" : "absent");
         }
     }
     else
@@ -244,8 +244,8 @@ void CSoundRender_CoreA::init_device_properties(const bool& is_al_soft)
                 bEAX = EAXTestSupport(FALSE);
             }
 
-            Msg("[OpenAL] EAX 2.0 extension: {}", bEAX ? "present" : "absent");
-            Msg("[OpenAL] EAX 2.0 deferred: {}", bDeferredEAX ? "present" : "absent");
+            XR_LOG_INFO("[OpenAL] EAX {}.0 extension: {}", eax, bEAX ? "present" : "absent");
+            XR_LOG_INFO("[OpenAL] EAX {}.0 deferred: {}", eax, bDeferredEAX ? "present" : "absent");
         }
     }
 }
@@ -278,11 +278,8 @@ void CSoundRender_CoreA::_initialize(int stage)
 
     alDisable(AL_STOP_SOURCES_ON_DISCONNECT_SOFT); // not in public yet
 
-    ALenum err = alGetError();
-    if (err != AL_NO_ERROR)
-    {
-        Msg("!![{}] OpenAL AL_STOP_SOURCES_ON_DISCONNECT_SOFT error: {}", std::source_location::current().function_name(), alGetString(err));
-    }
+    if (const auto err = alGetError(); err != AL_NO_ERROR)
+        XR_LOG_ERROR("OpenAL AL_STOP_SOURCES_ON_DISCONNECT_SOFT error: {}", alGetString(err));
 
     XR_ASSERT(alIsExtensionPresent("AL_EXT_FLOAT32") || alIsExtensionPresent("AL_EXT_float32"), "missing required support of IEEE 754 floating point");
 
@@ -312,10 +309,11 @@ void CSoundRender_CoreA::_initialize(int stage)
             }
             else
             {
-                Msg("! SOUND: OpenAL: Max targets - [{}]", tit);
+                XR_LOG_ERROR("OpenAL: Max targets - [{}]", tit);
 
                 T->_destroy();
                 xr_delete(T);
+
                 break;
             }
         }

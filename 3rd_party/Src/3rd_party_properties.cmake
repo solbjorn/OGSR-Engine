@@ -160,7 +160,7 @@ endif()
 # openexr
 if(OPENEXR_ENABLE_LARGE_STACK)
   set(conformance_options "${conformance_options} -D_LIBCPP_ENABLE_CXX26_REMOVED_CODECVT -D_LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT")
-  set(warning_options "${warning_options} -Wno-error=format -Wno-error=format-signedness -Wno-error=parentheses")
+  set(warning_options "${warning_options} -Wno-error=format -Wno-error=format-signedness -Wno-error=microsoft-redeclare-static -Wno-error=parentheses")
 endif()
 
 # opus

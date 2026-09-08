@@ -81,7 +81,8 @@ void CPHSimpleCharacter::UpdateDynamicDamage(dContact* c, u16 obj_material_idx, 
         float dbg_obj_effective_e = Kobj * object_damage_factor;
         float dbg_free_energy = KK;
 
-        Log("-----------------------------------------------------------------------------------------");
+        XR_LOG_TRACE_L1("-----------------------------------------------------------------------------------------");
+
         Msg("cd {} -effective vell {}", PhysicsRefObject()->cName(), c_vel);
         Msg("cd {} -my_norm_vell {}", PhysicsRefObject()->cName(), dbg_my_norm_vell);
         Msg("cd {} -obj_norm_vell {}", PhysicsRefObject()->cName(), dbg_obj_norm_vell);
@@ -92,7 +93,8 @@ void CPHSimpleCharacter::UpdateDynamicDamage(dContact* c, u16 obj_material_idx, 
         Msg("cd {} -effective_acceted_e {}", PhysicsRefObject()->cName(), accepted_energy);
         Msg("cd {} -real_acceted_e {}", PhysicsRefObject()->cName(), Kself + Kobj - KK);
         Msg("cd {} -free_energy {}", PhysicsRefObject()->cName(), dbg_free_energy);
-        Log("-----------------------------------------------------------------------------------------");
+
+        XR_LOG_TRACE_L1("-----------------------------------------------------------------------------------------");
     }
 #endif
 

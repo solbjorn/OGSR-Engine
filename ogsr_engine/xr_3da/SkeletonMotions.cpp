@@ -290,7 +290,8 @@ void motions_container::clean(bool force_destroy)
 
 void motions_container::dump() const
 {
-    Log("--- motion container --- begin:");
+    XR_LOG_TRACE_L1("--- motion container --- begin:");
+
     gsl::index sz{sizeof(*this)};
 
     for (auto [k, kv] : std::views::enumerate(container))
@@ -300,7 +301,8 @@ void motions_container::dump() const
     }
 
     Msg("--- items: {}, mem usage: {} Kb ", std::ssize(container), sz / 1024);
-    Log("--- motion container --- end.");
+
+    XR_LOG_TRACE_L1("--- motion container --- end");
 }
 
 //////////////////////////////////////////////////////////////////////////

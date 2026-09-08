@@ -108,7 +108,7 @@ void light::set_active(bool a)
 #ifdef DEBUG
         static constexpr Fvector zero{0.0f, -1000.0f, 0.0f};
         if (position.similar(zero))
-            Log("- Uninitialized light position.");
+            XR_LOG_ERROR("Uninitialized light position");
 #endif // DEBUG
     }
     else

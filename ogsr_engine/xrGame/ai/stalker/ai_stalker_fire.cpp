@@ -105,9 +105,7 @@ void CAI_Stalker::g_fireParams(CHudItem*, Fvector& P, Fvector& D, const bool)
 {
     if (!inventory().ActiveItem())
     {
-#ifdef DEBUG
-        Log("! CAI_Stalker::g_fireParams() : VERIFY(inventory().ActiveItem())");
-#endif // DEBUG
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "No active item");
 
         P = Position();
         D = Fvector().set(0.f, 0.f, 1.f);

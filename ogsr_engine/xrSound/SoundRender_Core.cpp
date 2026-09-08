@@ -137,7 +137,7 @@ void CSoundRender_Core::env_load()
     string_path fn;
     if (FS.exist(fn, "$game_data$", SNDENV_FILENAME_LTX))
     {
-        Msg("Loading of [{}]", SNDENV_FILENAME_LTX);
+        XR_LOG_NOTICE("Loading of [{}]", SNDENV_FILENAME_LTX);
 
         if (!s_environment)
             s_environment = xr_new<SoundEnvironment_LIB>();
@@ -148,7 +148,7 @@ void CSoundRender_Core::env_load()
     }
     else if (FS.exist(fn, "$game_data$", SNDENV_FILENAME_XR))
     {
-        Msg("Loading of [{}]", SNDENV_FILENAME_XR);
+        XR_LOG_NOTICE("Loading of [{}]", SNDENV_FILENAME_XR);
 
         if (!s_environment)
             s_environment = xr_new<SoundEnvironment_LIB>();
@@ -159,7 +159,7 @@ void CSoundRender_Core::env_load()
     if (s_environment)
     {
         for (u32 chunk = 0; chunk < s_environment->Library().size(); chunk++)
-            Msg("~ env id=[{}] name=[{}]", chunk, s_environment->Library()[chunk]->name);
+            XR_LOG_INFO(" Env id=[{}] name=[{}]", chunk, s_environment->Library()[chunk]->name);
     }
 }
 
@@ -253,7 +253,7 @@ void CSoundRender_Core::set_geometry_env(IReader* I)
         const auto id = XR_ASSERT_VAL(s_environment->GetID(n) >= 0);
         ids.emplace_back(id);
 
-        Msg("~ set_geometry_env id={} name[{}]=environment id[{}]", ids.size() - 1, n, id);
+        XR_LOG_INFO("Geometry env id={} name[{}]=environment id[{}]", ids.size() - 1, n, id);
     }
 
     names->close();
@@ -321,9 +321,7 @@ void CSoundRender_Core::attach_tail(ref_sound& S, const char* fName)
 
     if (S._p->fn_attached[0].size() && S._p->fn_attached[1].size())
     {
-#ifdef DEBUG
-        Msg("! 2 file already in queue [{}][{}]", S._p->fn_attached[0], S._p->fn_attached[1]);
-#endif // #ifdef DEBUG
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Error, "2 file already in queue [{}][{}]", S._p->fn_attached[0], S._p->fn_attached[1]);
         return;
     }
 
@@ -615,7 +613,7 @@ bool CSoundRender_Core::EFXTestSupport()
     ALenum err = alGetError();
     if (err != AL_NO_ERROR)
     {
-        Msg("!![{}] OpenAL error: {}", std::source_location::current().function_name(), alGetString(err));
+        XR_LOG_ERROR("OpenAL error: {}", alGetString(err));
 
         if (alIsEffect(effect))
             alDeleteEffects(1, &effect);
@@ -660,6 +658,7 @@ void CSoundRender_Core::i_efx_listener_set(CSound_environment* _E)
 bool CSoundRender_Core::i_efx_commit_setting()
 {
     alGetError();
+
     /* Tell the effect slot to use the loaded effect object. Note that the this
      * effectively copies the effect properties. You can modify or delete the
      * effect object afterward without affecting the effect slot.
@@ -668,7 +667,7 @@ bool CSoundRender_Core::i_efx_commit_setting()
     ALenum err = alGetError();
     if (err != AL_NO_ERROR)
     {
-        Msg("!![{}] OpenAL EFX commit error: [{}]. EFX will be disabled.", std::source_location::current().function_name(), alGetString(err));
+        XR_LOG_ERROR("OpenAL EFX commit error: [{}]. EFX will be disabled", alGetString(err));
         return false;
     }
 

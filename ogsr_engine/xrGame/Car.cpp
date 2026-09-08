@@ -112,20 +112,15 @@ void CCar::reload(LPCSTR section)
 
 void CCar::cb_Steer(CBoneInstance* B)
 {
-    VERIFY2(fsimilar(DET(B->mTransform), 1.f, DET_CHECK_EPS), "Bones receive returns 0 matrix");
-    CCar* C = static_cast<CCar*>(B->callback_param());
+    XR_DEBUG_ASSERT(fsimilar(DET(B->mTransform), 1.0f, DET_CHECK_EPS), "invalid transform matrix");
+
+    auto C = static_cast<CCar*>(B->callback_param());
     Fmatrix m;
 
     m.rotateZ(C->m_steer_angle);
-
     B->mTransform.mulB_43(m);
-#ifdef DEBUG
-    if (!fsimilar(DET(B->mTransform), 1.f, DET_CHECK_EPS))
-    {
-        Log("RotatingZ angle=", C->m_steer_angle);
-        VERIFY2(0, "Bones callback returns BAD!!! matrix");
-    }
-#endif
+
+    XR_DEBUG_ASSERT(fsimilar(DET(B->mTransform), 1.0f, DET_CHECK_EPS), "", C->m_steer_angle);
 }
 
 // Core events
@@ -533,27 +528,17 @@ void CCar::OnHUDDraw(ctx_id_t context_id, CCustomHUD* hud, IRenderable* root)
 
     HUD().Font().pFontStat->SetColor(0xffffffff);
     HUD().Font().pFontStat->OutSet(120, 530);
-    HUD().Font().pFontStat->OutNext("Position:      [{:3.2f}, {:3.2f}, {:3.2f}]", VPUSH(Position()));
+    HUD().Font().pFontStat->OutNext("Position:      {::3.2f}", Position());
     HUD().Font().pFontStat->OutNext("Velocity:      [{:3.2f}]", velocity.magnitude());
 }
 #endif
 
-// void CCar::Hit(float P,Fvector &dir,CObject * who,s16 element,Fvector p_in_object_space, float impulse, ALife::EHitType hit_type)
 void CCar::Hit(SHit* pHDS)
 {
     SHit HDS = *pHDS;
     callback(GameObject::entity_alive_before_hit)(&HDS);
     if (HDS.ignore_flag)
         return;
-    // if(CDelayedActionFuse::isActive()||Initiator()==u16(-1)&&HDS.hit_type==ALife::eHitTypeStrike)
-    //{
-    //	HDS.power=0.f;
-    // }
-
-    // if(HDS.who->ID()!=ID())
-    //{
-    //	CExplosive::SetInitiator(HDS.who->ID());
-    // }
 
     WheelHit(HDS.damage(), HDS.bone());
     DoorHit(HDS.damage(), HDS.bone(), HDS.hit_type);

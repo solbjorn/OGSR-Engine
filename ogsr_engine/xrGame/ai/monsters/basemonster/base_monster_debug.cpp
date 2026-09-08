@@ -170,127 +170,125 @@ void CBaseMonster::debug_fsm()
     }
 
     EMonsterState state = StateMan->get_state_type();
-
-    string128 st;
+    std::string_view st;
 
     switch (state)
     {
-    case eStateRest_WalkGraphPoint: sprintf_s(st, "Rest :: Walk Graph"); break;
-    case eStateRest_Idle: sprintf_s(st, "Rest :: Idle"); break;
-    case eStateRest_Fun: sprintf_s(st, "Rest :: Fun"); break;
-    case eStateRest_Sleep: sprintf_s(st, "Rest :: Sleep"); break;
-    case eStateRest_MoveToHomePoint: sprintf_s(st, "Rest :: MoveToHomePoint"); break;
-    case eStateRest_WalkToCover: sprintf_s(st, "Rest :: WalkToCover"); break;
-    case eStateRest_LookOpenPlace: sprintf_s(st, "Rest :: LookOpenPlace"); break;
+    case eStateRest_WalkGraphPoint: st = "Rest :: Walk Graph"; break;
+    case eStateRest_Idle: st = "Rest :: Idle"; break;
+    case eStateRest_Fun: st = "Rest :: Fun"; break;
+    case eStateRest_Sleep: st = "Rest :: Sleep"; break;
+    case eStateRest_MoveToHomePoint: st = "Rest :: MoveToHomePoint"; break;
+    case eStateRest_WalkToCover: st = "Rest :: WalkToCover"; break;
+    case eStateRest_LookOpenPlace: st = "Rest :: LookOpenPlace"; break;
 
-    case eStateEat_CorpseApproachRun: sprintf_s(st, "Eat :: Corpse Approach Run"); break;
-    case eStateEat_CorpseApproachWalk: sprintf_s(st, "Eat :: Corpse Approach Walk"); break;
-    case eStateEat_CheckCorpse: sprintf_s(st, "Eat :: Check Corpse"); break;
-    case eStateEat_Eat: sprintf_s(st, "Eat :: Eating"); break;
-    case eStateEat_WalkAway: sprintf_s(st, "Eat :: Walk Away"); break;
-    case eStateEat_Rest: sprintf_s(st, "Eat :: Rest After Meal"); break;
-    case eStateEat_Drag: sprintf_s(st, "Eat :: Drag"); break;
+    case eStateEat_CorpseApproachRun: st = "Eat :: Corpse Approach Run"; break;
+    case eStateEat_CorpseApproachWalk: st = "Eat :: Corpse Approach Walk"; break;
+    case eStateEat_CheckCorpse: st = "Eat :: Check Corpse"; break;
+    case eStateEat_Eat: st = "Eat :: Eating"; break;
+    case eStateEat_WalkAway: st = "Eat :: Walk Away"; break;
+    case eStateEat_Rest: st = "Eat :: Rest After Meal"; break;
+    case eStateEat_Drag: st = "Eat :: Drag"; break;
 
-    case eStateAttack_Run: sprintf_s(st, "Attack :: Run"); break;
-    case eStateAttack_Melee: sprintf_s(st, "Attack :: Melee"); break;
-    case eStateAttack_RunAttack: sprintf_s(st, "Attack :: Run Attack"); break;
-    case eStateAttack_RunAway: sprintf_s(st, "Attack :: Run Away"); break;
-    case eStateAttack_FindEnemy: sprintf_s(st, "Attack :: Find Enemy"); break;
-    case eStateAttack_Steal: sprintf_s(st, "Attack :: Steal"); break;
-    case eStateAttack_AttackHidden: sprintf_s(st, "Attack :: Attack Hidden"); break;
+    case eStateAttack_Run: st = "Attack :: Run"; break;
+    case eStateAttack_Melee: st = "Attack :: Melee"; break;
+    case eStateAttack_RunAttack: st = "Attack :: Run Attack"; break;
+    case eStateAttack_RunAway: st = "Attack :: Run Away"; break;
+    case eStateAttack_FindEnemy: st = "Attack :: Find Enemy"; break;
+    case eStateAttack_Steal: st = "Attack :: Steal"; break;
+    case eStateAttack_AttackHidden: st = "Attack :: Attack Hidden"; break;
 
-    case eStateAttackCamp_Hide: sprintf_s(st, "Attack Camp:: Hide"); break;
-    case eStateAttackCamp_Camp: sprintf_s(st, "Attack Camp:: Camp"); break;
-    case eStateAttackCamp_StealOut: sprintf_s(st, "Attack Camp:: Steal Out"); break;
+    case eStateAttackCamp_Hide: st = "Attack Camp:: Hide"; break;
+    case eStateAttackCamp_Camp: st = "Attack Camp:: Camp"; break;
+    case eStateAttackCamp_StealOut: st = "Attack Camp:: Steal Out"; break;
 
-    case eStateAttack_HideInCover: sprintf_s(st, "Attack :: Hide In Cover"); break;
-    case eStateAttack_MoveOut: sprintf_s(st, "Attack :: Move Out From Cover"); break;
-    case eStateAttack_CampInCover: sprintf_s(st, "Attack :: Camp In Cover"); break;
+    case eStateAttack_HideInCover: st = "Attack :: Hide In Cover"; break;
+    case eStateAttack_MoveOut: st = "Attack :: Move Out From Cover"; break;
+    case eStateAttack_CampInCover: st = "Attack :: Camp In Cover"; break;
 
-    case eStateAttack_Psy: sprintf_s(st, "Attack :: Psy"); break;
-    case eStateAttack_MoveToHomePoint: sprintf_s(st, "Attack :: Move To Home Point"); break;
-    case eStateAttack_HomePoint_Hide: sprintf_s(st, "Attack :: Home Point :: Hide"); break;
-    case eStateAttack_HomePoint_Camp: sprintf_s(st, "Attack :: Home Point :: Camp"); break;
-    case eStateAttack_HomePoint_LookOpenPlace: sprintf_s(st, "Attack :: Home Point :: Look Open Place"); break;
+    case eStateAttack_Psy: st = "Attack :: Psy"; break;
+    case eStateAttack_MoveToHomePoint: st = "Attack :: Move To Home Point"; break;
+    case eStateAttack_HomePoint_Hide: st = "Attack :: Home Point :: Hide"; break;
+    case eStateAttack_HomePoint_Camp: st = "Attack :: Home Point :: Camp"; break;
+    case eStateAttack_HomePoint_LookOpenPlace: st = "Attack :: Home Point :: Look Open Place"; break;
 
-    case eStatePanic_Run: sprintf_s(st, "Panic :: Run Away"); break;
-    case eStatePanic_FaceUnprotectedArea: sprintf_s(st, "Panic :: Face Unprotected Area"); break;
-    case eStatePanic_HomePoint_Hide: sprintf_s(st, "Panic :: Home Point :: Hide"); break;
-    case eStatePanic_HomePoint_LookOpenPlace: sprintf_s(st, "Panic :: Home Point :: Look Open Place"); break;
-    case eStatePanic_HomePoint_Camp: sprintf_s(st, "Panic :: Home Point :: Camp"); break;
+    case eStatePanic_Run: st = "Panic :: Run Away"; break;
+    case eStatePanic_FaceUnprotectedArea: st = "Panic :: Face Unprotected Area"; break;
+    case eStatePanic_HomePoint_Hide: st = "Panic :: Home Point :: Hide"; break;
+    case eStatePanic_HomePoint_LookOpenPlace: st = "Panic :: Home Point :: Look Open Place"; break;
+    case eStatePanic_HomePoint_Camp: st = "Panic :: Home Point :: Camp"; break;
 
-    case eStateHitted_Hide: sprintf_s(st, "Hitted :: Hide"); break;
-    case eStateHitted_MoveOut: sprintf_s(st, "Hitted :: MoveOut"); break;
-    case eStateHitted_Home: sprintf_s(st, "Hitted :: Home"); break;
+    case eStateHitted_Hide: st = "Hitted :: Hide"; break;
+    case eStateHitted_MoveOut: st = "Hitted :: MoveOut"; break;
+    case eStateHitted_Home: st = "Hitted :: Home"; break;
 
-    case eStateHearDangerousSound_Hide: sprintf_s(st, "Dangerous Snd :: Hide"); break;
-    case eStateHearDangerousSound_FaceOpenPlace: sprintf_s(st, "Dangerous Snd :: FaceOpenPlace"); break;
-    case eStateHearDangerousSound_StandScared: sprintf_s(st, "Dangerous Snd :: StandScared"); break;
-    case eStateHearDangerousSound_Home: sprintf_s(st, "Dangerous Snd :: Home"); break;
+    case eStateHearDangerousSound_Hide: st = "Dangerous Snd :: Hide"; break;
+    case eStateHearDangerousSound_FaceOpenPlace: st = "Dangerous Snd :: FaceOpenPlace"; break;
+    case eStateHearDangerousSound_StandScared: st = "Dangerous Snd :: StandScared"; break;
+    case eStateHearDangerousSound_Home: st = "Dangerous Snd :: Home"; break;
 
-    case eStateHearInterestingSound_MoveToDest: sprintf_s(st, "Interesting Snd :: MoveToDest"); break;
-    case eStateHearInterestingSound_LookAround: sprintf_s(st, "Interesting Snd :: LookAround"); break;
+    case eStateHearInterestingSound_MoveToDest: st = "Interesting Snd :: MoveToDest"; break;
+    case eStateHearInterestingSound_LookAround: st = "Interesting Snd :: LookAround"; break;
 
-    case eStateHearHelpSound: sprintf_s(st, "Hear Help Sound"); break;
-    case eStateHearHelpSound_MoveToDest: sprintf_s(st, "Hear Help Sound :: MoveToDest"); break;
-    case eStateHearHelpSound_LookAround: sprintf_s(st, "Hear Help Sound :: LookAround"); break;
+    case eStateHearHelpSound: st = "Hear Help Sound"; break;
+    case eStateHearHelpSound_MoveToDest: st = "Hear Help Sound :: MoveToDest"; break;
+    case eStateHearHelpSound_LookAround: st = "Hear Help Sound :: LookAround"; break;
 
-    case eStateControlled_Follow_Wait: sprintf_s(st, "Controlled :: Follow : Wait"); break;
-    case eStateControlled_Follow_WalkToObject: sprintf_s(st, "Controlled :: Follow : WalkToObject"); break;
-    case eStateControlled_Attack: sprintf_s(st, "Controlled :: Attack"); break;
-    case eStateThreaten: sprintf_s(st, "Threaten :: "); break;
-    case eStateFindEnemy_Run: sprintf_s(st, "Find Enemy :: Run"); break;
-    case eStateFindEnemy_LookAround_MoveToPoint: sprintf_s(st, "Find Enemy :: Look Around : Move To Point"); break;
-    case eStateFindEnemy_LookAround_LookAround: sprintf_s(st, "Find Enemy :: Look Around : Look Around"); break;
-    case eStateFindEnemy_LookAround_TurnToPoint: sprintf_s(st, "Find Enemy :: Look Around : Turn To Point"); break;
-    case eStateFindEnemy_Angry: sprintf_s(st, "Find Enemy :: Angry"); break;
-    case eStateFindEnemy_WalkAround: sprintf_s(st, "Find Enemy :: Walk Around"); break;
-    case eStateSquad_Rest_Idle: sprintf_s(st, "Squad :: Rest : Idle"); break;
-    case eStateSquad_Rest_WalkAroundLeader: sprintf_s(st, "Squad :: Rest : WalkAroundLeader"); break;
-    case eStateSquad_RestFollow_Idle: sprintf_s(st, "Squad :: Follow Leader : Idle"); break;
-    case eStateSquad_RestFollow_WalkToPoint: sprintf_s(st, "Squad :: Follow Leader : WalkToPoint"); break;
-    case eStateCustom_Vampire: sprintf_s(st, "Attack :: Vampire"); break;
-    case eStateVampire_ApproachEnemy: sprintf_s(st, "Vampire :: Approach to enemy"); break;
-    case eStateVampire_Execute: sprintf_s(st, "Vampire :: Hit"); break;
-    case eStateVampire_RunAway: sprintf_s(st, "Vampire :: Run Away"); break;
-    case eStateVampire_Hide: sprintf_s(st, "Vampire :: Hide"); break;
-    case eStatePredator: sprintf_s(st, "Predator"); break;
-    case eStatePredator_MoveToCover: sprintf_s(st, "Predator :: MoveToCover"); break;
-    case eStatePredator_LookOpenPlace: sprintf_s(st, "Predator :: Look Open Place"); break;
-    case eStatePredator_Camp: sprintf_s(st, "Predator :: Camp"); break;
-    case eStateBurerAttack_Tele: sprintf_s(st, "Attack :: Telekinesis"); break;
-    case eStateBurerAttack_Gravi: sprintf_s(st, "Attack :: Gravi Wave"); break;
-    case eStateBurerAttack_RunAround: sprintf_s(st, "Attack :: Run Around"); break;
-    case eStateBurerAttack_FaceEnemy: sprintf_s(st, "Attack :: Face Enemy"); break;
-    case eStateBurerAttack_Melee: sprintf_s(st, "Attack :: Melee"); break;
-    case eStateBurerScanning: sprintf_s(st, "Attack :: Scanning"); break;
-    case eStateCustomMoveToRestrictor: sprintf_s(st, "Moving To Restrictor :: Position not accessible"); break;
-    case eStateSmartTerrainTask: sprintf_s(st, "ALIFE"); break;
-    case eStateSmartTerrainTaskGamePathWalk: sprintf_s(st, "ALIFE :: Game Path Walk"); break;
-    case eStateSmartTerrainTaskLevelPathWalk: sprintf_s(st, "ALIFE :: Level Path Walk"); break;
-    case eStateSmartTerrainTaskWaitCapture: sprintf_s(st, "ALIFE :: Wait till smart terrain will capture me"); break;
-    case eStateUnknown: sprintf_s(st, "Unknown State :: "); break;
-    default: sprintf_s(st, "Undefined State ::"); break;
+    case eStateControlled_Follow_Wait: st = "Controlled :: Follow : Wait"; break;
+    case eStateControlled_Follow_WalkToObject: st = "Controlled :: Follow : WalkToObject"; break;
+    case eStateControlled_Attack: st = "Controlled :: Attack"; break;
+    case eStateThreaten: st = "Threaten :: "; break;
+    case eStateFindEnemy_Run: st = "Find Enemy :: Run"; break;
+    case eStateFindEnemy_LookAround_MoveToPoint: st = "Find Enemy :: Look Around : Move To Point"; break;
+    case eStateFindEnemy_LookAround_LookAround: st = "Find Enemy :: Look Around : Look Around"; break;
+    case eStateFindEnemy_LookAround_TurnToPoint: st = "Find Enemy :: Look Around : Turn To Point"; break;
+    case eStateFindEnemy_Angry: st = "Find Enemy :: Angry"; break;
+    case eStateFindEnemy_WalkAround: st = "Find Enemy :: Walk Around"; break;
+    case eStateSquad_Rest_Idle: st = "Squad :: Rest : Idle"; break;
+    case eStateSquad_Rest_WalkAroundLeader: st = "Squad :: Rest : WalkAroundLeader"; break;
+    case eStateSquad_RestFollow_Idle: st = "Squad :: Follow Leader : Idle"; break;
+    case eStateSquad_RestFollow_WalkToPoint: st = "Squad :: Follow Leader : WalkToPoint"; break;
+    case eStateCustom_Vampire: st = "Attack :: Vampire"; break;
+    case eStateVampire_ApproachEnemy: st = "Vampire :: Approach to enemy"; break;
+    case eStateVampire_Execute: st = "Vampire :: Hit"; break;
+    case eStateVampire_RunAway: st = "Vampire :: Run Away"; break;
+    case eStateVampire_Hide: st = "Vampire :: Hide"; break;
+    case eStatePredator: st = "Predator"; break;
+    case eStatePredator_MoveToCover: st = "Predator :: MoveToCover"; break;
+    case eStatePredator_LookOpenPlace: st = "Predator :: Look Open Place"; break;
+    case eStatePredator_Camp: st = "Predator :: Camp"; break;
+    case eStateBurerAttack_Tele: st = "Attack :: Telekinesis"; break;
+    case eStateBurerAttack_Gravi: st = "Attack :: Gravi Wave"; break;
+    case eStateBurerAttack_RunAround: st = "Attack :: Run Around"; break;
+    case eStateBurerAttack_FaceEnemy: st = "Attack :: Face Enemy"; break;
+    case eStateBurerAttack_Melee: st = "Attack :: Melee"; break;
+    case eStateBurerScanning: st = "Attack :: Scanning"; break;
+    case eStateCustomMoveToRestrictor: st = "Moving To Restrictor :: Position not accessible"; break;
+    case eStateSmartTerrainTask: st = "ALIFE"; break;
+    case eStateSmartTerrainTaskGamePathWalk: st = "ALIFE :: Game Path Walk"; break;
+    case eStateSmartTerrainTaskLevelPathWalk: st = "ALIFE :: Level Path Walk"; break;
+    case eStateSmartTerrainTaskWaitCapture: st = "ALIFE :: Wait till smart terrain will capture me"; break;
+    case eStateUnknown: st = "Unknown State :: "; break;
+    default: st = "Undefined State ::"; break;
     }
 
     DBG().object_info(this, this).remove_item(u32(0));
     DBG().object_info(this, this).remove_item(u32(1));
     DBG().object_info(this, this).remove_item(u32(2));
 
-    DBG().object_info(this, this).add_item(*cName(), D3DCOLOR_XRGB(255, 0, 0), 0);
-    DBG().object_info(this, this).add_item(st, D3DCOLOR_XRGB(255, 0, 0), 1);
+    DBG().object_info(this, this).add_item(cName().c_str(), D3DCOLOR_XRGB(255, 0, 0), 0);
+    DBG().object_info(this, this).add_item(st.data(), D3DCOLOR_XRGB(255, 0, 0), 1);
 
-    sprintf_s(st, "Team[%u]Squad[%u]Group[%u]", g_Team(), g_Squad(), g_Group());
-    DBG().object_info(this, this).add_item(st, D3DCOLOR_XRGB(255, 0, 0), 2);
+    auto str = xr::format("Team[{}] Squad[{}] Group[{}]", g_Team(), g_Squad(), g_Group());
+    DBG().object_info(this, this).add_item(str.c_str(), D3DCOLOR_XRGB(255, 0, 0), 2);
 
     CEntityAlive* entity = smart_cast<CEntityAlive*>(Level().CurrentEntity());
     if (entity && entity->character_physics_support()->movement())
     {
-        sprintf_s(st, "VELOCITY [%f,%f,%f] Value[%f]", VPUSH(entity->character_physics_support()->movement()->GetVelocity()),
-                  entity->character_physics_support()->movement()->GetVelocityActual());
+        str = xr::format("VELOCITY {} Value[{}]", entity->character_physics_support()->movement()->GetVelocity(),
+                         entity->character_physics_support()->movement()->GetVelocityActual());
         DBG().text(this).clear();
-        DBG().text(this).add_item(st, 200, 100, COLOR_GREEN, 100);
+        DBG().text(this).add_item(str.c_str(), 200, 100, COLOR_GREEN, 100);
     }
 }
-
-#endif
+#endif // DEBUG

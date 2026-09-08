@@ -304,15 +304,15 @@ void CPHSkeleton::RestoreNetState(CSE_PHSkeleton* /*po*/)
         }
         else
         {
-            MsgDbg("! [{}]: [{}] skip load of bone state due to single root bone with fixed position. Visual[{}]",
-                   std::source_location::current().function_name(), obj->Name_script(), obj->cNameVisual());
+            XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "[{}] skip load of bone state due to single root bone with fixed position. Visual[{}]", obj->Name_script(),
+                                 obj->cNameVisual());
         }
     }
     else
     {
-        MsgDbg("~ [{}]: [{}] has different state in saved_bones[{}] PHGetSyncItemsNumber[{}] Visual[{}] alive[{}]",
-               std::source_location::current().function_name(), obj->Name_script(), saved_bones.size(), obj->PHGetSyncItemsNumber(), obj->cNameVisual(),
-               (obj->cast_entity_alive() && obj->cast_entity_alive()->conditions().GetHealth() > 0.f) ? "yes" : "no");
+        XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "[{}] has different state in saved_bones[{}] PHGetSyncItemsNumber[{}] Visual[{}] alive[{}]",
+                             obj->Name_script(), saved_bones.size(), obj->PHGetSyncItemsNumber(), obj->cNameVisual(),
+                             (obj->cast_entity_alive() && obj->cast_entity_alive()->conditions().GetHealth() > 0.f) ? "yes" : "no");
     }
 
     saved_bones.clear();

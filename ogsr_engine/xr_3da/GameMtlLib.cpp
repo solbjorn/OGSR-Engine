@@ -72,7 +72,8 @@ void CGameMtlLibrary::Load()
 
     if (F->r_u16() != GAMEMTL_CURRENT_VERSION)
     {
-        Log("CGameMtlLibrary: invalid version. Library can't load.");
+        XR_LOG_ERROR("Invalid version. Library can't load");
+
         FS.r_close(F);
         return;
     }

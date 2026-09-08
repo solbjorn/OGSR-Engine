@@ -941,18 +941,15 @@ void CPHShell::AddElementRecursive(CPhysicsElement* root_e, u16 id, Fmatrix glob
     {
         IKinematics* K = m_pKinematics;
 
-        Log("all bones transform:--------");
+        XR_LOG_ERROR("all bones transform:--------");
 
         for (u16 ii = 0; ii < K->LL_BoneCount(); ++ii)
         {
-            Fmatrix tr;
-
-            tr = K->LL_GetTransform(ii);
-            Log("bone ", K->LL_BoneName_dbg(ii));
-            Log("bone_matrix", tr);
+            Msg("bone: {}", K->LL_BoneName_dbg(ii));
+            Msg("bone_matrix: {}", K->LL_GetTransform(ii));
         }
 
-        Log("end-------");
+        XR_LOG_ERROR("end-------");
     }
 
     XR_ASSERT(bbb, "", dbg_obj->cNameVisual());

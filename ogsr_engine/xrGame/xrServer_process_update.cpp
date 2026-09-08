@@ -15,7 +15,7 @@ void xrServer::Process_update(NET_Packet& P, ClientID sender)
     R_ASSERT2(CL, "Process_update client not found");
 
     if (g_Dump_Update_Read)
-        Log("---- UPDATE_Read --- ");
+        XR_LOG_TRACE_L1("---- UPDATE_Read --- ");
 
     R_ASSERT(CL->flags.bLocal);
 
@@ -53,7 +53,7 @@ void xrServer::Process_update(NET_Packet& P, ClientID sender)
     }
 
     if (g_Dump_Update_Read)
-        Log("-------------------- ");
+        XR_LOG_TRACE_L1("-------------------- ");
 }
 
 void xrServer::Process_save(NET_Packet& P, ClientID sender)

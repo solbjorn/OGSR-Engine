@@ -179,7 +179,7 @@ void CPSLibrary::Reload()
     OnDestroy();
     OnCreate();
 
-    Log("PS Library was successfully reloaded.");
+    XR_LOG_NOTICE("PS Library was successfully reloaded");
 }
 
 bool CPSLibrary::Load2()
@@ -187,8 +187,7 @@ bool CPSLibrary::Load2()
     if (!FS.path_exist("$game_particles$"))
         return false;
 
-    bool something_loaded{};
-    Log("Start load particle files...");
+    XR_LOG_NOTICE("Start load particle files...");
 
     FS_FileSet files;
     string_path _path;
@@ -197,6 +196,7 @@ bool CPSLibrary::Load2()
     std::ignore = FS.file_list(files, _path, FS_ListFiles, "*.pe,*.pg");
 
     string_path p_path, p_name, p_ext;
+    bool something_loaded{};
 
     for (const auto& f : files)
     {
@@ -236,7 +236,7 @@ bool CPSLibrary::Load2()
 bool CPSLibrary::Save2(bool override)
 {
     if (!FS.path_exist("$game_particles$"))
-        Log("! Path $game_particles$ is not configured! Cannot export particles to ltx");
+        XR_LOG_ERROR("Path $game_particles$ is not configured! Cannot export particles to ltx");
 
     string_path fn;
 

@@ -14,8 +14,7 @@ void PointerRegistryAdd(void* ptr, PointerInfo&& info)
 {
     if (gModulesLoaded && g_enable_memory_debug && ptr != nullptr)
     {
-        std::scoped_lock lock(gPointerRegistryProtector);
-
+        const std::scoped_lock lock{gPointerRegistryProtector};
         gPointerRegistry.emplace(ptr, std::move(info));
     }
 }
@@ -27,22 +26,20 @@ void PointerRegistryRelease(const void* ptr, const std::source_location& loc, co
 
     if (gModulesLoaded && g_enable_memory_debug && ptr != nullptr)
     {
-        std::scoped_lock lock(gPointerRegistryProtector);
+        const std::scoped_lock lock{gPointerRegistryProtector};
 
         if (const auto search = gPointerRegistry.find(ptr); search != gPointerRegistry.end())
         {
             if (search->second.is_class && !is_class)
-            {
-                Msg("!![{}]Wrong release call [{}.{} ({})]! xr_free called for class ?. ID [{}]", std::source_location::current().function_name(),
-                    loc.file_name(), loc.line(), loc.function_name(), search->second.identity);
-            }
+                XR_LOG_ERROR("Wrong release call [{}.{} ({})]! xr_free called for class ?. ID [{}]", loc.file_name(), loc.line(), loc.function_name(),
+                             search->second.identity);
 
             gPointerRegistry.erase(search);
         }
         else if (g_enable_double_free_check)
         {
-            Msg("!![{}] ptr [{}] not found in gPointerRegistry! Potential double-free! Called from: [{}.{} ({})]",
-                std::source_location::current().function_name(), ptr, loc.file_name(), loc.line(), loc.function_name());
+            XR_LOG_ERROR("Ptr [{}] not found in gPointerRegistry! Potential double-free! Called from: [{}.{} ({})]", ptr, loc.file_name(), loc.line(),
+                         loc.function_name());
         }
     }
 }
@@ -51,9 +48,9 @@ void PointerRegistryClear()
 {
     if (gModulesLoaded)
     {
-        std::scoped_lock lock(gPointerRegistryProtector);
-        gPointerRegistry.clear();
+        const std::scoped_lock lock{gPointerRegistryProtector};
 
+        gPointerRegistry.clear();
         g_enable_double_free_check = false;
     }
 }
@@ -62,7 +59,7 @@ void PointerRegistryDump(float thresholdInKb)
 {
     if (gModulesLoaded)
     {
-        std::scoped_lock lock{gPointerRegistryProtector};
+        const std::scoped_lock lock{gPointerRegistryProtector};
 
         // cnt,size
         std::vector<std::pair<const char*, std::tuple<size_t, size_t>>, PointerAllocator<std::pair<const char*, std::tuple<size_t, size_t>>>> tmp;
@@ -86,16 +83,15 @@ void PointerRegistryDump(float thresholdInKb)
             size += pair.second.size;
         }
 
-        Msg("! xrMemory: instance count [{}]. total size [{:.2} Kb]", cnt, gsl::narrow_cast<f32>(size) / 1024.0f);
-        Msg("! xrMemory: dump (large that [{} Kb]):", thresholdInKb);
+        XR_LOG_TRACE_L1("Instance count [{}]. total size [{:.2} Kb]", cnt, gsl::narrow_cast<f32>(size) / 1024.0f);
+        XR_LOG_TRACE_L1("Dump (large that [{} Kb]):", thresholdInKb);
 
         std::ranges::sort(tmp, [](const auto& a, const auto& b) { return std::get<1>(a.second) > std::get<1>(b.second); });
 
         for (const auto& [name, typle] : tmp)
         {
-            const auto total_size = gsl::narrow_cast<f32>(std::get<1>(typle)) / 1024.0f;
-            if (total_size > thresholdInKb)
-                Msg(" total size:[{:.4} Kb], instance count:[{}], id: {}", total_size, std::get<0>(typle), name);
+            if (const auto total_size = gsl::narrow_cast<f32>(std::get<1>(typle)) / 1024.0f; total_size > thresholdInKb)
+                XR_LOG_TRACE_L1(" Total size:[{:.4} Kb], instance count:[{}], id: {}", total_size, std::get<0>(typle), name);
         }
     }
 }
@@ -104,17 +100,15 @@ void PointerRegistryInfo()
 {
     if (gModulesLoaded)
     {
-        std::scoped_lock lock(gPointerRegistryProtector);
+        const std::scoped_lock lock{gPointerRegistryProtector};
 
         size_t cnt = gPointerRegistry.size();
         size_t size = 0;
 
         for (const auto& pair : gPointerRegistry)
-        {
             size += pair.second.size;
-        }
 
-        Msg("! xrMemory: instance count [{}]. total size [{:.2} Kb]", cnt, gsl::narrow_cast<f32>(size) / 1024.0f);
+        XR_LOG_DEBUG("Instance count [{}]. total size [{:.2} Kb]", cnt, gsl::narrow_cast<f32>(size) / 1024.0f);
     }
 }
 

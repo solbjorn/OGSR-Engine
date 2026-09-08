@@ -447,7 +447,7 @@ void CCustomRocket::UpdateEnginePh()
 void CCustomRocket::UpdateEngine()
 {
     if (!m_pPhysicsShell)
-        Log("! CCustomRocket::UpdateEngine called, but 0==m_pPhysicsShell");
+        XR_LOG_ERROR("Update called without physic shell");
 
     if (!getVisible())
         Msg("! CCustomRocket::UpdateEngine called, but false==getVisible() id[{}] frame[{}]", ID(), Device.dwFrame);

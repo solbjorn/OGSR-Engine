@@ -248,16 +248,16 @@ void discord::log(std::string_view message, discordpp::LoggingSeverity severity)
             return;
     }
 
-    quill::LogLevel lvl;
+    xr::level lvl;
 
     switch (severity)
     {
-    case discordpp::LoggingSeverity::Verbose: lvl = quill::LogLevel::Debug; break;
-    case discordpp::LoggingSeverity::Info: lvl = quill::LogLevel::Info; break;
-    case discordpp::LoggingSeverity::Warning: lvl = quill::LogLevel::Warning; break;
-    case discordpp::LoggingSeverity::Error: lvl = quill::LogLevel::Error; break;
+    case discordpp::LoggingSeverity::Verbose: lvl = xr::level::Debug; break;
+    case discordpp::LoggingSeverity::Info: lvl = xr::level::Info; break;
+    case discordpp::LoggingSeverity::Warning: lvl = xr::level::Warning; break;
+    case discordpp::LoggingSeverity::Error: lvl = xr::level::Error; break;
     case discordpp::LoggingSeverity::None:
-    default: lvl = quill::LogLevel::Notice; break;
+    default: lvl = xr::level::Notice; break;
     }
 
     if (const auto pos = message.find("): "); pos != std::string_view::npos)

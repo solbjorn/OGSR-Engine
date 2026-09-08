@@ -146,13 +146,7 @@ void CMissile::spawn_fake_missile()
     }
 }
 
-void CMissile::OnH_A_Chield()
-{
-    inherited::OnH_A_Chield();
-
-    //	if(!m_fake_missile && !smart_cast<CMissile*>(H_Parent()))
-    //		spawn_fake_missile	();
-}
+void CMissile::OnH_A_Chield() { inherited::OnH_A_Chield(); }
 
 void CMissile::OnH_B_Independent(bool just_before_destroy)
 {
@@ -166,7 +160,7 @@ void CMissile::OnH_B_Independent(bool just_before_destroy)
 
         if (GetState() == eThrow)
         {
-            Log("Throw on reject");
+            XR_LOG_ERROR("Throw on reject");
             Throw();
         }
     }
@@ -482,17 +476,17 @@ void CMissile::setup_throw_params()
     Fmatrix trans;
     trans.identity();
     Fvector FirePos, FireDir;
+
     if (this == inventory_owner->inventory().ActiveItem())
     {
 #ifdef DEBUG
-        CInventoryOwner* io = smart_cast<CInventoryOwner*>(H_Parent());
-        if (NULL == io->inventory().ActiveItem())
+        if (const auto io = smart_cast<CInventoryOwner*>(H_Parent()); io != nullptr && io->inventory().ActiveItem() == nullptr)
         {
-            Log("current_state", GetState());
-            Log("next_state", GetNextState());
-            Log("state_time", m_dwStateTime);
-            Log("item_sect", cNameSect().c_str());
-            Log("H_Parent", H_Parent()->cNameSect().c_str());
+            XR_LOG_TRACE_L1("current_state: {}", GetState());
+            XR_LOG_TRACE_L1("next_state: {}", GetNextState());
+            XR_LOG_TRACE_L1("state_time: {}", m_dwStateTime);
+            XR_LOG_TRACE_L1("item_sect: {}", cNameSect());
+            XR_LOG_TRACE_L1("H_Parent: {}", H_Parent()->cNameSect());
         }
 #endif
 
@@ -503,6 +497,7 @@ void CMissile::setup_throw_params()
         FirePos = XFORM().c;
         FireDir = XFORM().k;
     }
+
     trans.k.set(FireDir);
     Fvector::generate_orthonormal_basis(trans.k, trans.j, trans.i);
     trans.c.set(FirePos);

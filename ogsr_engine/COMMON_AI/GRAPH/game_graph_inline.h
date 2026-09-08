@@ -60,7 +60,7 @@ IC float CGameGraph::distance(const _GRAPH_ID tGraphID0, const _GRAPH_ID tGraphI
             return (edge_weight(i));
 
     // TODO: KD: не всегда построенный путь для монстра валидный. Пока вывожу в лог и сбрасываю путь в вызвавшей функции.
-    Msg("!![{}] There is no way to get distance from vertex [{}] to vertex [{}]!!!", std::source_location::current().function_name(), tGraphID0, tGraphID1);
+    XR_LOG_ERROR("There is no way to get distance from vertex [{}] to vertex [{}]!!!", tGraphID0, tGraphID1);
 
     return (_GRAPH_ID(-1));
 }
@@ -144,7 +144,7 @@ IC const GameGraph::SLevel& GameGraph::CHeader::level(LPCSTR level_name) const
     }
 
 #ifdef DEBUG
-    Msg("! No such level (\"{}\") in the game graph", level_name);
+    XR_LOG_CRITICAL("No such level (\"{}\") in the game graph", level_name);
     return levels().begin()->second;
 #else
     XR_PANIC("no such level in the game graph", level_name);

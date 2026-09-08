@@ -33,19 +33,9 @@ public:
         _vector3<T> kU, kV, kW = m_direction;
         _vector3<T>::generate_orthonormal_basis(kW, kU, kV);
         _vector3<T> kD;
+
         kD.set(kU.dotproduct(dir), kV.dotproduct(dir), kW.dotproduct(dir));
-
-#ifdef DEBUG
-        if (kD.square_magnitude() <= std::numeric_limits<T>::min())
-        {
-            Msg("dir :{},{},{}", dir.x, dir.y, dir.z);
-            Msg("kU :{},{},{}", kU.x, kU.y, kU.z);
-            Msg("kV :{},{},{}", kV.x, kV.y, kV.z);
-            Msg("kW :{},{},{}", kW.x, kW.y, kW.z);
-
-            XR_PANIC("KD is zero");
-        }
-#endif
+        XR_DEBUG_ASSERT(!fis_zero(kD.square_magnitude()), "", dir, kU, kV, kW);
 
         T fDLength = kD.normalize_magn();
         T fInvDLength = 1.0f / fDLength;

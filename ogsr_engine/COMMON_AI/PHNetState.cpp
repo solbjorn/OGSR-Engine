@@ -193,7 +193,7 @@ void SPHBonesData::net_Save(NET_Packet& P)
 
     if (bones.size() > 64)
     {
-        Msg("!![SPHBonesData::net_Save] bones_size is [{}]!", bones.size());
+        XR_LOG_WARNING("Bones size is [{}]!", bones.size());
         P.w_u64(bones_mask.to_u64(1));
     }
 
@@ -224,7 +224,7 @@ void SPHBonesData::net_Load(NET_Packet& P)
     u16 bones_number = P.r_u16(); // bones number /**/
     if (bones_number > 64)
     {
-        Msg("!![SPHBonesData::net_Load] bones_number is [{}]!", bones_number);
+        XR_LOG_WARNING("Bones number is [{}]!", bones_number);
         _high = P.r_u64();
     }
 

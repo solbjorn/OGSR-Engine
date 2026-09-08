@@ -92,7 +92,7 @@ tmc::task<void> CHOM::Load()
                                      rT.area = Area(v0, v1, v2);
 
                                      if (rT.area < EPS_L)
-                                         Msg("! Invalid HOM triangle ({},{},{})-({},{},{})-({},{},{})", VPUSH(v0), VPUSH(v1), VPUSH(v2));
+                                         Msg("! Invalid HOM triangle {}-{}-{}", v0, v1, v2);
 
                                      rT.plane.build(v0, v1, v2);
                                      rT.skip = 0;

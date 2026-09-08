@@ -62,18 +62,18 @@ void dwfs_logger::write(dwarfs::logger::level_type level, std::string_view outpu
     if (level > thresh)
         return;
 
-    quill::LogLevel lvl;
+    xr::level lvl;
 
     switch (level)
     {
-    case dwarfs::logger::level_type::FATAL: lvl = quill::LogLevel::Critical; break;
-    case dwarfs::logger::level_type::ERROR: lvl = quill::LogLevel::Error; break;
-    case dwarfs::logger::level_type::WARN: lvl = quill::LogLevel::Warning; break;
-    case dwarfs::logger::level_type::INFO: lvl = quill::LogLevel::Info; break;
+    case dwarfs::logger::level_type::FATAL: lvl = xr::level::Critical; break;
+    case dwarfs::logger::level_type::ERROR: lvl = xr::level::Error; break;
+    case dwarfs::logger::level_type::WARN: lvl = xr::level::Warning; break;
+    case dwarfs::logger::level_type::INFO: lvl = xr::level::Info; break;
     case dwarfs::logger::level_type::VERBOSE:
-    case dwarfs::logger::level_type::DEBUG: lvl = quill::LogLevel::Debug; break;
-    case dwarfs::logger::level_type::TRACE: lvl = quill::LogLevel::TraceL1; break;
-    default: lvl = quill::LogLevel::Notice; break;
+    case dwarfs::logger::level_type::DEBUG: lvl = xr::level::Debug; break;
+    case dwarfs::logger::level_type::TRACE: lvl = xr::level::TraceL1; break;
+    default: lvl = xr::level::Notice; break;
     }
 
     const auto ctx = dwarfs::get_logger_context(loc);

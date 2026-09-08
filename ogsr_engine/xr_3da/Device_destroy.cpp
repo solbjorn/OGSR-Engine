@@ -26,10 +26,9 @@ tmc::task<void> CRenderDevice::Destroy()
     if (!b_is_Ready)
         co_return;
 
-    Log("Destroying Direct3D...");
+    XR_LOG_NOTICE("Destroying Direct3D...");
 
     pInput->clip_cursor(false);
-
     _Destroy(FALSE);
 
     // real destroy

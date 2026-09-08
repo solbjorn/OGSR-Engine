@@ -30,20 +30,20 @@ static void show_restrictions(LPCSTR restrictions)
 
 bool show_restrictions(CRestrictedObject* object)
 {
-    Log("DEFAULT OUT RESTRICTIONS :");
+    XR_LOG_ERROR("DEFAULT OUT RESTRICTIONS :");
     show_restrictions(Level().space_restriction_manager().default_out_restrictions().c_str() != nullptr ?
                           Level().space_restriction_manager().default_out_restrictions().c_str() :
                           "");
 
-    Log("DEFAULT IN RESTRICTIONS  :");
+    XR_LOG_ERROR("DEFAULT IN RESTRICTIONS  :");
     show_restrictions(Level().space_restriction_manager().default_in_restrictions().c_str() != nullptr ?
                           Level().space_restriction_manager().default_in_restrictions().c_str() :
                           "");
 
-    Log("OUT RESTRICTIONS         :");
+    XR_LOG_ERROR("OUT RESTRICTIONS         :");
     show_restrictions(object->out_restrictions().c_str() != nullptr ? object->out_restrictions().c_str() : "");
 
-    Log("IN RESTRICTIONS          :");
+    XR_LOG_ERROR("IN RESTRICTIONS          :");
     show_restrictions(object->in_restrictions().c_str() != nullptr ? object->in_restrictions().c_str() : "");
 
     return (false);

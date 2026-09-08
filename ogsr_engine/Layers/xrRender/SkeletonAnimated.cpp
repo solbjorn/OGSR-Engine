@@ -93,7 +93,8 @@ static void dump_blend(CKinematicsAnimated* K, CBlend& B, u32 index)
 {
     XR_ASSERT(K != nullptr);
 
-    Log("----------------------------------------------------------");
+    XR_LOG_TRACE_L1("----------------------------------------------------------");
+
     Msg("blend index: {} ", index);
     Msg("time total: {}, speed: {} , power: {} ", B.timeTotal, B.speed, B.blendPower);
     Msg("ammount: {}, time current: {}, frame {} ", B.blendAmount, B.timeCurrent, B.dwFrame);
@@ -105,12 +106,12 @@ static void dump_blend(CKinematicsAnimated* K, CBlend& B, u32 index)
     if (B.blend_state() != CBlend::eFREE_SLOT)
         Msg("motion : name {}, set: {} ", K->LL_MotionDefName_dbg(B.motionID).first, K->LL_MotionDefName_dbg(B.motionID).second);
 
-    Log("----------------------------------------------------------");
+    XR_LOG_TRACE_L1("----------------------------------------------------------");
 }
 
 void CKinematicsAnimated::LL_DumpBlends_dbg()
 {
-    Log("==================dump blends=================================================");
+    XR_LOG_TRACE_L1("==================dump blends=================================================");
 
     for (auto [idx, blend] : std::views::enumerate(blend_pool))
         dump_blend(this, blend, idx);

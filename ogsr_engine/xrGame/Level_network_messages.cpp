@@ -76,8 +76,9 @@ tmc::task<void> CLevel::ClientReceive()
         case xr::msg::M_SV_CONFIG_NEW_CLIENT: co_await InitializeClientGame(*P); break;
         case xr::msg::M_SV_CONFIG_GAME: game->net_import_state(*P); break;
         case xr::msg::M_SV_CONFIG_FINISHED:
+            XR_LOG_NOTICE("Game configuring : Finished");
+
             game_configured = TRUE;
-            Log("- Game configuring : Finished ");
             break;
         case xr::msg::M_RELOAD_GAME:
         case xr::msg::M_LOAD_GAME:
@@ -109,7 +110,7 @@ tmc::task<void> CLevel::ClientReceive()
         case xr::msg::M_AUTH_CHALLENGE: OnBuildVersionChallenge(); break;
         case xr::msg::M_CLIENT_CONNECT_RESULT: OnConnectResult(P); break;
         case xr::msg::M_CHANGE_LEVEL_GAME:
-            Log("- M_CHANGE_LEVEL_GAME Received");
+            XR_LOG_NOTICE("M_CHANGE_LEVEL_GAME Received");
 
             {
                 const char* m_SO = m_caServerOptions.c_str();

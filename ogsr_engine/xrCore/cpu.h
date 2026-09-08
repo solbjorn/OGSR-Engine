@@ -26,9 +26,10 @@ private:
     const tmc::ex_any* const st{xr::tmc_cpu_st_executor().type_erased()};
     const tmc::ex_any* const asio{tmc::asio_executor().type_erased()};
 
-    void print_features(std::string_view pfx, std::span<std::string_view> list);
+    void print_features(std::string_view pfx, std::span<const std::string_view> list);
     void print_features();
     void print_cache();
+    void print_topology(std::string_view pfx, std::span<const std::size_t> list);
     void print_topology();
 
 public:

@@ -68,7 +68,7 @@ void _check_open_file(const shared_str& _fname)
 {
     auto it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_fname_check(_fname));
     if (it != g_open_files.end())
-        Msg("file opened at least twice: [{}]", _fname);
+        XR_LOG_WARNING("File opened at least twice: [{}]", _fname);
 }
 
 _open_file& find_free_item(const shared_str& _fname)
@@ -86,7 +86,6 @@ _open_file& find_free_item(const shared_str& _fname)
 }
 
 void setup_reader(CStreamReader* _r, _open_file& _of) { _of._stream_reader = _r; }
-
 void setup_reader(IReader* _r, _open_file& _of) { _of._reader = _r; }
 
 template <typename T>
@@ -117,26 +116,26 @@ void _dump_open_files(int mode)
             if (file._reader != nullptr)
             {
                 if (!bShow)
-                    Log("----opened files");
+                    XR_LOG_DYNAMIC(xr::level::TraceL1, "----opened files");
 
                 bShow = true;
-                Msg("[{}] fname:{}", file._used, file._fn);
+                XR_LOG_DYNAMIC(xr::level::TraceL1, "[{}] fname: {}", file._used, file._fn);
             }
         }
     }
     else
     {
-        Log("----un-used");
+        XR_LOG_DYNAMIC(xr::level::TraceL1, "----un-used");
 
         for (const auto& file : g_open_files)
         {
             if (file._reader == nullptr)
-                Msg("[{}] fname:{}", file._used, file._fn);
+                XR_LOG_DYNAMIC(xr::level::TraceL1, "[{}] fname: {}", file._used, file._fn);
         }
     }
 
     if (bShow)
-        Msg("----total count = [{}]", g_open_files.size());
+        XR_LOG_DYNAMIC(xr::level::TraceL1, "----total count = [{}]", g_open_files.size());
 }
 
 CLocatorAPI::CLocatorAPI()
@@ -462,7 +461,7 @@ void CLocatorAPI::ProcessOne(LPCSTR path, const _FINDDATA_T& F, bool bNoRecurse)
 
         if (const auto fmt = match_arch(ext); fmt != CLocatorAPI::archive::format::unknown)
         {
-            Msg("-- Found base arch: [{}], size: [{}]", N, F.size);
+            XR_LOG_INFO("  Found base arch: [{}], size: [{}]", N, F.size);
 
             ProcessArchive(N, fmt);
             return;
@@ -516,7 +515,7 @@ bool CLocatorAPI::RecurseScanPhysicalPath(const char* path, const bool log_if_fo
         return false;
 
     if (log_if_found)
-        Msg("--Found FS dir: [{}]", path);
+        XR_LOG_INFO(" Found FS dir: [{}]", path);
 
     string1024 full_path;
     if (m_Flags.test(flNeedCheck))
@@ -552,7 +551,7 @@ bool CLocatorAPI::RecurseScanPhysicalPath(const char* path, const bool log_if_fo
     _findclose(hFile);
 
     if (log_if_found)
-        Msg("  files: [{}]", rec_files.size());
+        XR_LOG_INFO("  Files: [{}]", rec_files.size());
 
     std::ranges::sort(rec_files, [](const _FINDDATA_T& x, const _FINDDATA_T& y) { return std::is_lt(xr_strcmp(x.name, y.name)); });
 
@@ -576,7 +575,7 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
     CTimer t;
     t.Start();
 
-    Log("Initializing File System...");
+    XR_LOG_NOTICE("Initializing File System...");
     const auto M1 = Memory.mem_usage();
 
     m_Flags.set(flags, TRUE);
@@ -640,7 +639,7 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
             std::ignore = append_path("$fs_root$", "", nullptr, FALSE);
         }
 
-        Msg("using fs-ltx: [{}]", fs_ltx);
+        XR_LOG_NOTICE("Using fs-ltx: [{}]", fs_ltx);
     }
 
     //-----------------------------------------------------------
@@ -723,11 +722,11 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
         }
     }
 
-    Msg("FS: {} files cached, {} Kb memory used.", std::ssize(files), (Memory.mem_usage() - M1) / 1024);
+    XR_LOG_INFO("FS: {} files cached, {} Kb memory used", std::ssize(files), (Memory.mem_usage() - M1) / 1024);
 
     m_Flags.set(flReady, TRUE);
 
-    Msg("Init FileSystem {} sec", t.GetElapsed_sec());
+    XR_LOG_NOTICE("Init FileSystem {} sec", t.GetElapsed_sec());
 
     const std::string_view params{Core.Params};
 
@@ -750,12 +749,12 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
             }
             else
             {
-                Msg("! Invalid -overlaypath parameter argument: {}", res.error().msg());
+                XR_LOG_ERROR("Invalid -overlaypath parameter argument: {}", res.error().msg());
             }
         }
         else
         {
-            Msg("! The -overlaypath parameter requires an argument");
+            XR_LOG_ERROR("The -overlaypath parameter requires an argument");
         }
     }
 
@@ -1260,7 +1259,7 @@ void CLocatorAPI::rescan_physical_path(LPCSTR full_path, BOOL bRecurse)
     if (I == files.end())
         return;
 
-    MsgDbg("[rescan_physical_path] files count before: [{}]", files.size());
+    XR_LOG_DEBUG("Files count before rescan: [{}]", files.size());
 
     const auto base_len = xr_strlen(full_path);
 
@@ -1286,12 +1285,12 @@ void CLocatorAPI::rescan_physical_path(LPCSTR full_path, BOOL bRecurse)
         }
     }
 
-    MsgDbg("[rescan_physical_path] files count before2: [{}]", files.size());
+    XR_LOG_DEBUG("Files count after cleanup: [{}]", files.size());
 
     bool bNoRecurse = !bRecurse;
     std::ignore = RecurseScanPhysicalPath(full_path, false, bNoRecurse);
 
-    MsgDbg("[rescan_physical_path] files count after: [{}]", files.size());
+    XR_LOG_DEBUG("Files count after rescan: [{}]", files.size());
 }
 
 void CLocatorAPI::rescan_physical_pathes()

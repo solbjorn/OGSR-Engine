@@ -366,10 +366,9 @@ public:
         }
         else
         {
-            Msg("!![{}] chunk [{}] has invalid size [{}], return elapsed size [{}]", std::source_location::current().function_name(), ID, dwSize,
-                impl().elapsed());
-            m_last_pos = 0;
+            XR_LOG_ERROR("Chunk [{}] has invalid size [{}], return elapsed size [{}]", ID, dwSize, impl().elapsed());
 
+            m_last_pos = 0;
             return impl().elapsed();
         }
     }
@@ -434,8 +433,7 @@ public:
                                     length++;
                                 }
 
-                                Msg("!![{}] THM [{}] chunk [{}] fixed, wrong size = [{}], correct size = [{}]", std::source_location::current().function_name(),
-                                    dbg_name, ID, dwSize, length);
+                                XR_LOG_ERROR("THM [{}] chunk [{}] fixed, wrong size = [{}], correct size = [{}]", dbg_name, ID, dwSize, length);
                             }
                         }
 
@@ -461,10 +459,9 @@ public:
         }
         else
         {
-            Msg("!![{}] chunk [{}] has invalid size [{}], return elapsed size [{}]", std::source_location::current().function_name(), ID, dwSize,
-                impl().elapsed());
-            m_last_pos = 0;
+            XR_LOG_ERROR("Chunk [{}] has invalid size [{}], return elapsed size [{}]", ID, dwSize, impl().elapsed());
 
+            m_last_pos = 0;
             return impl().elapsed();
         }
     }

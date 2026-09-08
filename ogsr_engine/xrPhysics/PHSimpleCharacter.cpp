@@ -1801,7 +1801,7 @@ bool CPHSimpleCharacter::UpdateRestrictionType(CPHCharacter* ach)
 
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgActorRestriction))
-        Log("restriction can not change change small -> large");
+        XR_LOG_TRACE_L1("restriction can not change change small -> large");
 #endif
 
     return false;

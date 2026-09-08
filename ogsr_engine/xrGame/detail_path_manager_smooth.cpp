@@ -802,10 +802,10 @@ void CDetailPathManager::build_smooth_path(const xr_vector<u32>& level_path, u32
         VERIFY(ai().level_graph().inside(start.vertex_id, start_pos));
 
         if (!((alvi && asp) || (!asp && !alvi)))
-            Msg("! vertex [{}], position [{}][{}][{}]", start.vertex_id, VPUSH(start_pos));
+            Msg("! vertex [{}], position {}", start.vertex_id, start_pos);
 
         VERIFY3((alvi && asp) || (!asp && !alvi) || show_restrictions(m_restricted_object), "Invalid restrictions (see log for details) for object ",
-                *m_restricted_object->object().cName());
+                m_restricted_object->object().cName().c_str());
 #endif
 
         m_restricted_object->add_border(start.vertex_id, dest.vertex_id);

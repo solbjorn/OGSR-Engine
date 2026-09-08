@@ -266,8 +266,7 @@ inline void CALifeSimulator__release(CALifeSimulator* self, CSE_Abstract* object
 
 static void CALifeSimulator__assign_story_id(CALifeSimulator* self, ALife::_OBJECT_ID _id, ALife::_STORY_ID _story_id)
 {
-    CSE_ALifeDynamicObject* obj = ai().alife().objects().object(_id);
-    R_ASSERT(obj);
+    auto obj = XR_ASSERT_VAL(ai().alife().objects().object(_id) != nullptr, "", _id);
 
 #ifdef DEBUG
     if (psAI_Flags.test(aiALife))
@@ -281,7 +280,7 @@ static void CALifeSimulator__assign_story_id(CALifeSimulator* self, ALife::_OBJE
     }
     else
     {
-        Log("assign_story_id: specified id is already using");
+        XR_LOG_ERROR("Specified story ID {} is already used", _story_id);
     }
 }
 

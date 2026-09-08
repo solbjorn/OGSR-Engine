@@ -127,17 +127,19 @@ void SHit::Write_Packet(NET_Packet& Packet)
 #ifdef DEBUG
 void SHit::_dump()
 {
-    Log("SHit::_dump()---begin");
-    Msg("power={}", power);
-    Msg("impulse={}", impulse);
-    Msg("dir={}", dir);
-    Msg("whoID={}", whoID);
-    Msg("weaponID={}", weaponID);
-    Msg("element={}", boneID);
-    Msg("p_in_bone_space={}", p_in_bone_space);
-    Msg("hit_type={}", hit_type);
-    Msg("ap={}", ap);
-    Log("SHit::_dump()---end");
+    XR_LOG_TRACE_L1("Dump begin");
+
+    XR_LOG_TRACE_L1("power={}", power);
+    XR_LOG_TRACE_L1("impulse={}", impulse);
+    XR_LOG_TRACE_L1("dir={}", dir);
+    XR_LOG_TRACE_L1("whoID={}", whoID);
+    XR_LOG_TRACE_L1("weaponID={}", weaponID);
+    XR_LOG_TRACE_L1("element={}", boneID);
+    XR_LOG_TRACE_L1("p_in_bone_space={}", p_in_bone_space);
+    XR_LOG_TRACE_L1("hit_type={}", hit_type);
+    XR_LOG_TRACE_L1("ap={}", ap);
+
+    XR_LOG_TRACE_L1("Dump end");
 }
 #endif
 

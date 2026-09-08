@@ -261,7 +261,7 @@ Locations& CMapManager::Locations() { return m_locations->registry().objects(); 
 #ifdef DEBUG
 void CMapManager::Dump()
 {
-    Log("begin of map_locations dump");
+    XR_LOG_TRACE_L1("begin of map_locations dump");
 
     Locations_it it = Locations().begin();
     for (; it != Locations().end(); ++it)
@@ -270,6 +270,6 @@ void CMapManager::Dump()
         (*it).location->Dump();
     }
 
-    Log("end of map_locations dump");
+    XR_LOG_TRACE_L1("end of map_locations dump");
 }
 #endif

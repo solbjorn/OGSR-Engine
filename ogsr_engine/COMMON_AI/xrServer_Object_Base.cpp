@@ -84,7 +84,7 @@ CSE_Abstract::CSE_Abstract(LPCSTR caSection)
 
         if (!FS.exist(file_name))
         {
-            Msg("! cannot open config file {}", file_name);
+            XR_LOG_ERROR("Can't open config file {}", file_name);
         }
         else
         {
@@ -294,10 +294,8 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
     }
     else
     {
-#ifdef DEBUG
         if (!client_data.empty())
-            Msg("CSE_Abstract::load: client_data is cleared for [{}][{}]", ID, name_replace());
-#endif // DEBUG
+            XR_LOG_DEBUG("Client data is cleared for [{}][{}]", ID, name_replace());
 
         client_data.clear();
     }

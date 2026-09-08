@@ -52,19 +52,17 @@ void CPlanner::update()
             Msg("{:6} : Solution for object {} [{} vertices searched]", Device.dwTimeGlobal, object_name(),
                 ai().graph_engine().solver_algorithm().data_storage().get_visited_node_count());
 
-            for (int i = 0; i < (int)this->solution().size(); ++i)
-                Log(action2string(this->solution()[i]));
+            for (auto sol : this->solution())
+                Msg("{}", action2string(sol));
         }
     }
-#endif
 
-#ifdef LOG_ACTION
     if (this->m_failed)
     {
         // printing current world state
         show();
 
-        Log("! ERROR : there is no action sequence, which can transfer current world state to the target one");
+        XR_LOG_ERROR("There is no action sequence, which can transfer current world state to the target one");
         Msg("Time : {:6}", Device.dwTimeGlobal);
         Msg("Object : {}", object_name());
 
@@ -165,7 +163,7 @@ IC void CPlanner::set_use_log(bool value)
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::show_current_world_state()
 {
-    Log("Current world state :");
+    XR_LOG_TRACE_L1("Current world state :");
 
     for (const auto& it : this->evaluators())
     {
@@ -182,7 +180,7 @@ IC void CPlanner::show_current_world_state()
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::show_target_world_state()
 {
-    Log("Target world state :");
+    XR_LOG_TRACE_L1("Target world state :");
 
     for (const auto& it : this->evaluators())
     {
@@ -226,7 +224,8 @@ IC void CPlanner::show(LPCSTR offset)
             Msg("{}\teffect    [{}][{}] = {}", offset, it2.condition(), property2string(it2.condition()), it2.value() ? "TRUE" : "FALSE");
 
         it.m_operator->show(temp);
-        Log(" ");
+
+        XR_LOG_TRACE_L1("");
     }
 }
 #endif

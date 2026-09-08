@@ -37,14 +37,12 @@ void unregister_file_mapping(void* address, const u32& size)
 
 void dump_file_mappings()
 {
-    std::scoped_lock<decltype(g_file_mappings_Mutex)> lock(g_file_mappings_Mutex);
+    const std::scoped_lock lock{g_file_mappings_Mutex};
 
-    Msg("* active file mappings ({}):", g_file_mappings.size());
+    XR_LOG_TRACE_L1("Active file mappings ({}):", g_file_mappings.size());
 
-    FILE_MAPPINGS::const_iterator I = g_file_mappings.begin();
-    FILE_MAPPINGS::const_iterator E = g_file_mappings.end();
-    for (; I != E; ++I)
-        Msg("* [{:#010x}][{}][{}]", (*I).first, (*I).second.first, (*I).second.second);
+    for (const auto& map : g_file_mappings)
+        XR_LOG_TRACE_L1("[{:#010x}][{}][{}]", map.first, map.second.first, map.second.second);
 }
 #endif // DEBUG
 
@@ -241,7 +239,7 @@ IReader* IReader::open_chunk_iterator(u32& ID, IReader* _prev)
     // На всякий случай тут тоже так сделаем по аналогии с find_chunk()
     if (elapsed() < _size)
     {
-        Msg("!![{}] chunk [{}] has invalid size [{}], return elapsed size [{}]", std::source_location::current().function_name(), ID, _size, elapsed());
+        XR_LOG_ERROR("Chunk [{}] has invalid size [{}], return elapsed size [{}]", ID, _size, elapsed());
         _size = elapsed();
     }
 
@@ -279,7 +277,7 @@ void IReader::skip_bom(const char* dbg_name)
         Pos++;
     }
 
-    Msg("! Skip BOM for file [{}]", dbg_name);
+    XR_LOG_WARNING("Skip BOM for file [{}]", dbg_name);
 }
 
 void IReader::r(void* p, gsl::index cnt)
@@ -445,7 +443,7 @@ CVirtualFileReader::CVirtualFileReader(gsl::czstring cFileName)
     Size = sz.QuadPart;
 
     if (Size == 0)
-        Msg("~~[{}] Found empty file: [{}]", std::source_location::current().function_name(), cFileName);
+        XR_LOG_WARNING("Found empty file: [{}]", cFileName);
 
     hSrcMap = XR_ASSERT_VAL(::CreateFileMapping(hSrcFile, nullptr, PAGE_READONLY, 0, 0, nullptr) != INVALID_HANDLE_VALUE, "", cFileName, xr::GetLastError());
 

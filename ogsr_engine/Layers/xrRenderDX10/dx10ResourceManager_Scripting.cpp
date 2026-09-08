@@ -190,6 +190,7 @@ module('{0}', package.seeall, function(m) this = m end); \
 {1}"};
 
 std::optional<sol::state> __declspec(align(TMC_CACHE_LINE_SIZE)) lua;
+quill::Logger* lua_logger{nullptr};
 
 void lua_panic(s32 code)
 {
@@ -290,8 +291,17 @@ void CResourceManager::LS_Load()
     XR_ASSERT(lua, "can't initialize Lua VM");
     lua->open_libraries();
 
+    lua_logger = xr::logger_init("Lua");
+
     const lua_scoped_handler sc;
-    lua->set_function("log", sol::resolve<void(std::string_view)>(&Log));
+
+    lua->new_enum("log_level", "trace_l3", xr::level::TraceL3, "trace_l2", xr::level::TraceL2, "trace_l1", xr::level::TraceL1, "debug", xr::level::Debug,
+                  "info", xr::level::Info, "notice", xr::level::Notice, "warning", xr::level::Warning, "error", xr::level::Error, "critical",
+                  xr::level::Critical);
+
+    lua->set("log",
+             sol::overload([](xr::level lvl, std::string_view msg) { XR_LOG__DYNAMIC(lua_logger, lvl, "{}", msg); },
+                           [](std::string_view msg) { XR_LOG__NOTICE(lua_logger, "{}", msg); }));
 
     lua->new_usertype<adopt_dx10sampler>("_dx10sampler", sol::no_constructor, sol::call_constructor,
                                          sol::constructors<adopt_dx10sampler(const adopt_dx10sampler&)>(), "clamp",

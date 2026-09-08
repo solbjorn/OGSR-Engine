@@ -263,7 +263,7 @@ void CScriptEntity::ProcessScripts()
 
 #ifdef DEBUG
         if (psAI_Flags.is(aiLua))
-            Log("Entity Action removed!!!");
+            XR_LOG_TRACE_L1("Entity Action removed!!!");
 #endif
 
         xr_delete(l_tpEntityAction);
@@ -351,7 +351,7 @@ const Fmatrix CScriptEntity::GetUpdatedMatrix(shared_str caBoneName, const Fvect
 {
     Fmatrix l_tMatrix;
 
-    l_tMatrix.setHPB(VPUSH(tAngleOffset));
+    l_tMatrix.setHPB(tAngleOffset);
     l_tMatrix.c = tPositionOffset;
 
     if (xr_strlen(caBoneName))

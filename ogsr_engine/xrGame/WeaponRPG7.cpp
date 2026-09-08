@@ -111,16 +111,16 @@ void CWeaponRPG7::switch2_Fire()
         if (E)
         {
 #ifdef DEBUG
-            CInventoryOwner* io = smart_cast<CInventoryOwner*>(H_Parent());
-            if (NULL == io->inventory().ActiveItem())
+            if (const auto io = smart_cast<CInventoryOwner*>(H_Parent()); io != nullptr && io->inventory().ActiveItem() == nullptr)
             {
-                Log("current_state", GetState());
-                Log("next_state", GetNextState());
-                Log("state_time", m_dwStateTime);
-                Log("item_sect", cNameSect().c_str());
-                Log("H_Parent", H_Parent()->cNameSect().c_str());
+                XR_LOG_TRACE_L1("current_state: {}", GetState());
+                XR_LOG_TRACE_L1("next_state: {}", GetNextState());
+                XR_LOG_TRACE_L1("state_time: {}", m_dwStateTime);
+                XR_LOG_TRACE_L1("item_sect: {}", cNameSect());
+                XR_LOG_TRACE_L1("H_Parent: {}", H_Parent()->cNameSect());
             }
 #endif
+
             E->g_fireParams(this, p1, d);
         }
 

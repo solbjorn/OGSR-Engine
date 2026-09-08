@@ -106,8 +106,8 @@ void CALifeSwitchManager::remove_online(CSE_ALifeDynamicObject* object, bool upd
 void CALifeSwitchManager::switch_online(CSE_ALifeDynamicObject* object)
 {
 #ifdef DEBUG
-    Msg("[LSS][{}] Going online [{}][{}][{}] ([{}][{}][{}] : [{}][{}][{}]), on '{}'", Device.dwFrame, Device.dwTimeGlobal, object->name_replace(), object->ID,
-        VPUSH(graph().actor()->o_Position), VPUSH(object->o_Position), "*SERVER*");
+    Msg("[LSS][{}] Going online [{}][{}][{}] ({} : {}), on '{}'", Device.dwFrame, Device.dwTimeGlobal, object->name_replace(), object->ID,
+        graph().actor()->o_Position, object->o_Position, "*SERVER*");
 #endif
 
     object->switch_online();
@@ -116,8 +116,8 @@ void CALifeSwitchManager::switch_online(CSE_ALifeDynamicObject* object)
 void CALifeSwitchManager::switch_offline(CSE_ALifeDynamicObject* object)
 {
 #ifdef DEBUG
-    Msg("[LSS][{}] Going offline [{}][{}][{}] ([{}][{}][{}] : [{}][{}][{}]), on '{}'", Device.dwFrame, Device.dwTimeGlobal, object->name_replace(), object->ID,
-        VPUSH(graph().actor()->o_Position), VPUSH(object->o_Position), "*SERVER*");
+    Msg("[LSS][{}] Going offline [{}][{}][{}] ({} : {}), on '{}'", Device.dwFrame, Device.dwTimeGlobal, object->name_replace(), object->ID,
+        graph().actor()->o_Position, object->o_Position, "*SERVER*");
 #endif
 
     object->switch_offline();

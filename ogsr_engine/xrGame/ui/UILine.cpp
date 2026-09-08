@@ -66,7 +66,7 @@ CUILine::~CUILine()
     }
 
     if (!bOK)
-        Log("CUILine::~CUILine()!!!!!!!!!!!!!!!!!!!!!!! cannot find window in list");
+        XR_LOG_ERROR("Cannot find window in list");
 #endif
 }
 

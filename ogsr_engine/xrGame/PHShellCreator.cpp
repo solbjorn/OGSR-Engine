@@ -19,6 +19,7 @@ void CPHShellSimpleCreator::CreatePhysicsShell()
 
     if (owner->PPhysicsShell())
         return;
+
     owner->PPhysicsShell() = P_create_Shell();
 #ifdef DEBUG
     owner->PPhysicsShell()->dbg_obj = owner;
@@ -30,7 +31,7 @@ void CPHShellSimpleCreator::CreatePhysicsShell()
 #ifdef DEBUG
         Msg(" ! Error: world item visual [{}] has no elements!", pKinematics->getDebugName());
 #else
-        Log(" ! Error: world item visual has no elements!");
+        XR_LOG_ERROR("World item visual has no elements!");
 #endif
     }
     else if (!owner->m_pPhysicsShell->get_ElementByStoreOrder(0)->has_geoms())
@@ -38,7 +39,7 @@ void CPHShellSimpleCreator::CreatePhysicsShell()
 #ifdef DEBUG
         Msg(" ! Error: world item visual [{}] has no shape!", pKinematics->getDebugName());
 #else
-        Log(" ! Error: world item visual has no shape!");
+        XR_LOG_ERROR("World item visual has no shape!");
 #endif
     }
 

@@ -35,7 +35,7 @@ quill::Logger* mimalloc_logger{nullptr};
 
 void mimalloc_print(gsl::czstring msg, void* arg)
 {
-    XR_LOG__DYNAMIC(xr::mimalloc_logger, gsl::narrow<quill::LogLevel>(std::bit_cast<std::uintptr_t>(arg)), "{}", msg);
+    XR_LOG__DYNAMIC(xr::mimalloc_logger, gsl::narrow<xr::level>(std::bit_cast<std::uintptr_t>(arg)), "{}", msg);
 }
 } // namespace
 } // namespace xr
@@ -46,8 +46,8 @@ void xrMemory::_initialize()
 #ifdef USE_MIMALLOC
     xr::mimalloc_logger = xr::logger_init("mimalloc");
 
-    mi_register_output(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(quill::LogLevel::Error)}));
-    mi_options_print_out(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(quill::LogLevel::Debug)}));
+    mi_register_output(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(xr::level::Error)}));
+    mi_options_print_out(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(xr::level::Debug)}));
 #endif
 
     SProcessMemInfo memCounters;
@@ -134,7 +134,7 @@ void GetProcessMemInfo(SProcessMemInfo& minfo)
     }
 
 #ifdef USE_MIMALLOC
-    mi_stats_print_out(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(quill::LogLevel::Info)}));
+    mi_stats_print_out(&xr::mimalloc_print, std::bit_cast<void*>(std::uintptr_t{std::to_underlying(xr::level::Info)}));
 #endif
 }
 
@@ -172,11 +172,11 @@ gsl::index mem_usage_impl(gsl::index* pBlocksUsed, gsl::index* pBlocksFree)
 
     switch (heapstatus)
     {
-    case _HEAPEMPTY: break;
-    case _HEAPEND: break;
-    case _HEAPBADPTR: Msg("!![{}] bad pointer to heap", std::source_location::current().function_name()); break;
-    case _HEAPBADBEGIN: Msg("!![{}] bad start of heap", std::source_location::current().function_name()); break;
-    case _HEAPBADNODE: Msg("!![{}] bad node in heap", std::source_location::current().function_name()); break;
+    case _HEAPBADPTR: XR_LOG_CRITICAL("Bad pointer to heap"); break;
+    case _HEAPBADBEGIN: XR_LOG_CRITICAL("Bad start of heap"); break;
+    case _HEAPBADNODE: XR_LOG_CRITICAL("Bad node in heap"); break;
+    default: break;
     }
+
     return total;
 }

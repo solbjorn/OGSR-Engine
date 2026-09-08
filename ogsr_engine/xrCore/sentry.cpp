@@ -26,17 +26,17 @@ namespace
 
 [[gnu::format(printf, 2, 0)]] void sentry_logger(sentry::sentry_level_t level, gsl::czstring message, std::va_list args, void* userdata)
 {
-    quill::LogLevel lvl;
+    xr::level lvl;
 
     switch (level)
     {
-    case sentry::sentry_level_t::SENTRY_LEVEL_FATAL: lvl = quill::LogLevel::Critical; break;
-    case sentry::sentry_level_t::SENTRY_LEVEL_ERROR: lvl = quill::LogLevel::Error; break;
-    case sentry::sentry_level_t::SENTRY_LEVEL_WARNING: lvl = quill::LogLevel::Warning; break;
-    case sentry::sentry_level_t::SENTRY_LEVEL_INFO: lvl = quill::LogLevel::Info; break;
-    case sentry::sentry_level_t::SENTRY_LEVEL_DEBUG: lvl = quill::LogLevel::Debug; break;
-    case sentry::sentry_level_t::SENTRY_LEVEL_TRACE: lvl = quill::LogLevel::TraceL1; break;
-    default: lvl = quill::LogLevel::Notice; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_FATAL: lvl = xr::level::Critical; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_ERROR: lvl = xr::level::Error; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_WARNING: lvl = xr::level::Warning; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_INFO: lvl = xr::level::Info; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_DEBUG: lvl = xr::level::Debug; break;
+    case sentry::sentry_level_t::SENTRY_LEVEL_TRACE: lvl = xr::level::TraceL1; break;
+    default: lvl = xr::level::Notice; break;
     }
 
     std::va_list copy;
@@ -148,7 +148,7 @@ void sentry_helper::close()
     std::filesystem::remove_all(tmp, ec);
 
     if (ec)
-        Msg("! Failed to remove {}: {}", tmp, ec);
+        XR_LOG_ERROR("Failed to remove {}: {}", tmp, ec);
 
     tmp = std::filesystem::path{};
 }

@@ -26,7 +26,7 @@ tmc::task<void> CRender::level_Load(IReader* fs)
     xr::render_memory_usage usage;
     ResourcesGetMemoryUsage(usage);
 
-    Log("~ LevelResources load...");
+    XR_LOG_NOTICE("LevelResources load...");
     Msg("~ LevelResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ LevelResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ LevelResources - Lua: {} Kb", usage.lua / 1024);
@@ -123,7 +123,7 @@ tmc::task<void> CRender::level_Load(IReader* fs)
 
     ResourcesGetMemoryUsage(usage);
 
-    Log("~ LevelResources load completed!");
+    XR_LOG_NOTICE("LevelResources load completed!");
     Msg("~ LevelResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ LevelResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ LevelResources - Lua: {} Kb", usage.lua / 1024);
@@ -142,7 +142,7 @@ void CRender::level_Unload()
     xr::render_memory_usage usage;
     ResourcesGetMemoryUsage(usage);
 
-    Log("~ LevelResources unload...");
+    XR_LOG_NOTICE("LevelResources unload...");
     Msg("~ LevelResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ LevelResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ LevelResources - Lua: {} Kb", usage.lua / 1024);
@@ -205,7 +205,7 @@ void CRender::level_Unload()
 
     ResourcesGetMemoryUsage(usage);
 
-    Log("~ LevelResources unload completed!");
+    XR_LOG_NOTICE("LevelResources unload completed!");
     Msg("~ LevelResources - base: {}, {} Kb", usage.c_base, usage.m_base / 1024);
     Msg("~ LevelResources - lmap: {}, {} Kb", usage.c_lmaps, usage.m_lmaps / 1024);
     Msg("~ LevelResources - Lua: {} Kb", usage.lua / 1024);

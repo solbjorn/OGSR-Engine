@@ -25,7 +25,7 @@ public:
         if (!_self)
             return;
 
-        Msg("DestroySingleton::RefCounter: [{}]", _refcount);
+        XR_LOG_INFO("DestroySingleton::RefCounter: [{}]", _refcount);
 
         XR_ASSERT(_on_self_delete == false);
         XR_ASSERT(_refcount == 0);

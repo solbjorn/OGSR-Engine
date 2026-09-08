@@ -876,7 +876,7 @@ Fvector3 CKinematics::RC_VisBorderMax(const u32 id)
 
 void CKinematics::RC_Dump()
 {
-    Log("|********** Dump children meshes **************|");
+    XR_LOG_TRACE_L1("|********** Dump children meshes **************|");
 
     const Fbox& mBox = getVisData().box;
     Fvector3 temp;
@@ -935,8 +935,8 @@ void CKinematics::RC_Dump()
         }
     }
 
-    Log("|********** End Dump children meshes **********|");
-    Log("|********** Dump children bones ***************|");
+    XR_LOG_TRACE_L1("|********** End Dump children meshes **********|");
+    XR_LOG_TRACE_L1("|********** Dump children bones ***************|");
 
     for (u32 i = 0; i < bones->size(); i++)
     {
@@ -947,6 +947,6 @@ void CKinematics::RC_Dump()
             B->center_of_mass.y, B->center_of_mass.z);
     }
 
-    Log("|********** End Dump children bones ***********|");
+    XR_LOG_TRACE_L1("|********** End Dump children bones ***********|");
 }
 /************************* End add *************************************/

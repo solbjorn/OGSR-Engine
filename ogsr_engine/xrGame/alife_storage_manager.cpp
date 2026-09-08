@@ -35,20 +35,17 @@ using namespace ALife;
 void CALifeStorageManager::save(LPCSTR save_name, bool update_name)
 {
     strcpy_s(g_last_saved_game, save_name);
-
     string_path save;
     strcpy_s(save, m_save_name);
+
     if (save_name)
     {
         strconcat(sizeof(m_save_name), m_save_name, save_name, SAVE_EXTENSION);
     }
-    else
+    else if (xr_strlen(m_save_name) == 0)
     {
-        if (!xr_strlen(m_save_name))
-        {
-            Log("There is no file name specified!");
-            return;
-        }
+        XR_LOG_ERROR("No file name specified!");
+        return;
     }
 
     u32 source_count;

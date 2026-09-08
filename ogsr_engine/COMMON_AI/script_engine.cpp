@@ -348,7 +348,7 @@ bool CScriptEngine::do_file(gsl::czstring caScriptName, gsl::czstring caNameSpac
     if (!l_tpFileReader)
     {
         // заменить на ассерт?
-        Msg("!![CScriptEngine::do_file] Cannot open file [{}]", caScriptName);
+        XR_LOG_ERROR("Cannot open file [{}]", caScriptName);
         return false;
     }
 
@@ -383,21 +383,23 @@ bool CScriptEngine::process_file_if_exists(gsl::czstring file_name, bool warn_if
         if (!LookupScript(S, file_name))
         {
             if (warn_if_not_exist)
-                MsgDbg("[CScriptEngine::process_file_if_exists] Variable {} not found; No script by this name exists, either.", file_name);
+            {
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "Variable {} not found; No script by this name exists, either", file_name);
+            }
             else
             {
-                LogDbg("-------------------------");
-                MsgDbg("[CScriptEngine::process_file_if_exists] WARNING: Access to nonexistent variable or loading nonexistent script '{}'", file_name);
-                LogDbg(print_stack());
-                LogDbg("-------------------------");
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "-------------------------");
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "Access to nonexistent variable or loading nonexistent script '{}'", file_name);
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "{}", print_stack());
+                XR_LOG_DYNAMIC_DEBUG(xr::level::Warning, "-------------------------");
+
                 add_no_file(file_name);
             }
+
             return false;
         }
 
-#ifdef DEBUG
-        MsgDbg("[CScriptEngine::process_file_if_exists] loading script: [{}]", file_name);
-#endif
+        XR_LOG_TRACE_L1("Loading script: [{}]", file_name);
 
         m_reload_modules = false;
         return do_file(S, file_name);
@@ -611,13 +613,23 @@ xr_string CScriptEngine::LogVariable(lua_State* l, std::string_view name, s32 le
 // Используется в очень многих местах //Очень много пишет в лог.
 void CScriptEngine::vscript_log(ScriptStorage::ELuaMessageType message, xr::detail::string_view fmt, xr::detail::format_args args)
 {
+    xr::level lvl{xr::level::TraceL1};
     std::string_view S;
 
     switch (message)
     {
-    case ScriptStorage::eLuaMessageTypeInfo: S = "[LUA INFO]"; break;
-    case ScriptStorage::eLuaMessageTypeError: S = "[LUA ERROR]"; break;
-    case ScriptStorage::eLuaMessageTypeMessage: S = "[LUA MESSAGE]"; break;
+    case ScriptStorage::eLuaMessageTypeInfo:
+        lvl = xr::level::Info;
+        S = "[LUA INFO]";
+        break;
+    case ScriptStorage::eLuaMessageTypeError:
+        lvl = xr::level::Error;
+        S = "[LUA ERROR]";
+        break;
+    case ScriptStorage::eLuaMessageTypeMessage:
+        lvl = xr::level::Notice;
+        S = "[LUA MESSAGE]";
+        break;
     case ScriptStorage::eLuaMessageTypeHookCall: S = "[LUA HOOK_CALL]"; break;
     case ScriptStorage::eLuaMessageTypeHookReturn: S = "[LUA HOOK_RETURN]"; break;
     case ScriptStorage::eLuaMessageTypeHookLine: S = "[LUA HOOK_LINE]"; break;
@@ -625,9 +637,9 @@ void CScriptEngine::vscript_log(ScriptStorage::ELuaMessageType message, xr::deta
     default: xr::unreachable();
     }
 
-    Log("-----------------------------------------");
-    Msg("[script_log] {} {}", S, xr::detail::vformat(fmt, args));
-    Log(print_stack());
-    Log("-----------------------------------------");
+    XR_LOG_DYNAMIC(lvl, "-----------------------------------------");
+    XR_LOG_DYNAMIC(lvl, "{} {}", S, xr::detail::vformat(fmt, args));
+    XR_LOG_DYNAMIC(lvl, "{}", print_stack());
+    XR_LOG_DYNAMIC(lvl, "-----------------------------------------");
 }
 #endif

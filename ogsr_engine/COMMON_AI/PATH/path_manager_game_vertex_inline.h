@@ -34,7 +34,7 @@ IC bool CGameVertexPathManager::is_accessible(const _index_type& vertex_id) cons
 
 #ifdef DEBUG
     if (m_evaluator->m_vertex_types->empty())
-        Log("! warning : empty vertex types");
+        XR_LOG_ERROR("Empty vertex types");
 #endif
 
     for (const auto& it : *(m_evaluator->m_vertex_types))

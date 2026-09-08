@@ -781,7 +781,7 @@ bool CSE_ALifeObjectHangingLamp::validate()
     if (flags.test(flR1) || flags.test(flR2))
         return (true);
 
-    Log("! Render type is not set properly!");
+    XR_LOG_ERROR("{}: render type is not set properly!", name_replace());
 
     return (false);
 }

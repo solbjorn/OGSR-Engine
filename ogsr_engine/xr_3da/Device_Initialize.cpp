@@ -6,7 +6,8 @@
 
 tmc::task<void> CRenderDevice::Initialize()
 {
-    Log("Initializing Engine...");
+    XR_LOG_NOTICE("Initializing Engine...");
+
     TimerGlobal.Start();
     TimerMM.Start();
 

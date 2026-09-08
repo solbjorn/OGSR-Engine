@@ -412,8 +412,8 @@ void CUIDragDropListEx::SetItem(CUICellItem* itm, Ivector2 cell_pos) // start at
     if (m_container->AddSimilar(itm))
         return;
 
-    if (!(m_container->IsRoomFree(cell_pos, itm->GetGridSize())))
-        Log("!![CUIDragDropListEx::SetItem] !(m_container->IsRoomFree(cell_pos, itm->GetGridSize()))");
+    if (!m_container->IsRoomFree(cell_pos, itm->GetGridSize()))
+        XR_LOG_ERROR("The cell is already used");
 
     m_container->PlaceItemAtPos(itm, cell_pos);
 
@@ -652,7 +652,7 @@ Ivector2 CUICellContainer::FindFreeCell(const Ivector2& _size)
             }
         }
 
-        Log("!![CUICellContainer::FindFreeCell] There are no free room to place item");
+        XR_LOG_ERROR("There are no free room to place item");
     }
 
     return tmp;

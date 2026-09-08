@@ -54,22 +54,19 @@ void CWeaponRG6::LaunchGrenade(const Fvector& p1, const Fvector& d1)
         p = p1;
         d = d1;
 
-        CEntity* E = smart_cast<CEntity*>(H_Parent());
-        if (E)
-        {
 #ifdef DEBUG
-            CInventoryOwner* io = smart_cast<CInventoryOwner*>(H_Parent());
-            if (io->inventory().ActiveItem() == nullptr)
+        if (smart_cast<CEntity*>(H_Parent()) != nullptr)
+        {
+            if (const auto io = smart_cast<CInventoryOwner*>(H_Parent()); io != nullptr && io->inventory().ActiveItem() == nullptr)
             {
-                Log("current_state", GetState());
-                Log("next_state", GetNextState());
-                Log("state_time", m_dwStateTime);
-                Log("item_sect", cNameSect().c_str());
-                Log("H_Parent", H_Parent()->cNameSect().c_str());
+                XR_LOG_TRACE_L1("current_state: {}", GetState());
+                XR_LOG_TRACE_L1("next_state: {}", GetNextState());
+                XR_LOG_TRACE_L1("state_time: {}", m_dwStateTime);
+                XR_LOG_TRACE_L1("item_sect: {}", cNameSect());
+                XR_LOG_TRACE_L1("H_Parent: {}", H_Parent()->cNameSect());
             }
-#endif
-            // E->g_fireParams (this, p1,d);
         }
+#endif
 
         Fmatrix launch_matrix;
         launch_matrix.identity();
